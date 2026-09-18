@@ -23,12 +23,13 @@ export default function EmailPass({ user }: EmailPasswordProps) {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (mode === "signup") {
-      const { error } = await supabase.auth.signUp({ email, password });
+      const { error, data } = await supabase.auth.signUp({ email, password });
       if (error) {
         setStatus(error.message);
       } else {
         setStatus("Check your inbox to confirm the new account");
       }
+      console.log({ data });
     } else {
       const { error } = await supabase.auth.signInWithPassword({
         email,
@@ -37,7 +38,7 @@ export default function EmailPass({ user }: EmailPasswordProps) {
       if (error) {
         setStatus(error.message);
       } else {
-        setStatus("Login Successful");
+        setStatus("Signed in successfully");
       }
     }
   }
