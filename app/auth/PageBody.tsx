@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
-export default function PageBody() {
+export function AuthPageBody() {
   const [isLogin, changeIsLogin] = useState(true);
   const [email, changeEmail] = useState("");
   const [password, changePassword] = useState("");
@@ -118,6 +118,22 @@ export default function PageBody() {
           </form>
         </div>
       )}
+    </div>
+  );
+}
+
+export function ProfilePageBody() {
+  return (
+    <div className="text-amber-50 p-4">
+      <Label>Profile</Label>
+      <Button
+        onClick={() => {
+          supabase.auth.signOut();
+        }}
+        className="bg-gray-700"
+      >
+        Sign Out
+      </Button>
     </div>
   );
 }
