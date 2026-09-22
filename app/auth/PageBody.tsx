@@ -1,5 +1,6 @@
 "use client";
 
+import { supabase } from "@/lib/supabase/local";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,14 +11,19 @@ export default function PageBody() {
   const [email, changeEmail] = useState("");
   const [password, changePassword] = useState("");
 
+  async function handleSignUp() {
+    const { data, error } = await supabase.auth.signUp({ email, password });
+    console.log("Hello");
+  }
+
   return (
     <div className="text-amber-50 p-4">
       {isLogin ? (
         <div>
           {/* Sign In Form */}
-          <div className="bg-[#4f4f4f] rounded-2xl p-1 inline-flex">
+          <div className="bg-gray-900 rounded-2xl p-1 inline-flex">
             {/* Toggle Pages */}
-            <Button className="bg-[#1d1d1d] rounded-2xl p-2">Sign In</Button>
+            <Button className="bg-gray-700 rounded-2xl p-2">Sign In</Button>
             <Button
               onClick={() => {
                 changeIsLogin(!isLogin);
@@ -27,7 +33,7 @@ export default function PageBody() {
               Sign Up
             </Button>
           </div>
-          <div>
+          <form>
             {/* Form */}
             <Label>Email</Label>
             <Input
@@ -40,28 +46,55 @@ export default function PageBody() {
 
             <Label>Password</Label>
             <Input
+              type="password"
               value={password}
               onChange={(e) => {
                 changePassword(e.target.value);
               }}
               className="bg-gray-700 border-0 focus-visible:ring-0"
             />
-          </div>
+            <Button className="bg-gray-700">Sign In</Button>
+          </form>
         </div>
       ) : (
-        <div className="bg-[#4f4f4f] rounded-2xl p-1 inline-flex">
-          {/* Sign Up Form */}
-          <Button
-            onClick={() => {
-              changeIsLogin(!isLogin);
-            }}
-            className="hover:cursor-pointer"
-          >
-            Sign In
-          </Button>
-          <Button className="bg-[#1d1d1d] rounded-2xl p-2 hover:cursor-pointer">
-            Sign Up
-          </Button>
+        <div>
+          <div className="bg-gray-900 rounded-2xl p-1 inline-flex">
+            {/* Sign Up Form */}
+            <Button
+              onClick={() => {
+                changeIsLogin(!isLogin);
+              }}
+              className="hover:cursor-pointer"
+            >
+              Sign In
+            </Button>
+            <Button className="bg-gray-700 rounded-2xl p-2">Sign Up</Button>
+          </div>
+          <form>
+            {/* Form */}
+            <Label>Email</Label>
+            <Input
+              value={email}
+              onChange={(e) => {
+                changeEmail(e.target.value);
+              }}
+              className="bg-gray-700 border-0 focus-visible:ring-0"
+            />
+
+            <Label>Password</Label>
+            <Input
+              type="password"
+              value={password}
+              onChange={(e) => {
+                changePassword(e.target.value);
+              }}
+              className="bg-gray-700 border-0 focus-visible:ring-0"
+            />
+            <Button onClick={handleSignUp} className="bg-gray-700">
+              Sign Up
+            </Button>
+            <Label>{}</Label>
+          </form>
         </div>
       )}
     </div>
