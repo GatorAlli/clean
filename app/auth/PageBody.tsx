@@ -10,10 +10,28 @@ export default function PageBody() {
   const [isLogin, changeIsLogin] = useState(true);
   const [email, changeEmail] = useState("");
   const [password, changePassword] = useState("");
+  const [status, changeStatus] = useState("");
 
   async function handleSignUp() {
     const { data, error } = await supabase.auth.signUp({ email, password });
+    if (error) {
+      changeStatus(error.message);
+    } else {
+      changeStatus("Verification Email Sent");
+    }
     console.log("Hello");
+  }
+
+  async function handleSignIn() {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error) {
+      changeStatus(error.message);
+    } else {
+      changeStatus("Logged In Successfully");
+    }
   }
 
   return (
@@ -53,8 +71,11 @@ export default function PageBody() {
               }}
               className="bg-gray-700 border-0 focus-visible:ring-0"
             />
-            <Button className="bg-gray-700">Sign In</Button>
+            <Button onClick={handleSignIn} className="bg-gray-700">
+              Sign In
+            </Button>
           </form>
+          <Label>{status}</Label>
         </div>
       ) : (
         <div>
@@ -93,7 +114,7 @@ export default function PageBody() {
             <Button onClick={handleSignUp} className="bg-gray-700">
               Sign Up
             </Button>
-            <Label>{}</Label>
+            <Label>{status}</Label>
           </form>
         </div>
       )}
