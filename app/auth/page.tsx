@@ -1,9 +1,11 @@
-import { supabase } from "@/lib/supabase/local";
+import { generateServerClient } from "@/lib/supabase/server";
 import { AuthPageBody, ProfilePageBody } from "./PageBody";
 
 export default async function Page() {
+  const supabase = await generateServerClient();
   const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  return <div>{session ? <ProfilePageBody /> : <AuthPageBody />}</div>;
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  return <div>{user ? <ProfilePageBody /> : <AuthPageBody />}</div>;
 }
