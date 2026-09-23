@@ -1,6 +1,6 @@
-# Bilai
+# Turfer
 
-Bilai is a Next.js application that uses Supabase for authentication and data access.
+Turfer is a Next.js application that uses Supabase for authentication and data access.
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ Bilai is a Next.js application that uses Supabase for authentication and data ac
 
    ```bash
    git clone <repository-url>
-   cd bilai
+   cd turfer
    ```
 
 2. Install dependencies using the committed npm lockfile:
@@ -66,6 +66,32 @@ Run `npm run build` before `npm run start`.
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Supabase publishable client key |
 
 Never commit `.env.local` or expose Supabase secret/service-role keys to the browser.
+
+## Troubleshooting
+
+### “Your project's URL and Key are required to create a Supabase client”
+
+This means the app cannot read the Supabase environment variables. Confirm that:
+
+- The file is named exactly `.env.local`, including the leading dot.
+- It is in the project root beside `package.json`.
+- The variable names match exactly:
+
+  ```dotenv
+  NEXT_PUBLIC_SUPABASE_URL=...
+  NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
+  ```
+
+- You restarted the development server after creating or changing the file.
+
+On Windows PowerShell, restart it with:
+
+```powershell
+Ctrl+C
+npm run dev
+```
+
+Do not paste the Supabase key into screenshots, commits, or public messages.
 
 ## Deployment
 
