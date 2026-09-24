@@ -63,11 +63,12 @@ export function AuthPageBody() {
           className="inline-flex shrink-0 items-center"
         >
           <Image
-            width={1008}
-            height={386}
-            className="mr-2 h-auto w-32 max-w-[40vw] sm:w-40"
+            width={1000}
+            height={300}
+            className="mr-2 h-auto w-20 max-w-[40vw]"
             src="/Turfer(1).png"
             alt="Turfer"
+            
           />
         </Link>
       </header>
@@ -191,18 +192,18 @@ export function AuthPageBody() {
                 </div>
               </div>
 
-              <div>
-                {/* Password field */}
-                <Label>Password</Label>
-                <Input
-                  type="password"
-                  value={password}
-                  onChange={(e) => {
-                    changePassword(e.target.value);
-                  }}
+            <div>
+              {/* Password field */}
+              <Label>Password</Label>
+              <Input
+                type="password"
+                value={password}
+                onChange={(e) => {
+                  changePassword(e.target.value);
+                }}
                   className="bg-[#171717] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus-visible:ring-1 focus-visible:ring-white/20"
-                />
-              </div>
+              />
+            </div>
 
               <Button type="submit">Sign Up</Button>
               <Label>{status}</Label>
