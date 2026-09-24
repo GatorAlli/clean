@@ -54,9 +54,7 @@ export function AuthPageBody() {
     <div className="min-h-screen bg-[#0e0e0e] text-white flex flex-col justify-between">
       {/* Top Navbar */}
       <header className="w-full px-6 md:px-12 py-5 flex items-center justify-between border-b border-[#232323]">
-        <span className="text-2xl font-black tracking-tight text-white select-none">
-          turfer
-        </span>
+        <img className=" h-8 mr-2" src={"Turfer(1).png"}></img>
         <button
           type="button"
           onClick={() => router.back()}
