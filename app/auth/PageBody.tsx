@@ -51,7 +51,23 @@ export function AuthPageBody() {
   }
 
   return (
-    <div className="text-amber-50 p-4 flex flex-row items-center justify-center min-h-screen">
+    <div className="min-h-screen bg-[#0e0e0e] text-white flex flex-col justify-between">
+      {/* Top Navbar */}
+  <header className="w-full px-6 md:px-12 py-5 flex items-center justify-between border-b border-[#232323]">
+    <span className="text-2xl font-black tracking-tight text-white select-none">
+      turfer
+    </span>
+    <button
+      type="button"
+      onClick={() => router.back()}
+      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-gray-300 bg-[#161616] border border-[#232323] rounded-lg hover:text-white"
+    >
+      <span>&larr;</span> Back
+    </button>
+  </header>
+
+  {/* Page Content Wrapper */}
+  <main className="w-full max-w-4xl mx-auto px-6 py-10 flex-grow"></main>
       {isLogin ? (
         <div>
           {/* Sign In/Sign Up Form */}
