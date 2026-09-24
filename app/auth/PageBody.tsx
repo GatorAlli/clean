@@ -20,7 +20,7 @@ export function AuthPageBody() {
     if (error) {
       changeStatus(error.message);
     } else {
-      changeStatus("Verification Email Sent");
+      changeStatus("Signed Up Successfully");
     }
     console.log("Hello");
   }
@@ -126,15 +126,16 @@ export function AuthPageBody() {
   );
 }
 
-export function ProfilePageBody() {
+export function ProfilePageBody({ email }: { email: string | undefined }) {
   const router = useRouter();
   return (
     <div className="text-amber-50 p-4">
       <Label>Profile</Label>
+      <Label>Welcome {email}</Label>
       <Button
         onClick={() => {
-          supabase.auth.signOut();
           router.refresh();
+          supabase.auth.signOut();
         }}
         className="bg-gray-700"
       >

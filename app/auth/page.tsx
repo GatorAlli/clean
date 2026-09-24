@@ -7,5 +7,9 @@ export default async function Page() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  return <div>{user ? <ProfilePageBody /> : <AuthPageBody />}</div>;
+  return (
+    <div>
+      {user ? <ProfilePageBody email={user.email} /> : <AuthPageBody />}
+    </div>
+  );
 }
