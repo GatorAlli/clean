@@ -24,7 +24,7 @@ export function AuthPageBody() {
       password,
       options: {
         data: {
-          full_name: name,
+          username: handle,
           phone,
         },
       },
