@@ -13,6 +13,7 @@ export async function generateServerClient() {
         },
         setAll(cookiesToSet) {
           try {
+            // Server Component renders may not be allowed to write response cookies.
             cookiesToSet.forEach(({ name, value, options }) => {
               cookieStore.set(name, value, options);
             });
