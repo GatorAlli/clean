@@ -80,18 +80,21 @@ className="relative px-2 py-1 text-sm font-semibold text-white border-2 border-g
   </div>
       {isLogin ? (
         <div>
-          {/* Sign In/Sign Up Form */}
-          <div className="bg-gray-900 rounded-2xl p-1 inline-flex">
-            {/* Toggle Pages */}
-            <Button className="bg-blue-500 rounded-2xl p-2">Sign In</Button>
-            <Button
-              onClick={() => {
-                changeIsLogin(!isLogin);
-              }}
-              className="hover:cursor-pointer"
+         {/* (Sign In Active) */}
+          <div className="flex gap-8 border-b border-white/10 mb-8">
+            <button
+              type="button"
+              onClick={() => changeIsLogin(false)}
+              className="text-lg font-bold text-[#A3A3A3] pb-3 hover:text-white transition"
             >
-              Sign Up
-            </Button>
+              Create account
+            </button>
+            <button
+              type="button"
+              className="text-lg font-bold text-white border-b-2 border-[#E5322D] pb-3 -mb-[1px]"
+            >
+              Sign in
+            </button>
           </div>
           <form>
             {/* Form */}
@@ -132,22 +135,26 @@ className="relative px-2 py-1 text-sm font-semibold text-white border-2 border-g
         </div>
       ) : (
         <div>
-          <div className="bg-gray-900 rounded-2xl p-1 inline-flex">
-            {/* Sign Up Form */}
-            <Button
-              onClick={() => {
-                changeIsLogin(!isLogin);
-              }}
-              className="hover:cursor-pointer"
+          {/* Tab Navigation (Create Account Active) */}
+          <div className="flex gap-8 border-b border-white/10 mb-8">
+            <button
+              type="button"
+              className="text-lg font-bold text-white border-b-2 border-[#E5322D] pb-3 -mb-[1px]"
             >
-              Sign In
-            </Button>
-            <Button className="bg-gray-700 rounded-2xl p-2">Sign Up</Button>
+              Create account
+            </button>
+            <button
+              type="button"
+              onClick={() => changeIsLogin(true)}
+              className="text-lg font-bold text-[#A3A3A3] pb-3 hover:text-white transition"
+            >
+              Sign in
+            </button>
           </div>
           <form onSubmit={handleSignUp}>
             {/* Form */}
 
-           {/* Username & Name */}
+           {/* Username*/}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div>
             <Label className="block text-xs font-semibold text-[#A3A3A3] mb-2">
@@ -190,17 +197,20 @@ className="relative px-2 py-1 text-sm font-semibold text-white border-2 border-g
               </div>
             </div>
 
-            <div>
-              {/* Password field */}
-              <Label>Password</Label>
-              <Input
-                type="password"
-                value={password}
-                onChange={(e) => {
-                  changePassword(e.target.value);
-                }}
-                className="bg-gray-700 border-0 focus-visible:ring-0"
-              />
+            {/* Password */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <div>
+                <Label className="block text-xs font-semibold text-[#A3A3A3] mb-2">
+                  Password <span className="text-[#E5322D]">*</span>
+                </Label>
+                <Input
+                  type="password"
+                  value={password}
+                  onChange={(e) => changePassword(e.target.value)}
+                  className="bg-[#171717] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus-visible:ring-1 focus-visible:ring-white/20"
+                  required
+                />
+              </div>
             </div>
 
             <Button type="submit" className="bg-gray-700">
