@@ -1,5 +1,6 @@
 import { generateServerClient } from "@/lib/supabase/server";
-import { AdminPage, AuthPageBody, ProfilePageBody } from "./PageBody";
+import { AuthPageBody, ProfilePageBody } from "./PageBody";
+import { AdminPage } from "./AdminPage";
 
 export default async function Page() {
   const supabase = await generateServerClient();
