@@ -4,18 +4,21 @@ import { supabase } from "@/lib/supabase/browser";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export function AuthPageBody() {
   const [isLogin, changeIsLogin] = useState(true);
   const [email, changeEmail] = useState("");
+  const [name, changeName] = useState("");
+  const [phone, changePhone] = useState("");
   const [password, changePassword] = useState("");
   const [status, changeStatus] = useState("");
 
   const router = useRouter();
 
-  async function handleSignUp() {
+  async function handleSignUp(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     const { data, error } = await supabase.auth.signUp({ email, password });
     if (error) {
       changeStatus(error.message);
@@ -75,7 +78,11 @@ export function AuthPageBody() {
               }}
               className="bg-gray-700 border-0 focus-visible:ring-0"
             />
-            <Button onClick={handleSignIn} className="bg-gray-700">
+            <Button
+              type="submit"
+              onClick={handleSignIn}
+              className="bg-gray-700"
+            >
               Sign In
             </Button>
           </form>
@@ -95,8 +102,16 @@ export function AuthPageBody() {
             </Button>
             <Button className="bg-gray-700 rounded-2xl p-2">Sign Up</Button>
           </div>
-          <form>
+          <form onSubmit={handleSignUp}>
             {/* Form */}
+            <Label>Full Name</Label>
+            <Input
+              value={name}
+              onChange={(e) => {
+                changeName(e.target.value);
+              }}
+              className="bg-gray-700 border-0 focus-visible:ring-0"
+            />
             <Label>Email</Label>
             <Input
               value={email}
@@ -105,7 +120,14 @@ export function AuthPageBody() {
               }}
               className="bg-gray-700 border-0 focus-visible:ring-0"
             />
-
+            <Label>Phone Number</Label>
+            <Input
+              value={phone}
+              onChange={(e) => {
+                changePhone(e.target.value);
+              }}
+              className="bg-gray-700 border-0 focus-visible:ring-0"
+            />
             <Label>Password</Label>
             <Input
               type="password"
@@ -115,7 +137,7 @@ export function AuthPageBody() {
               }}
               className="bg-gray-700 border-0 focus-visible:ring-0"
             />
-            <Button onClick={handleSignUp} className="bg-gray-700">
+            <Button type="submit" className="bg-gray-700">
               Sign Up
             </Button>
             <Label>{status}</Label>
@@ -126,16 +148,21 @@ export function AuthPageBody() {
   );
 }
 
-export function ProfilePageBody({ email }: { email: string | undefined }) {
+export function ProfilePageBody({
+  displayName,
+}: {
+  displayName: string | undefined;
+}) {
   const router = useRouter();
   return (
     <div className="text-amber-50 p-4">
       <Label>Profile</Label>
-      <Label>Welcome {email}</Label>
+      <Label>Welcome {displayName}</Label>
       <Button
         onClick={() => {
           router.refresh();
           supabase.auth.signOut();
+          router.refresh();
         }}
         className="bg-gray-700"
       >

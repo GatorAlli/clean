@@ -9,7 +9,11 @@ export default async function Page() {
 
   return (
     <div>
-      {user ? <ProfilePageBody email={user.email} /> : <AuthPageBody />}
+      {user ? (
+        <ProfilePageBody displayName={user.user_metadata.display_name} />
+      ) : (
+        <AuthPageBody />
+      )}
     </div>
   );
 }
