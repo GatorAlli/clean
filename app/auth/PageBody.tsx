@@ -39,7 +39,8 @@ export function AuthPageBody() {
     console.log("Hello");
   }
 
-  async function handleSignIn() {
+  async function handleSignIn(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -97,7 +98,7 @@ export function AuthPageBody() {
                 Sign Up
               </Button>
             </div>
-            <form>
+            <form onSubmit={handleSignIn}>
               {/* Form */}
               <div>
                 {/* Email field */}
@@ -124,11 +125,7 @@ export function AuthPageBody() {
                 />
               </div>
 
-              <Button
-                type="submit"
-                onClick={handleSignIn}
-                className="bg-gray-700"
-              >
+              <Button type="submit" className="bg-gray-700">
                 Sign In
               </Button>
             </form>
