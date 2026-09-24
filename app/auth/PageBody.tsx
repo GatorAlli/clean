@@ -68,7 +68,6 @@ export function AuthPageBody() {
 
   {/* Page Content Wrapper */}
   <main className="w-full max-w-4xl mx-auto px-6 py-10 flex-grow">
-    S
     {/* Title Section */}
   <div className="mb-8">
     <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white mb-2">
