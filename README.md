@@ -1,8 +1,8 @@
 # Turfer
 
-Turfer is a Next.js application that uses Supabase for authentication and data access.
+Turfer is a Next.js application that uses Supabase for authentication and data access. hello
 
-## Prerequisites
+## Prerequisites 
 
 - Node.js 20.9 or later
 - npm 10 or later
