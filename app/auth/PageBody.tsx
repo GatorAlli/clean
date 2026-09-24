@@ -51,13 +51,13 @@ export function AuthPageBody() {
   }
 
   return (
-    <div className="text-amber-50 p-4 flex flex-col items-center justify-center min-h-screen">
+    <div className="text-amber-50 p-4 flex flex-row items-center justify-center min-h-screen">
       {isLogin ? (
         <div>
           {/* Sign In/Sign Up Form */}
           <div className="bg-gray-900 rounded-2xl p-1 inline-flex">
             {/* Toggle Pages */}
-            <Button className="bg-gray-700 rounded-2xl p-2">Sign In</Button>
+            <Button className="bg-blue-500 rounded-2xl p-2">Sign In</Button>
             <Button
               onClick={() => {
                 changeIsLogin(!isLogin);
