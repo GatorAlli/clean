@@ -57,7 +57,7 @@ export function AuthPageBody() {
         <img className=" h-8 mr-2" src={"Turfer(1).png"}></img>
         <button
           type="button"
-          onClick={() => router.back()}
+          onClick={() => router.push("/")}
 className="relative px-2 py-1 text-sm font-semibold text-white border-2 border-gray-400 overflow-hidden group rounded-xl cursor-pointer"        >
   <span className="absolute inset-0 w-full h-full bg-red-500 transform scale-x-0 origin-left rounded-md group-hover:scale-x-100 transition-transform duration-800 ease-in-out z-0"></span>
   <span className="absolute inset-0 w-full h-full bg-red-500 transform scale-x-0 origin-right rounded-md group-hover:scale-x-100 transition-transform duration-800 ease-in-out z-0"></span>
@@ -199,7 +199,7 @@ className="relative px-2 py-1 text-sm font-semibold text-white border-2 border-g
                 onChange={(e) => {
                   changePassword(e.target.value);
                 }}
-                  className="bg-[#171717] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus-visible:ring-1 focus-visible:ring-white/20"
+                className="bg-gray-700 border-0 focus-visible:ring-0"
               />
             </div>
 
