@@ -62,23 +62,14 @@ export function AuthPageBody() {
           className="inline-flex shrink-0 items-center"
         >
           <Image
-            width={1008}
-            height={386}
-            className="mr-2 h-auto w-32 max-w-[40vw] sm:w-40"
+            width={1000}
+            height={300}
+            className="mr-2 h-auto w-20 max-w-[40vw]"
             src="/Turfer(1).png"
             alt="Turfer"
+            
           />
         </Link>
-        <img className=" h-8 mr-2" src={"Turfer(1).png"}></img>
-        <button
-          type="button"
-          onClick={() => router.push("/")}
-className="relative px-2 py-1 text-sm font-semibold text-white border-2 border-gray-400 overflow-hidden group rounded-xl cursor-pointer"        >
-  <span className="absolute inset-0 w-full h-full bg-red-500 transform scale-x-0 origin-left rounded-md group-hover:scale-x-100 transition-transform duration-800 ease-in-out z-0"></span>
-  <span className="absolute inset-0 w-full h-full bg-red-500 transform scale-x-0 origin-right rounded-md group-hover:scale-x-100 transition-transform duration-800 ease-in-out z-0"></span>
-
-          <span className="relative z-10 group-hover:text-white transition-colors duration-800">&larr; Back</span>
-        </button>
       </header>
 
       {/* Page Content Wrapper */}
