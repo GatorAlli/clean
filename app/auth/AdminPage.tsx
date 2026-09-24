@@ -31,8 +31,9 @@ export function AdminPage() {
         </div>
         <div>
           <Label>Images</Label>
-          <Input type="file" className={inputStyling} />
+          <Input type="file" accept="./" multiple className={inputStyling} />
         </div>
+        <Button type="submit">Submit</Button>
       </form>
       <Button
         onClick={() => {
