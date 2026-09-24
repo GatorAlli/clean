@@ -37,7 +37,8 @@ export function AuthPageBody() {
     console.log("Hello");
   }
 
-  async function handleSignIn() {
+  async function handleSignIn(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -66,142 +67,138 @@ export function AuthPageBody() {
         </button>
       </header>
 
-  {/* Page Content Wrapper */}
-  <main className="w-full max-w-4xl mx-auto px-6 py-10 flex-grow">
-    {/* Title Section */}
-  <div className="mb-8">
-    <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white mb-2">
-      Player<span className="text-gray-500">.</span>
-    </h1>
-    <p className="text-sm text-gray-400 font-medium">
-      Find a pitch, book it, play.
-    </p>
-  </div>
-      {isLogin ? (
-        <div>
-          {/* Sign In/Sign Up Form */}
-          <div className="bg-gray-900 rounded-2xl p-1 inline-flex">
-            {/* Toggle Pages */}
-            <Button className="bg-blue-500 rounded-2xl p-2">Sign In</Button>
-            <Button
-              onClick={() => {
-                changeIsLogin(!isLogin);
-              }}
-              className="hover:cursor-pointer"
-            >
-              Sign Up
-            </Button>
-          </div>
-          <form>
-            {/* Form */}
-            <div>
-              {/* Email field */}
-              <Label>Email</Label>
-              <Input
-                value={email}
-                onChange={(e) => {
-                  changeEmail(e.target.value);
-                }}
-                className="bg-gray-700 border-0 focus-visible:ring-0"
-              />
-            </div>
-
-            <div>
-              {/* Password field */}
-              <Label>Password</Label>
-              <Input
-                type="password"
-                value={password}
-                onChange={(e) => {
-                  changePassword(e.target.value);
-                }}
-                className="bg-gray-700 border-0 focus-visible:ring-0"
-              />
-            </div>
-
-            <Button
-              type="submit"
-              onClick={handleSignIn}
-              className="bg-gray-700"
-            >
-              Sign In
-            </Button>
-          </form>
-          <Label>{status}</Label>
+      {/* Page Content Wrapper */}
+      <main className="w-full max-w-4xl mx-auto px-6 py-10 flex-grow">
+        {/* Title Section */}
+        <div className="mb-8">
+          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white mb-2">
+            Player<span className="text-gray-500">.</span>
+          </h1>
+          <p className="text-sm text-gray-400 font-medium">
+            Find a pitch, book it, play.
+          </p>
         </div>
-      ) : (
-        <div>
-          <div className="bg-gray-900 rounded-2xl p-1 inline-flex">
-            {/* Sign Up Form */}
-            <Button
-              onClick={() => {
-                changeIsLogin(!isLogin);
-              }}
-              className="hover:cursor-pointer"
-            >
-              Sign In
-            </Button>
-            <Button className="bg-gray-700 rounded-2xl p-2">Sign Up</Button>
-          </div>
-          <form onSubmit={handleSignUp}>
-            {/* Form */}
-            <div>
-              {/* Full name field */}
-              <Label>Full Name</Label>
-              <Input
-                value={name}
-                onChange={(e) => {
-                  changeName(e.target.value);
+        {isLogin ? (
+          <div>
+            {/* Sign In/Sign Up Form */}
+            <div className="bg-gray-900 rounded-2xl p-1 inline-flex">
+              {/* Toggle Pages */}
+              <Button className="bg-blue-500 rounded-2xl p-2">Sign In</Button>
+              <Button
+                onClick={() => {
+                  changeIsLogin(!isLogin);
                 }}
-                className="bg-gray-700 border-0 focus-visible:ring-0"
-              />
+                className="hover:cursor-pointer"
+              >
+                Sign Up
+              </Button>
             </div>
+            <form onSubmit={handleSignIn}>
+              {/* Form */}
+              <div>
+                {/* Email field */}
+                <Label>Email</Label>
+                <Input
+                  value={email}
+                  onChange={(e) => {
+                    changeEmail(e.target.value);
+                  }}
+                  className="bg-gray-700 border-0 focus-visible:ring-0"
+                />
+              </div>
 
-            <div>
-              {/* Email field */}
-              <Label>Email</Label>
-              <Input
-                value={email}
-                onChange={(e) => {
-                  changeEmail(e.target.value);
-                }}
-                className="bg-gray-700 border-0 focus-visible:ring-0"
-              />
-            </div>
+              <div>
+                {/* Password field */}
+                <Label>Password</Label>
+                <Input
+                  type="password"
+                  value={password}
+                  onChange={(e) => {
+                    changePassword(e.target.value);
+                  }}
+                  className="bg-gray-700 border-0 focus-visible:ring-0"
+                />
+              </div>
 
-            <div>
-              {/* Phone number field */}
-              <Label>Phone Number</Label>
-              <Input
-                type="tel"
-                value={phone}
-                onChange={(e) => {
-                  changePhone(e.target.value);
-                }}
-                className="bg-gray-700 border-0 focus-visible:ring-0"
-              />
-            </div>
-
-            <div>
-              {/* Password field */}
-              <Label>Password</Label>
-              <Input
-                type="password"
-                value={password}
-                onChange={(e) => {
-                  changePassword(e.target.value);
-                }}
-                className="bg-gray-700 border-0 focus-visible:ring-0"
-              />
-            </div>
-
-            <Button type="submit" className="bg-gray-700">
-              Sign Up
-            </Button>
+              <Button type="submit" className="bg-gray-700">
+                Sign In
+              </Button>
+            </form>
             <Label>{status}</Label>
-          </form>
-        </div>
-      )}
+          </div>
+        ) : (
+          <div>
+            <div className="bg-gray-900 rounded-2xl p-1 inline-flex">
+              {/* Sign Up Form */}
+              <Button
+                onClick={() => {
+                  changeIsLogin(!isLogin);
+                }}
+                className="hover:cursor-pointer"
+              >
+                Sign In
+              </Button>
+              <Button className="bg-gray-700 rounded-2xl p-2">Sign Up</Button>
+            </div>
+            <form onSubmit={handleSignUp}>
+              {/* Form */}
+              <div>
+                {/* Full name field */}
+                <Label>Full Name</Label>
+                <Input
+                  value={name}
+                  onChange={(e) => {
+                    changeName(e.target.value);
+                  }}
+                  className="bg-gray-700 border-0 focus-visible:ring-0"
+                />
+              </div>
+
+              <div>
+                {/* Email field */}
+                <Label>Email</Label>
+                <Input
+                  value={email}
+                  onChange={(e) => {
+                    changeEmail(e.target.value);
+                  }}
+                  className="bg-gray-700 border-0 focus-visible:ring-0"
+                />
+              </div>
+
+              <div>
+                {/* Phone number field */}
+                <Label>Phone Number</Label>
+                <Input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => {
+                    changePhone(e.target.value);
+                  }}
+                  className="bg-gray-700 border-0 focus-visible:ring-0"
+                />
+              </div>
+
+              <div>
+                {/* Password field */}
+                <Label>Password</Label>
+                <Input
+                  type="password"
+                  value={password}
+                  onChange={(e) => {
+                    changePassword(e.target.value);
+                  }}
+                  className="bg-gray-700 border-0 focus-visible:ring-0"
+                />
+              </div>
+
+              <Button type="submit" className="bg-gray-700">
+                Sign Up
+              </Button>
+              <Label>{status}</Label>
+            </form>
+          </div>
+        )}
       </main>
     </div>
   );
