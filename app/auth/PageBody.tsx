@@ -19,7 +19,16 @@ export function AuthPageBody() {
 
   async function handleSignUp(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const { data, error } = await supabase.auth.signUp({ email, password });
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          full_name: name,
+          phone,
+        },
+      },
+    });
     if (error) {
       changeStatus(error.message);
     } else {

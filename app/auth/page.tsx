@@ -10,7 +10,7 @@ export default async function Page() {
   return (
     <div>
       {user ? (
-        <ProfilePageBody displayName={user.user_metadata.display_name} />
+        <ProfilePageBody displayName={user.user_metadata.full_name} />
       ) : (
         <AuthPageBody />
       )}
