@@ -144,41 +144,48 @@ export function AuthPageBody() {
           </div>
           <form onSubmit={handleSignUp}>
             {/* Form */}
-            <div>
-              {/* Full name field */}
-              <Label>Full Name</Label>
-              <Input
-                value={name}
-                onChange={(e) => {
-                  changeName(e.target.value);
-                }}
-                className="bg-gray-700 border-0 focus-visible:ring-0"
-              />
-            </div>
 
-            <div>
-              {/* Email field */}
-              <Label>Email</Label>
-              <Input
-                value={email}
-                onChange={(e) => {
-                  changeEmail(e.target.value);
-                }}
-                className="bg-gray-700 border-0 focus-visible:ring-0"
-              />
-            </div>
+           {/* Username & Name */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div>
+            <Label className="block text-xs font-semibold text-[#A3A3A3] mb-2">
+              Username <span className="text-[#E5322D]">*</span>
+            </Label>
+            <Input
+              value={handle}
+              onChange={(e) => changeHandle(e.target.value)}
+              className="bg-[#171717] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-[#A3A3A3]/50 focus-visible:ring-1 focus-visible:ring-white/20"
+              required
+            />
+          </div>
+        </div>
+           {/* Contact Number & Email */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 mt-6">
+              <div>
+                <Label className="block text-xs font-semibold text-[#A3A3A3] mb-2">
+                  Contact Number <span className="text-[#E5322D]">*</span>
+                </Label>
+                <Input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => changePhone(e.target.value)}
+                  placeholder="01XXXXXXXXX"
+                  className="bg-[#171717] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-[#A3A3A3]/50 focus-visible:ring-1 focus-visible:ring-white/20"
+                  required
+                />
+              </div>
 
-            <div>
-              {/* Phone number field */}
-              <Label>Phone Number</Label>
-              <Input
-                type="tel"
-                value={phone}
-                onChange={(e) => {
-                  changePhone(e.target.value);
-                }}
-                className="bg-gray-700 border-0 focus-visible:ring-0"
-              />
+              <div>
+                <Label className="block text-xs font-semibold text-[#A3A3A3] mb-2">
+                  Email (Optional)
+                </Label>
+                <Input
+                  type="email"
+                  value={email}
+                  onChange={(e) => changeEmail(e.target.value)}
+                  className="bg-[#171717] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus-visible:ring-1 focus-visible:ring-white/20"
+                />
+              </div>
             </div>
 
             <div>
