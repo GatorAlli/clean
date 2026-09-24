@@ -39,7 +39,8 @@ export function AuthPageBody() {
     console.log("Hello");
   }
 
-  async function handleSignIn() {
+  async function handleSignIn(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -67,13 +68,12 @@ export function AuthPageBody() {
             className="mr-2 h-auto w-20 max-w-[40vw]"
             src="/Turfer(1).png"
             alt="Turfer"
-            
           />
         </Link>
       </header>
 
       {/* Page Content Wrapper */}
-      <main className="w-full max-w-4xl mx-auto px-6 py-10 flex-grow">
+      <main className="w-full max-w-4xl mx-auto px-6 py-10 grow">
         {/* Title Section */}
         <div className="mb-8">
           <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white mb-2">
@@ -98,7 +98,7 @@ export function AuthPageBody() {
                 Sign Up
               </Button>
             </div>
-            <form>
+            <form onSubmit={handleSignIn}>
               {/* Form */}
               <div>
                 {/* Email field */}
@@ -108,7 +108,7 @@ export function AuthPageBody() {
                   onChange={(e) => {
                     changeEmail(e.target.value);
                   }}
-                  className="bg-gray-700 border-0 focus-visible:ring-0"
+                  className="bg-[#171717] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus-visible:ring-1 focus-visible:ring-white/20"
                 />
               </div>
 
@@ -121,14 +121,13 @@ export function AuthPageBody() {
                   onChange={(e) => {
                     changePassword(e.target.value);
                   }}
-                  className="bg-gray-700 border-0 focus-visible:ring-0"
+                  className="bg-[#171717] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus-visible:ring-1 focus-visible:ring-white/20"
                 />
               </div>
 
               <Button
                 type="submit"
-                onClick={handleSignIn}
-                className="bg-gray-700"
+                className="bg-[#282828] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus-visible:ring-1 focus-visible:ring-white/20"
               >
                 Sign In
               </Button>
@@ -195,20 +194,25 @@ export function AuthPageBody() {
                 </div>
               </div>
 
-            <div>
-              {/* Password field */}
-              <Label>Password</Label>
-              <Input
-                type="password"
-                value={password}
-                onChange={(e) => {
-                  changePassword(e.target.value);
-                }}
+              <div>
+                {/* Password field */}
+                <Label>Password</Label>
+                <Input
+                  type="password"
+                  value={password}
+                  onChange={(e) => {
+                    changePassword(e.target.value);
+                  }}
                   className="bg-[#171717] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus-visible:ring-1 focus-visible:ring-white/20"
-              />
-            </div>
+                />
+              </div>
 
-              <Button type="submit">Sign Up</Button>
+              <Button
+                type="submit"
+                className="bg-[#282828] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus-visible:ring-1 focus-visible:ring-white/20"
+              >
+                Sign Up
+              </Button>
               <Label>{status}</Label>
             </form>
           </div>

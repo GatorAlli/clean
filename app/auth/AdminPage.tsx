@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 export function AdminPage() {
   const router = useRouter();
   const inputStyling = "border-0 bg-slate-700 focus-visible:ring-0";
+
   return (
     <div className="text-amber-50 p-4 flex flex-col gap-2">
       <Label className="text-3xl"> Site Admin Page </Label>
