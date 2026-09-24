@@ -78,18 +78,21 @@ export function AuthPageBody() {
   </div>
       {isLogin ? (
         <div>
-          {/* Sign In/Sign Up Form */}
-          <div className="bg-gray-900 rounded-2xl p-1 inline-flex">
-            {/* Toggle Pages */}
-            <Button className="bg-blue-500 rounded-2xl p-2">Sign In</Button>
-            <Button
-              onClick={() => {
-                changeIsLogin(!isLogin);
-              }}
-              className="hover:cursor-pointer"
+         {/* (Sign In Active) */}
+          <div className="flex gap-8 border-b border-white/10 mb-8">
+            <button
+              type="button"
+              onClick={() => changeIsLogin(false)}
+              className="text-lg font-bold text-[#A3A3A3] pb-3 hover:text-white transition"
             >
-              Sign Up
-            </Button>
+              Create account
+            </button>
+            <button
+              type="button"
+              className="text-lg font-bold text-white border-b-2 border-[#E5322D] pb-3 -mb-[1px]"
+            >
+              Sign in
+            </button>
           </div>
           <form>
             {/* Form */}
@@ -130,22 +133,26 @@ export function AuthPageBody() {
         </div>
       ) : (
         <div>
-          <div className="bg-gray-900 rounded-2xl p-1 inline-flex">
-            {/* Sign Up Form */}
-            <Button
-              onClick={() => {
-                changeIsLogin(!isLogin);
-              }}
-              className="hover:cursor-pointer"
+          {/* Tab Navigation (Create Account Active) */}
+          <div className="flex gap-8 border-b border-white/10 mb-8">
+            <button
+              type="button"
+              className="text-lg font-bold text-white border-b-2 border-[#E5322D] pb-3 -mb-[1px]"
             >
-              Sign In
-            </Button>
-            <Button className="bg-gray-700 rounded-2xl p-2">Sign Up</Button>
+              Create account
+            </button>
+            <button
+              type="button"
+              onClick={() => changeIsLogin(true)}
+              className="text-lg font-bold text-[#A3A3A3] pb-3 hover:text-white transition"
+            >
+              Sign in
+            </button>
           </div>
           <form onSubmit={handleSignUp}>
             {/* Form */}
 
-           {/* Username & Name */}
+           {/* Username*/}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div>
             <Label className="block text-xs font-semibold text-[#A3A3A3] mb-2">
