@@ -67,7 +67,17 @@ export function AuthPageBody() {
   </header>
 
   {/* Page Content Wrapper */}
-  <main className="w-full max-w-4xl mx-auto px-6 py-10 flex-grow"></main>
+  <main className="w-full max-w-4xl mx-auto px-6 py-10 flex-grow">
+    S
+    {/* Title Section */}
+  <div className="mb-8">
+    <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white mb-2">
+      Player<span className="text-gray-500">.</span>
+    </h1>
+    <p className="text-sm text-gray-400 font-medium">
+      Find a pitch, book it, play.
+    </p>
+  </div>
       {isLogin ? (
         <div>
           {/* Sign In/Sign Up Form */}
@@ -193,6 +203,7 @@ export function AuthPageBody() {
           </form>
         </div>
       )}
+      </main>
     </div>
   );
 }
