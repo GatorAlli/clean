@@ -53,21 +53,21 @@ export function AuthPageBody() {
   return (
     <div className="min-h-screen bg-[#0e0e0e] text-white flex flex-col justify-between">
       {/* Top Navbar */}
-  <header className="w-full px-6 md:px-12 py-5 flex items-center justify-between border-b border-[#232323]">
-    <span className="text-2xl font-black tracking-tight text-white select-none">
-      turfer
-    </span>
-    <button
-      type="button"
-      onClick={() => router.back()}
-      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-gray-300 bg-[#161616] border border-[#232323] rounded-lg hover:text-white"
-    >
-      <span>&larr;</span> Back
-    </button>
-  </header>
+      <header className="w-full px-6 md:px-12 py-5 flex items-center justify-between border-b border-[#232323]">
+        <span className="text-2xl font-black tracking-tight text-white select-none">
+          turfer
+        </span>
+        <button
+          type="button"
+          onClick={() => router.back()}
+          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-gray-300 bg-[#161616] border border-[#232323] rounded-lg hover:text-white"
+        >
+          <span>&larr;</span> Back
+        </button>
+      </header>
 
-  {/* Page Content Wrapper */}
-  <main className="w-full max-w-4xl mx-auto px-6 py-10 flex-grow"></main>
+      {/* Page Content Wrapper */}
+      <main className="w-full max-w-4xl mx-auto px-6 py-10 flex-grow"></main>
       {isLogin ? (
         <div>
           {/* Sign In/Sign Up Form */}
@@ -209,48 +209,6 @@ export function ProfilePageBody({
       <Label>
         Welcome<b className="text-blue-400">{displayName}</b>
       </Label>
-      <Button
-        onClick={() => {
-          router.refresh();
-          supabase.auth.signOut();
-          router.refresh();
-        }}
-        className="bg-gray-700"
-      >
-        Sign Out
-      </Button>
-    </div>
-  );
-}
-
-export function AdminPage() {
-  const router = useRouter();
-  const inputStyling = "border-0 bg-slate-700 focus-visible:ring-0";
-  return (
-    <div className="text-amber-50 p-4 flex flex-col gap-2">
-      <Label className="text-3xl"> Site Admin Page </Label>
-
-      <form className="bg-slate-950 p-2 rounded-2xl">
-        {/* Add a Turf Form */}
-        <Label className="text-2xl">Add a Turf</Label>
-
-        <div>
-          <Label>Turf Name</Label>
-          <Input className={inputStyling} />
-        </div>
-        <div>
-          <Label>About</Label>
-          <textarea className="w-full rounded-md border-0 bg-slate-700 p-2 text-slate-100 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0" />
-        </div>
-        <div>
-          <Label>Pricing</Label>
-          <Input className={inputStyling} />
-        </div>
-        <div>
-          <Label>Images</Label>
-          <Input type="file" className={inputStyling} />
-        </div>
-      </form>
       <Button
         onClick={() => {
           router.refresh();
