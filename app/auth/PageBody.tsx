@@ -82,6 +82,7 @@ export function AuthPageBody({
       {/* Page Content Wrapper */}
       <main className="w-full max-w-4xl mx-auto px-6 py-10 grow ">
         {/* Title Section */}
+        
         {/* Player Card */}
         <div 
           onClick={() => setIsPlayerSelected(!isPlayerSelected)}
