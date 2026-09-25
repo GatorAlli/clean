@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { text } from "drizzle-orm/cockroach-core";
+import { event } from "next/dist/build/output/log";
 
 type Pricing = { apparelType: string; unitPrice: number };
 
@@ -15,7 +17,9 @@ export function AdminPage() {
   const [laundryName, setLaundryName] = useState("");
   const [location, setLocation] = useState("");
   const [about, setAbout] = useState("");
-  const [pricing, setPricing] = useState<Pricing[]>();
+  const [pricing, setPricing] = useState<Pricing[]>([
+    { apparelType: "", unitPrice: 0 },
+  ]);
 
   return (
     <div className="text-amber-50 p-4 flex flex-col gap-2">
@@ -51,9 +55,54 @@ export function AdminPage() {
         </div>
         <div>
           <Label>Pricing</Label>
-          <div className="flex gap-2">
-            <Input className={inputStyling} />
-          </div>
+          <ol>
+            {pricing.map((e, index) => (
+              <div key={index}>
+                <li className="flex gap-2">
+                  <Label>{index + 1}.</Label>
+                  <Input
+                    placeholder="Apparel Type"
+                    value={pricing[index].apparelType}
+                    onChange={(e) => {
+                      setPricing((rows) => {
+                        return rows.map((row, i) =>
+                          i === index
+                            ? { ...row, apparelType: e.target.value }
+                            : row,
+                        );
+                      });
+                    }}
+                    className={inputStyling}
+                  />
+                  <Input
+                    placeholder="BDT"
+                    className="border-slate-600 focus-visible:ring-0 w-1xl"
+                  />
+                  <Button
+                    onClick={() => {
+                      setPricing(
+                        pricing.filter((e, ind) => {
+                          return ind !== index;
+                        }),
+                      );
+                    }}
+                    className="text-2xl"
+                  >
+                    -
+                  </Button>
+                </li>
+              </div>
+            ))}
+            <Button
+              type="button"
+              onClick={() => {
+                setPricing(pricing.concat({ apparelType: "", unitPrice: 0 }));
+              }}
+              className="text-2xl"
+            >
+              +
+            </Button>
+          </ol>
         </div>
         <div>
           <Label>Images</Label>
