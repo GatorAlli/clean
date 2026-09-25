@@ -82,7 +82,7 @@ export function AuthPageBody({
       {/* Page Content Wrapper */}
       <main className="w-full max-w-4xl mx-auto px-6 py-10 grow ">
         {/* Title Section */}
-        {/* Clickable Animated Player Card */}
+        {/* Player Card */}
         <div 
           onClick={() => setIsPlayerSelected(!isPlayerSelected)}
           className={`mb-8 p-8 rounded-2xl max-w-sm flex flex-col justify-between min-h-[140px] shadow-lg cursor-pointer transition-all 
