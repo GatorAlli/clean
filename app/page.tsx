@@ -2,8 +2,21 @@
 
 import { Button } from "@/components/ui/button";
 import { redirect } from "next/navigation";
+import { useState } from "react";
+
+
+
 
 export default function Home() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const CITIES = [
+  "All Bangladesh", "Dhaka", "Chattogram", "Sylhet", "Rajshahi", "Khulna",
+  "Barishal", "Rangpur", "Mymensingh", "Cumilla", "Cox's Bazar",
+];
+
+// inside Home()
+const [query, setQuery] = useState("");
+const [city, setCity] = useState("All Bangladesh");
   return (
 <div className="">
   <div></div>
@@ -13,9 +26,9 @@ export default function Home() {
         <img className=" h-8 mr-2" src={"Turfer(1).png"}></img>
 
         <div className="justify-self-center">
-          <input className="bg-[#171717] border border-white/10 rounded-md px-3 py-2 text-sm text-white placeholder:text-[#A3A3A3]/50 focus-visible:ring-1 focus-visible:ring-white/20  w-90" type="Search" placeholder="Search turf or city" />
+          <input className="bg-[#171717] border border-white/10 rounded-md px-3 py-2 text-sm text-white placeholder:text-[#A3A3A3]/50 focus-visible:ring-1 focus-visible:ring-white/20 w-40 sm:w-60 md:w-90" type="Search" placeholder="Search turf or city" />
           </div>
-        <nav className="justify-self-end flex items-center gap-5 ">
+        <nav className=" hidden md:flex items-center gap-5 ">
          <Button
         className="text-white text-md font-bold relative group bg-transparent hover:bg-transparent"
         onClick={() => {
@@ -46,7 +59,24 @@ export default function Home() {
         <span className="absolute left-0 bottom-0 w-0 h-[3px] bg-red-900 transition-all duration-[400ms] group-hover:w-full rounded-full "></span>
       </Button>
       </nav>
-      </header>
+<button
+  className="md:hidden text-white text-2xl px-2"
+  onClick={() => setMenuOpen(!menuOpen)}
+  aria-label="Toggle menu"
+>
+  ☰
+</button>
+</header>
+
+{/* Mobile dropdown menu */}
+{menuOpen && (
+  <div className="md:hidden flex flex-col items-center gap-6 bg-[#171717]/80 backdrop-blur-[3px] border-b border-[#232323] py-6">
+    <button className="text-white text-center border-gray-500" onClick={() => redirect("./auth")}>Explore </button>
+    <button className="text-white text-center border-gray-500" onClick={() => redirect("./auth")}>Profile</button>
+    <button className="text-white text-center border-gray-500" onClick={() => redirect("./auth")}>Booking</button>
+  </div>
+)}
+
 
 
     </div>
