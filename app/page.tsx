@@ -24,7 +24,7 @@ const [city, setCity] = useState("All Bangladesh");
       <div className="bg-[url('/background.png')] bg-cover bg-center h-200 w-full bg-no-repeat ">
 
       {/* Top Navbar */}
-      <header className="sticky w-full px-6 md:px-12 py-5 flex items-center justify-between backdrop-blur-[5px] border-b border-white">
+      <header className="sticky w-full px-6 md:px-12 py-5 flex items-center justify-between  bg-[#ff206e]/10 backdrop-blur-[5px] border-b border-white">
         <button className="text-2xl text-white font-extrabold hover:text-[#ff206e] transition-all duration-500 "> Clean </button>
         <div className="flex rounded-md border border-white/10 bg-[#ffffff] focus-within:ring-1 focus-within:ring-white/20 w-40 sm:w-60 md:w-90 relative">
           
