@@ -2,6 +2,7 @@ import {
   integer,
   pgTable,
   primaryKey,
+  serial,
   text,
   varchar,
 } from "drizzle-orm/pg-core";
@@ -20,4 +21,10 @@ export const turfImagesTable = pgTable("turf_images", {
     .references(() => turfTable.id, { onDelete: "cascade" }),
   storagePath: text().notNull(),
   position: integer().notNull(),
+});
+
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  fullName: text("full_name"),
+  phone: varchar("phone", { length: 256 }),
 });
