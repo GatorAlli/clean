@@ -84,19 +84,23 @@ export function AuthPageBody() {
         </div>
         {isLogin ? (
           <div>
-            {/* Sign In/Sign Up Form */}
-            <div className="bg-gray-900 rounded-2xl p-1 inline-flex">
-              {/* Toggle Pages */}
-              <Button className="bg-blue-500 rounded-2xl p-2">Sign In</Button>
-              <Button
-                onClick={() => {
-                  changeIsLogin(!isLogin);
-                }}
-                className="hover:cursor-pointer"
-              >
-                Sign Up
-              </Button>
-            </div>
+            {/* Sign up and in */}
+            <div className="flex gap-8 border-b border-white/10 mb-8">
+            <button
+              type="button"
+              onClick={() => changeIsLogin(false)}
+              className="text-lg font-bold text-[#A3A3A3] pb-3 hover:text-white transition"
+            >
+              Sign up
+            </button>
+            <button
+              type="button"
+              className="text-lg font-bold text-white border-b-2 border-[#E5322D] pb-3 -mb-[1px]"
+            >
+              Sign in
+            </button>
+          </div>
+           
             <form onSubmit={handleSignIn}>
               {/* Form */}
               <div>
@@ -135,22 +139,26 @@ export function AuthPageBody() {
           </div>
         ) : (
           <div>
-            <div className="bg-gray-900 rounded-2xl p-1 inline-flex">
-              {/* Sign Up Form */}
-              <Button
-                onClick={() => {
-                  changeIsLogin(!isLogin);
-                }}
-                className="hover:cursor-pointer"
-              >
-                Sign In
-              </Button>
-              <Button className="bg-gray-700 rounded-2xl p-2">Sign Up</Button>
-            </div>
+           {/* sign up and in */} 
+          <div className="flex gap-8 border-b border-white/10 mb-8">
+            <button
+              type="button"
+              className="text-lg font-bold text-white border-b-2 border-[#E5322D] pb-3 -mb-[1px]"
+            >
+              Sign up
+            </button>
+            <button
+              type="button"
+              onClick={() => changeIsLogin(true)}
+              className="text-lg font-bold text-[#A3A3A3] pb-3 hover:text-white transition"
+            >
+              Sign in
+            </button>
+          </div>
             <form onSubmit={handleSignUp}>
               {/* Form */}
 
-              {/* Username & Name */}
+              {/* Username */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
                   <Label className="block text-xs font-semibold text-[#A3A3A3] mb-2">
@@ -164,7 +172,7 @@ export function AuthPageBody() {
                   />
                 </div>
               </div>
-              {/* Contact Number & Email */}
+              {/* Contact number and email */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 mt-6">
                 <div>
                   <Label className="block text-xs font-semibold text-[#A3A3A3] mb-2">
@@ -210,9 +218,9 @@ export function AuthPageBody() {
               
               <Button
                 type="submit"
-                className="bg-[#282828] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus-visible:ring-1 focus-visible:ring-white/20"
+                className="bg-[#E5322D] hover:bg-[#d42d28] text-white font-semibold text-md px-8 py-3 rounded-xl transition shadow-md active:scale-95 w-fit"
               >
-                Sign Up
+                Continue
               </Button>
               <Label>{status}</Label>
             </form>
