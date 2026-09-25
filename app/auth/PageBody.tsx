@@ -140,7 +140,6 @@ export function AuthPageBody({
                     type="tel"
                     value={email}
                     onChange={(e) => changeEmail(e.target.value)}
-                    placeholder="01XXXXXXXXX"
                     className="bg-[#171717] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-[#A3A3A3]/50 focus-visible:ring-1 focus-visible:ring-white/20"
                     required
                   />
