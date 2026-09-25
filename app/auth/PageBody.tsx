@@ -76,7 +76,7 @@ export function AuthPageBody() {
         {/* Title Section */}
         <div className="mb-8">
           <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white mb-2">
-            Player<span className="text-gray-500">.</span>
+            Player<span className="text-gray-500"></span>
           </h1>
           <p className="text-sm text-gray-400 font-medium">
             Find a pitch, book it, play.
