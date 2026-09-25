@@ -75,6 +75,7 @@ export function AuthPageBody({
             className="mr-2 h-auto w-20 max-w-[40vw]"
             src="/Turfer(1).png"
             alt="Turfer"
+            
           />
         </Link>
       </header>
@@ -160,12 +161,15 @@ export function AuthPageBody({
               </div>
 
               <div className="pt-2">
-                <Button
-                  type="submit"
-                  className="bg-[#E5322D] hover:bg-[#d42d28] text-white font-semibold text-sm px-8 py-3 rounded-xl transition shadow-md active:scale-95 w-fit"
-                >
-                  Continue
-                </Button>
+
+              <Button
+                type="submit"
+                className="relative flex items-center px-6 py-3 font-semibold text-red-500 border-2 border-red-500 overflow-hidden group rounded-xl cursor-pointer"
+              >
+                <span className="absolute inset-0 w-full h-full bg-red-500 transform scale-x-0 origin-left rounded-md group-hover:scale-x-100 transition-transform duration-800 ease-in-out z-0"></span>
+  <span className="absolute inset-0 w-full h-full bg-red-500 transform scale-x-0 origin-right rounded-md group-hover:scale-x-100 transition-transform duration-800 ease-in-out z-0"></span>
+  <span className="relative z-10 group-hover:text-white transition-colors duration-800">Continue</span>
+              </Button>
               </div>
             </form>
             <Label>{status}</Label>
@@ -252,9 +256,11 @@ export function AuthPageBody({
 
               <Button
                 type="submit"
-                className="bg-[#E5322D] hover:bg-[#d42d28] text-white font-semibold text-md px-8 py-3 rounded-xl transition shadow-md active:scale-95 w-fit"
+                className="relative flex items-center px-6 py-3 font-semibold text-red-500 border-2 border-red-500 overflow-hidden group rounded-xl cursor-pointer"
               >
-                Continue
+                <span className="absolute inset-0 w-full h-full bg-red-500 transform scale-x-0 origin-left rounded-md group-hover:scale-x-100 transition-transform duration-800 ease-in-out z-0"></span>
+  <span className="absolute inset-0 w-full h-full bg-red-500 transform scale-x-0 origin-right rounded-md group-hover:scale-x-100 transition-transform duration-800 ease-in-out z-0"></span>
+  <span className="relative z-10 group-hover:text-white transition-colors duration-800">Continue</span>
               </Button>
               <Label>{status}</Label>
             </form>

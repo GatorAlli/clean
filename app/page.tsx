@@ -26,7 +26,6 @@ export default function Home() {
         <span className="absolute left-0 bottom-0 w-0 h-[3px] bg-red-900 transition-all duration-[400ms] group-hover:w-full rounded-full "></span>
       </Button>
 
-
       <Button
         className="text-white text-md font-bold relative group bg-transparent hover:bg-transparent"
         onClick={() => {
