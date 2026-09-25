@@ -7,14 +7,14 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
-export const turfTable = pgTable("turfs", {
+export const turfTable = pgTable.withRLS("laundries", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   name: varchar({ length: 255 }).notNull(),
   about: text(),
   pricing: integer().notNull(),
 });
 
-export const turfImagesTable = pgTable("turf_images", {
+export const turfImagesTable = pgTable.withRLS("laundry_images", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   turfId: integer()
     .notNull()
