@@ -1,0 +1,1 @@
+ALTER TABLE "laundries" ADD COLUMN "location" text NOT NULL;

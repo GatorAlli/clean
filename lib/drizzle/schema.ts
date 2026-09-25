@@ -2,23 +2,27 @@ import {
   integer,
   pgTable,
   primaryKey,
+  jsonb,
   serial,
   text,
   varchar,
 } from "drizzle-orm/pg-core";
 
-export const turfTable = pgTable.withRLS("laundries", {
+export const laundries = pgTable.withRLS("laundries", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   name: varchar({ length: 255 }).notNull(),
+  location: text().notNull(),
   about: text(),
-  pricing: integer().notNull(),
+  pricing: jsonb()
+    .$type<{ apparelType: string; unitPrice: number }[]>()
+    .notNull(),
 });
 
 export const turfImagesTable = pgTable.withRLS("laundry_images", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   turfId: integer()
     .notNull()
-    .references(() => turfTable.id, { onDelete: "cascade" }),
+    .references(() => laundries.id, { onDelete: "cascade" }),
   storagePath: text().notNull(),
   position: integer().notNull(),
 });

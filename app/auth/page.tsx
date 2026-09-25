@@ -2,9 +2,9 @@ import { generateServerClient } from "@/lib/supabase/server";
 import { AuthPageBody, ProfilePageBody } from "./PageBody";
 import { AdminPage } from "./AdminPage";
 import { createClient } from "@supabase/supabase-js";
+import postgres from "postgres";
 
 import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
 
 export default async function Page() {
   // Supabase
@@ -44,7 +44,9 @@ export default async function Page() {
 
     const secretKey = process.env.SUPABASE_SECRET_KEY;
     if (!secretKey) {
-      return { error: "SUPABASE_SECRET_KEY is missing from the server environment." };
+      return {
+        error: "SUPABASE_SECRET_KEY is missing from the server environment.",
+      };
     }
 
     const adminClient = createClient(

@@ -1,15 +1,16 @@
 "use client";
 
+import { submitData } from "./adminLogic";
 import { supabase } from "@/lib/supabase/browser";
+
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { text } from "drizzle-orm/cockroach-core";
-import { event } from "next/dist/build/output/log";
 
-type Pricing = { apparelType: string; unitPrice: number };
+export type Pricing = { apparelType: string; unitPrice: number };
 
 export function AdminPage() {
   const router = useRouter();
@@ -22,10 +23,20 @@ export function AdminPage() {
   ]);
 
   return (
-    <div className="text-amber-50 p-4 flex flex-col gap-2">
+    <div className="bg-black text-amber-50 p-4 flex flex-col gap-2">
       <Label className="text-3xl"> Site Admin Page </Label>
 
-      <form className="bg-slate-950 p-2 rounded-2xl">
+      <form
+        onSubmit={() => {
+          submitData({
+            storeName: laundryName,
+            location,
+            about,
+            prices: pricing,
+          });
+        }}
+        className="bg-slate-950 p-2 rounded-2xl"
+      >
         {/* Add a Turf Form */}
         <Label className="text-2xl">Add a Laundry</Label>
 
