@@ -9,7 +9,11 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export function AuthPageBody() {
+export function AuthPageBody({
+  onSaveAuthPhone,
+}: {
+  onSaveAuthPhone: (phone: string) => Promise<{ error: string | null }>;
+}) {
   const [isLogin, changeIsLogin] = useState(false);
   const [isPlayerSelected, setIsPlayerSelected] = useState(false);
   const [email, changeEmail] = useState("");
@@ -26,15 +30,18 @@ export function AuthPageBody() {
       password,
       options: {
         data: {
-          username: handle,
-          phone,
+          full_name: handle,
+          auth_phone: phone,
         },
       },
     });
     if (error) {
       changeStatus(error.message);
+    } else if (!data.user) {
+      changeStatus("Signup succeeded, but Supabase did not return a user.");
     } else {
-      changeStatus("Signed Up Successfully");
+      const phoneResult = await onSaveAuthPhone(phone);
+      changeStatus(phoneResult.error ?? "Signed up and phone number saved.");
     }
     console.log("Hello");
   }
@@ -210,7 +217,7 @@ export function AuthPageBody() {
 
                 <div>
                   <Label className="block text-xs font-semibold text-[#A3A3A3] mb-2">
-                    Email (Optional)
+                    Email <span className="text-[#E5322D]">*</span>
                   </Label>
                   <Input
                     type="email"
