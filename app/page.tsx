@@ -12,7 +12,8 @@ export default function Home() {
   const CITIES = [
   "All Bangladesh", "Dhaka", "Chattogram", "Sylhet", "Rajshahi", "Khulna",
   "Barishal", "Rangpur", "Mymensingh", "Cumilla", "Cox's Bazar",
-];
+   ];
+   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
 // inside Home()
 const [query, setQuery] = useState("");
@@ -23,26 +24,52 @@ const [city, setCity] = useState("All Bangladesh");
       <div className="bg-[url('/background.png')] bg-cover bg-center h-200 w-full bg-no-repeat ">
 
       {/* Top Navbar */}
-      <header className="sticky w-full px-6 md:px-12 py-5 flex items-center justify-between bg-[#ff206e]/10 backdrop-blur-[5px] border-b border-white">
-        <button className="text-2xl font-bricolage text-[#ff206e] font-extrabold hover:text-[#ffa9c7] transition-all duration-500 "> Clean </button>
-        <div className=" flex rounded-md border border-white/10 bg-[#ffffff] focus-within:ring-1 focus-within:ring-white/20 overflow-hidden w-40 sm:w-60 md:w-90">
-         <input
-            className="flex-1 min-w-0 bg-transparent px-3 py-2 text-sm text-black placeholder:text-black/80 outline-none"
+      <header className="sticky w-full px-6 md:px-12 py-5 flex items-center justify-between backdrop-blur-[5px] border-b border-white">
+        <button className="text-2xl text-white font-extrabold hover:text-[#ff206e] transition-all duration-500 "> Clean </button>
+        <div className="flex rounded-md border border-white/10 bg-[#ffffff] focus-within:ring-1 focus-within:ring-white/20 w-40 sm:w-60 md:w-90 relative">
+          
+          <input
+            className="flex-1 min-w-0 bg-transparent px-3 py-2 text-sm text-black placeholder:text-black/60 outline-none rounded-l-md"
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-         placeholder="Search services or city"
+            placeholder="Search services or city"
           />
-  <select
-    value={city}
-    onChange={(e) => setCity(e.target.value)}
-    className="bg-[#ff206e] text-black text-sm w-15 md:w-30 sm:w-20 px-2 border-l mx- border-white/10 outline-none cursor-pointer"
-  >
-    {CITIES.map((c) => (
-      <option key={c} value={c}>{c}</option>
-    ))}
-  </select>
-</div>
+          
+          {/* dropdow button */}
+          <button
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            className="bg-[#fbff12] hover:bg-[#e5e90a] transition-colors text-black text-sm px-3 border-l border-gray-300 outline-none cursor-pointer font-medium flex items-center gap-2 rounded-r-md"
+          >
+            {city}
+            <span className={`text-[10px] transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""}`}>
+              ▼
+            </span>
+          </button>
+
+          {/* dropdown */}
+          {isDropdownOpen && (
+            <div className="absolute top-full right-0 mt-2 w-48 max-h-64 overflow-y-auto bg-[#171717] border border-white/10 rounded-xl shadow-2xl z-50 flex flex-col py-2 scrollbar-thin scrollbar-thumb-gray-600">
+              {CITIES.map((c) => (
+                <button
+                  key={c}
+                  onClick={() => {
+                    setCity(c);
+                    setIsDropdownOpen(false);
+                  }}
+                  className={`text-left px-4 py-2 text-sm transition-colors ${
+                    city === c 
+                      ? "bg-[#fbff12] text-black font-bold" 
+                      : "text-white hover:bg-white/10"
+                  }`}
+                >
+                  {c}
+                </button>
+              ))}
+            </div>
+          )}
+
+        </div>
           
         <nav className=" hidden md:flex items-center gap-5 ">
          <Button

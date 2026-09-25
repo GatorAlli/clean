@@ -75,7 +75,6 @@ export function AuthPageBody({
             className="mr-2 h-auto w-20 max-w-[40vw]"
             src="/Turfer(1).png"
             alt="Turfer"
-            
           />
         </Link>
       </header>
@@ -83,7 +82,8 @@ export function AuthPageBody({
       {/* Page Content Wrapper */}
       <main className="w-full max-w-4xl mx-auto px-6 py-10 grow ">
         {/* Title Section */}
-        {/* Clickable Animated Player Card */}
+
+        {/* Player Card */}
         <div
           onClick={() => setIsPlayerSelected(!isPlayerSelected)}
           className={`mb-8 p-8 rounded-2xl max-w-sm flex flex-col justify-between min-h-[140px] shadow-lg cursor-pointer transition-all 
@@ -97,14 +97,14 @@ export function AuthPageBody({
             className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-2"
             style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}
           >
-            Customer<span className="text-[#A3A3A3]"></span>
+            Player<span className="text-[#A3A3A3]"></span>
           </h1>
           <p
             className={`text-sm font-medium transition-colors ${
               isPlayerSelected ? "text-[#0D0D0D]/80" : "text-[#A3A3A3]"
             }`}
           >
-            Find a servie, book it and clean.
+            Find a pitch, book it and play.
           </p>
         </div>
         {isLogin ? (
@@ -120,7 +120,7 @@ export function AuthPageBody({
               </button>
               <button
                 type="button"
-                className="text-lg font-bold text-white border-b-2 border-blue-500 pb-3 -mb-[1px]"
+                className="text-lg font-bold text-white border-b-2 border-[#E5322D] pb-3 -mb-[1px]"
               >
                 Sign in
               </button>
@@ -135,10 +135,10 @@ export function AuthPageBody({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 mt-6">
                 <div>
                   <Label className="block text-xs font-semibold text-[#A3A3A3] mb-2">
-                    Email Address <span className="text-blue-500">*</span>
+                    Email Address <span className="text-[#E5322D]">*</span>
                   </Label>
                   <Input
-                    type="tel"
+                    type="email"
                     value={email}
                     onChange={(e) => changeEmail(e.target.value)}
                     className="bg-[#171717] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-[#A3A3A3]/50 focus-visible:ring-1 focus-visible:ring-white/20"
@@ -148,7 +148,7 @@ export function AuthPageBody({
 
                 <div>
                   <Label className="block text-xs font-semibold text-[#A3A3A3] mb-2">
-                    Password <span className="text-blue-500">*</span>
+                    Password <span className="text-[#E5322D]">*</span>
                   </Label>
                   <Input
                     type="password"
@@ -161,15 +161,12 @@ export function AuthPageBody({
               </div>
 
               <div className="pt-2">
-
-              <Button
-                type="submit"
-                className="relative flex items-center px-6 py-3 font-semibold text-blue-500 border-2 border-blue-500 overflow-hidden group rounded-xl cursor-pointer"
-              >
-                <span className="absolute inset-0 w-full h-full bg-blue-500 transform scale-x-0 origin-left rounded-md group-hover:scale-x-100 transition-transform duration-800 ease-in-out z-0"></span>
-  <span className="absolute inset-0 w-full h-full bg-blue-500 transform scale-x-0 origin-right rounded-md group-hover:scale-x-100 transition-transform duration-800 ease-in-out z-0"></span>
-  <span className="relative z-10 group-hover:text-white transition-colors duration-800">Continue</span>
-              </Button>
+                <Button
+                  type="submit"
+                  className="bg-[#E5322D] hover:bg-[#d42d28] text-white font-semibold text-sm px-8 py-3 rounded-xl transition shadow-md active:scale-95 w-fit"
+                >
+                  Continue
+                </Button>
               </div>
             </form>
             <Label>{status}</Label>
@@ -180,7 +177,7 @@ export function AuthPageBody({
             <div className="flex gap-8 border-b border-white/10 mb-8">
               <button
                 type="button"
-                className="text-lg font-bold text-white border-b-2 border-blue-500 pb-3 -mb-[1px]"
+                className="text-lg font-bold text-white border-b-2 border-[#E5322D] pb-3 -mb-[1px]"
               >
                 Sign up
               </button>
@@ -199,7 +196,7 @@ export function AuthPageBody({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
                   <Label className="block text-xs font-semibold text-[#A3A3A3] mb-2">
-                    Username <span className="text-blue-500">*</span>
+                    Username <span className="text-[#E5322D]">*</span>
                   </Label>
                   <Input
                     value={handle}
@@ -213,7 +210,7 @@ export function AuthPageBody({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 mt-6">
                 <div>
                   <Label className="block text-xs font-semibold text-[#A3A3A3] mb-2">
-                    Contact Number <span className="text-blue-500">*</span>
+                    Contact Number <span className="text-[#E5322D]">*</span>
                   </Label>
                   <Input
                     type="tel"
@@ -227,7 +224,7 @@ export function AuthPageBody({
 
                 <div>
                   <Label className="block text-xs font-semibold text-[#A3A3A3] mb-2">
-                    Email <span className="text-blue-500">*</span>
+                    Email <span className="text-[#E5322D]">*</span>
                   </Label>
                   <Input
                     type="email"
@@ -242,7 +239,7 @@ export function AuthPageBody({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 mt-6">
                 <div>
                   <Label className="block text-xs font-semibold text-[#A3A3A3] mb-2">
-                    Password <span className="text-blue-500">*</span>
+                    Password <span className="text-[#E5322D]">*</span>
                   </Label>
                   <Input
                     type="password"
@@ -256,11 +253,9 @@ export function AuthPageBody({
 
               <Button
                 type="submit"
-                className="relative flex items-center px-6 py-3 font-semibold text-blue-500 border-2 border-blue-500 overflow-hidden group rounded-xl cursor-pointer"
+                className="bg-[#E5322D] hover:bg-[#d42d28] text-white font-semibold text-md px-8 py-3 rounded-xl transition shadow-md active:scale-95 w-fit"
               >
-                <span className="absolute inset-0 w-full h-full bg-blue-500 transform scale-x-0 origin-left rounded-md group-hover:scale-x-100 transition-transform duration-800 ease-in-out z-0"></span>
-  <span className="absolute inset-0 w-full h-full bg-blue-500 transform scale-x-0 origin-right rounded-md group-hover:scale-x-100 transition-transform duration-800 ease-in-out z-0"></span>
-  <span className="relative z-10 group-hover:text-white transition-colors duration-800">Continue</span>
+                Continue
               </Button>
               <Label>{status}</Label>
             </form>
