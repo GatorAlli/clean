@@ -12,7 +12,6 @@ import { useRouter } from "next/navigation";
 export function AuthPageBody() {
   const [isLogin, changeIsLogin] = useState(false);
   const [email, changeEmail] = useState("");
-  const [name, changeName] = useState("");
   const [phone, changePhone] = useState("");
   const [password, changePassword] = useState("");
   const [status, changeStatus] = useState("");

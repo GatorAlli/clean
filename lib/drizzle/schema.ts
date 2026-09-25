@@ -12,3 +12,12 @@ export const turfTable = pgTable("turfs", {
   about: text(),
   pricing: integer().notNull(),
 });
+
+export const turfImagesTable = pgTable("turf_images", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  turfId: integer()
+    .notNull()
+    .references(() => turfTable.id, { onDelete: "cascade" }),
+  storagePath: text().notNull(),
+  position: integer().notNull(),
+});
