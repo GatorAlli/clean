@@ -97,14 +97,14 @@ export function AuthPageBody({
             className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-2"
             style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}
           >
-            Player<span className="text-[#A3A3A3]"></span>
+            Customer<span className="text-[#A3A3A3]"></span>
           </h1>
           <p
             className={`text-sm font-medium transition-colors ${
               isPlayerSelected ? "text-[#0D0D0D]/80" : "text-[#A3A3A3]"
             }`}
           >
-            Find a pitch, book it and play.
+            Find a servie, book it and clean.
           </p>
         </div>
         {isLogin ? (
@@ -120,7 +120,7 @@ export function AuthPageBody({
               </button>
               <button
                 type="button"
-                className="text-lg font-bold text-white border-b-2 border-[#E5322D] pb-3 -mb-[1px]"
+                className="text-lg font-bold text-white border-b-2 border-blue-500 pb-3 -mb-[1px]"
               >
                 Sign in
               </button>
@@ -135,7 +135,7 @@ export function AuthPageBody({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 mt-6">
                 <div>
                   <Label className="block text-xs font-semibold text-[#A3A3A3] mb-2">
-                    Email Address <span className="text-[#E5322D]">*</span>
+                    Email Address <span className="text-blue-500">*</span>
                   </Label>
                   <Input
                     type="tel"
@@ -148,7 +148,7 @@ export function AuthPageBody({
 
                 <div>
                   <Label className="block text-xs font-semibold text-[#A3A3A3] mb-2">
-                    Password <span className="text-[#E5322D]">*</span>
+                    Password <span className="text-blue-500">*</span>
                   </Label>
                   <Input
                     type="password"
@@ -164,10 +164,10 @@ export function AuthPageBody({
 
               <Button
                 type="submit"
-                className="relative flex items-center px-6 py-3 font-semibold text-red-500 border-2 border-red-500 overflow-hidden group rounded-xl cursor-pointer"
+                className="relative flex items-center px-6 py-3 font-semibold text-blue-500 border-2 border-blue-500 overflow-hidden group rounded-xl cursor-pointer"
               >
-                <span className="absolute inset-0 w-full h-full bg-red-500 transform scale-x-0 origin-left rounded-md group-hover:scale-x-100 transition-transform duration-800 ease-in-out z-0"></span>
-  <span className="absolute inset-0 w-full h-full bg-red-500 transform scale-x-0 origin-right rounded-md group-hover:scale-x-100 transition-transform duration-800 ease-in-out z-0"></span>
+                <span className="absolute inset-0 w-full h-full bg-blue-500 transform scale-x-0 origin-left rounded-md group-hover:scale-x-100 transition-transform duration-800 ease-in-out z-0"></span>
+  <span className="absolute inset-0 w-full h-full bg-blue-500 transform scale-x-0 origin-right rounded-md group-hover:scale-x-100 transition-transform duration-800 ease-in-out z-0"></span>
   <span className="relative z-10 group-hover:text-white transition-colors duration-800">Continue</span>
               </Button>
               </div>
@@ -180,7 +180,7 @@ export function AuthPageBody({
             <div className="flex gap-8 border-b border-white/10 mb-8">
               <button
                 type="button"
-                className="text-lg font-bold text-white border-b-2 border-[#E5322D] pb-3 -mb-[1px]"
+                className="text-lg font-bold text-white border-b-2 border-blue-500 pb-3 -mb-[1px]"
               >
                 Sign up
               </button>
@@ -199,7 +199,7 @@ export function AuthPageBody({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
                   <Label className="block text-xs font-semibold text-[#A3A3A3] mb-2">
-                    Username <span className="text-[#E5322D]">*</span>
+                    Username <span className="text-blue-500">*</span>
                   </Label>
                   <Input
                     value={handle}
@@ -213,7 +213,7 @@ export function AuthPageBody({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 mt-6">
                 <div>
                   <Label className="block text-xs font-semibold text-[#A3A3A3] mb-2">
-                    Contact Number <span className="text-[#E5322D]">*</span>
+                    Contact Number <span className="text-blue-500">*</span>
                   </Label>
                   <Input
                     type="tel"
@@ -227,7 +227,7 @@ export function AuthPageBody({
 
                 <div>
                   <Label className="block text-xs font-semibold text-[#A3A3A3] mb-2">
-                    Email <span className="text-[#E5322D]">*</span>
+                    Email <span className="text-blue-500">*</span>
                   </Label>
                   <Input
                     type="email"
@@ -242,7 +242,7 @@ export function AuthPageBody({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 mt-6">
                 <div>
                   <Label className="block text-xs font-semibold text-[#A3A3A3] mb-2">
-                    Password <span className="text-[#E5322D]">*</span>
+                    Password <span className="text-blue-500">*</span>
                   </Label>
                   <Input
                     type="password"
@@ -256,10 +256,10 @@ export function AuthPageBody({
 
               <Button
                 type="submit"
-                className="relative flex items-center px-6 py-3 font-semibold text-red-500 border-2 border-red-500 overflow-hidden group rounded-xl cursor-pointer"
+                className="relative flex items-center px-6 py-3 font-semibold text-blue-500 border-2 border-blue-500 overflow-hidden group rounded-xl cursor-pointer"
               >
-                <span className="absolute inset-0 w-full h-full bg-red-500 transform scale-x-0 origin-left rounded-md group-hover:scale-x-100 transition-transform duration-800 ease-in-out z-0"></span>
-  <span className="absolute inset-0 w-full h-full bg-red-500 transform scale-x-0 origin-right rounded-md group-hover:scale-x-100 transition-transform duration-800 ease-in-out z-0"></span>
+                <span className="absolute inset-0 w-full h-full bg-blue-500 transform scale-x-0 origin-left rounded-md group-hover:scale-x-100 transition-transform duration-800 ease-in-out z-0"></span>
+  <span className="absolute inset-0 w-full h-full bg-blue-500 transform scale-x-0 origin-right rounded-md group-hover:scale-x-100 transition-transform duration-800 ease-in-out z-0"></span>
   <span className="relative z-10 group-hover:text-white transition-colors duration-800">Continue</span>
               </Button>
               <Label>{status}</Label>

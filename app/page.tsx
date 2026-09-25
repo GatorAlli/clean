@@ -51,7 +51,7 @@ const [city, setCity] = useState("All Bangladesh");
         }}
       >
         Explore
-        <span className="absolute left-0 bottom-0 w-0 h-[3px] bg-red-900 transition-all duration-[400ms] group-hover:w-full rounded-full "></span>
+        <span className="absolute left-0 bottom-0 w-0 h-[3px] bg-blue-900 transition-all duration-[400ms] group-hover:w-full rounded-full "></span>
       </Button>
 
       <Button
@@ -61,7 +61,7 @@ const [city, setCity] = useState("All Bangladesh");
         }}
       >
         Profile
-        <span className="absolute left-0 bottom-0 w-0 h-[3px] bg-red-900 transition-all duration-[400ms] group-hover:w-full rounded-full "></span>
+        <span className="absolute left-0 bottom-0 w-0 h-[3px] bg-blue-900 transition-all duration-[400ms] group-hover:w-full rounded-full "></span>
       </Button>
 
       <Button
@@ -71,7 +71,7 @@ const [city, setCity] = useState("All Bangladesh");
         }}
       >
         Booking
-        <span className="absolute left-0 bottom-0 w-0 h-[3px] bg-red-900 transition-all duration-[400ms] group-hover:w-full rounded-full "></span>
+        <span className="absolute left-0 bottom-0 w-0 h-[3px] bg-blue-900 transition-all duration-[400ms] group-hover:w-full rounded-full "></span>
       </Button>
       </nav>
 <button
