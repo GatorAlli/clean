@@ -18,6 +18,7 @@ export function AdminPage() {
   const [laundryName, setLaundryName] = useState("");
   const [location, setLocation] = useState("");
   const [about, setAbout] = useState("");
+  const [images, setImages] = useState<(File | null)[]>([null]);
   const [pricing, setPricing] = useState<Pricing[]>([
     { apparelType: "", unitPrice: 0 },
   ]);
@@ -117,8 +118,29 @@ export function AdminPage() {
         </div>
         <div>
           <Label>Images</Label>
-          <Input type="file" accept="./" className={inputStyling} />
+          {images?.map((e, i) => (
+            <div key={i} className="flex gap-2">
+              <Input type="file" accept="./" className={inputStyling} />
+              <Button
+                type="button"
+                onClick={() => {
+                  setImages((row) => row.filter((_, ind) => ind !== i));
+                }}
+                className="text-2xl"
+              >
+                -
+              </Button>
+            </div>
+          ))}
+          <Button
+            type="button"
+            onClick={() => setImages((rows) => [...rows, null])}
+            className="text-2xl"
+          >
+            +
+          </Button>
         </div>
+
         <Button type="submit">Submit</Button>
       </form>
       <Button
