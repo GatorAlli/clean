@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import React, { useState } from "react";
 
 export type Pricing = { apparelType: string; unitPrice: number };
 
@@ -23,21 +23,47 @@ export function AdminPage() {
     { apparelType: "", unitPrice: 0 },
   ]);
 
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    console.log(
+      "Selected images:",
+      images.map((file) => file?.name),
+    );
+
+    submitData({
+      storeName: laundryName,
+      location,
+      about,
+      prices: pricing,
+    });
+
+    for (const file of images) {
+      if (!file) {
+        continue;
+      }
+
+      const path = `laundries/${crypto.randomUUID()}-${file.name}`;
+
+      const { data, error } = await supabase.storage
+        .from("laundry-images")
+        .upload(path, file, {
+          contentType: file.type,
+          upsert: false,
+        });
+      if (error) {
+        console.error("Upload failed:", error);
+        return;
+      }
+
+      console.log("Uploaded to:", data.path);
+    }
+  }
+
   return (
     <div className="bg-black text-amber-50 p-4 flex flex-col gap-2">
       <Label className="text-3xl"> Site Admin Page </Label>
 
-      <form
-        onSubmit={() => {
-          submitData({
-            storeName: laundryName,
-            location,
-            about,
-            prices: pricing,
-          });
-        }}
-        className="bg-slate-950 p-2 rounded-2xl"
-      >
+      <form onSubmit={handleSubmit} className="bg-slate-950 p-2 rounded-2xl">
         {/* Add a Turf Form */}
         <Label className="text-2xl">Add a Laundry</Label>
 
@@ -120,7 +146,19 @@ export function AdminPage() {
           <Label>Images</Label>
           {images?.map((e, i) => (
             <div key={i} className="flex gap-2">
-              <Input type="file" accept="./" className={inputStyling} />
+              <Input
+                onChange={(event) => {
+                  const selectedFile = event.currentTarget.files?.[0] ?? null;
+                  setImages((rows) =>
+                    rows.map((row, index) =>
+                      index === i ? selectedFile : row,
+                    ),
+                  );
+                }}
+                type="file"
+                accept="./"
+                className={inputStyling}
+              />
               <Button
                 type="button"
                 onClick={() => {
