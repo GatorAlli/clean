@@ -2,9 +2,6 @@ import { generateServerClient } from "@/lib/supabase/server";
 import { AuthPageBody, ProfilePageBody } from "./PageBody";
 import { AdminPage } from "./AdminPage";
 import { createClient } from "@supabase/supabase-js";
-import postgres from "postgres";
-
-import { drizzle } from "drizzle-orm/postgres-js";
 
 export default async function Page() {
   // Supabase
@@ -61,10 +58,6 @@ export default async function Page() {
 
     return { error: error?.message ?? null };
   }
-
-  //Drizzle
-  const client = postgres(process.env.DATABASE_URL!);
-  const db = drizzle({ client });
 
   return (
     <div>
