@@ -27,7 +27,7 @@ export default function Home() {
   return (
     <div className="bg-[#232323]">
 
-  <div className="relative h-screen w-full overflow-hidden">
+  <div className="relative h-screen w-full overflow-x-clip">
     <div className="absolute inset-0 bg-[url('/background.png')] h-200 bg-cover bg-center" />
         <div className="absolute inset-0 bg-black/40 " />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
