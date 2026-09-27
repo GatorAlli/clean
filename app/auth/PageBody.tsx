@@ -289,5 +289,6 @@ export function ProfilePageBody({
         Sign Out
       </Button>
     </div>
+    
   );
 }
