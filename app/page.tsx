@@ -23,9 +23,11 @@ export default function Home() {
   
   {/* laundry display */}
   const LAUNDRIES = [
-    { name: "PurePress Laundry", location: "Road 41, Gulshan 2, Dhaka", price: "৳70" },
-    { name: "CleanNest Uttara", location: "Sector 7, Uttara, Dhaka", price: "৳90" },
-    { name: "WhiteLine Care", location: "Road 11, Banani, Dhaka", price: "৳120" },
+    { name: "bhaimafkorben", location: "Road 41, Gulshan 2, Dhaka", price: "৳70" },
+    { name: "tazwarvalorant", location: "Sector 67, Uttara, Dhaka", price: "৳90" },
+    { name: "bilai", location: "Road 67, Banani, Dhaka", price: "৳120" },
+    { name: "tungtung", location: "Road 67, Reels, Insta", price: "৳6767" },
+    
   ];
 
   // inside Home()
