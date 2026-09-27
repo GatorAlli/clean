@@ -17,19 +17,11 @@ export default async function PageBody() {
           key={index}
           name={e.name}
           location={e.location}
-          about={e.about}
+          about={e.about ?? ""}
           pricing={e.pricing}
+          url={`/explore/${e.id}`}
         />
       ))}
-      <Card
-        name="Store Name"
-        location="Location"
-        about="Lorem Ipsum"
-        pricing={[
-          { apparelType: "shirt", unitPrice: 100 },
-          { apparelType: "cloth", unitPrice: 100 },
-        ]}
-      />
     </div>
   );
 }

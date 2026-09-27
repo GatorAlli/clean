@@ -26,18 +26,17 @@ export default function Home() {
   const [city, setCity] = useState("All Bangladesh");
   return (
     <div className="bg-[#232323]">
-
-  <div className="relative h-screen w-full overflow-x-clip">
-    <div className="absolute inset-0 bg-[url('/background.png')] h-200 bg-cover bg-center" />
+      <div className="relative h-screen w-full overflow-x-clip">
+        <div className="absolute inset-0 bg-[url('/background.png')] h-200 bg-cover bg-center" />
         <div className="absolute inset-0 bg-black/40 " />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
 
         {/* Top Navbar */}
         <header className=" relative z-50 w-full px-6 md:px-12 py-5 flex items-center justify-between  bg-[#000000]/10 backdrop-blur-[5px] border border-[#4242423f]">
           {/*<header className="sticky w-full px-6 md:px-12 py-5 flex items-center justify-between  bg-[#ff206e]/10 backdrop-blur-[5px] border-b border-white">*/}
           <button className="text-2xl text-white font-bold hover:text-[#ff206e] transition-all duration-500 font-bricolage">
             {" "}
-            CLEAN{" "}
+            clean{" "}
           </button>
           <div className="flex rounded-md border border-white/10 bg-[#ffffff] focus-within:ring-1 focus-within:ring-white/20 w-40 sm:w-60 md:w-90 relative">
             <input
@@ -88,7 +87,7 @@ export default function Home() {
             <Button
               className="text-white text-md font-bold relative group bg-transparent hover:bg-transparent"
               onClick={() => {
-                redirect("./auth");
+                redirect("./explore");
               }}
             >
               Services
@@ -146,20 +145,22 @@ export default function Home() {
               Booking
             </button>
           </div>
-          
         )}
         <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-black to-transparent pointer-events-none" />
         <div className="relative z-10 mx-5 md:mx-20 my-10 md:my-70">
           <h1 className="text-white font-bricolage font-bold text-[40px] lg:text-[200px] leading-12 md:leading-40">
-          CLEAN CLOTHES <br/>START HERE <span className="inline-block mx-[-5] md:mx-[-20] w-3.5 h-3 md:w-13 md:h-11 rounded-full bg-pink-500 align-baseline" />
-        </h1>
+            CLEAN CLOTHES <br />
+            START HERE{" "}
+            <span className="inline-block mx-[-5] md:mx-[-20] w-3.5 h-3 md:w-13 md:h-11 rounded-full bg-pink-500 align-baseline" />
+          </h1>
         </div>
-        
-         <div className="relative z-10 mx-5 md:mx-20 my-[-20] md:my-[-150]">
+
+        <div className="relative z-10 mx-5 md:mx-20 my-[-20] md:my-[-150]">
           <span className="inline-block mx-[-5] md:mx-[-20] w-3.5 h-3 md:w-13 md:h-11 rounded-full bg-pink-500 align-baseline" />
-       <p className="text-white font-sans font-medium text-[15px] md:text-2xl my-0 md:my-[-20]">
-      Find laundries nearby, compare services, and <br/>get your clothes cleaned without the hassle.
-    </p>
+          <p className="text-white font-sans font-medium text-[15px] md:text-2xl my-0 md:my-[-20]">
+            Find laundries nearby, compare services, and <br />
+            get your clothes cleaned without the hassle.
+          </p>
         </div>
       </div>
     </div>
