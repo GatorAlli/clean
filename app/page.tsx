@@ -20,6 +20,13 @@ export default function Home() {
     "Cox's Bazar",
   ];
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  
+  {/* laundry display */}
+  const LAUNDRIES = [
+    { name: "PurePress Laundry", location: "Road 41, Gulshan 2, Dhaka", price: "৳70" },
+    { name: "CleanNest Uttara", location: "Sector 7, Uttara, Dhaka", price: "৳90" },
+    { name: "WhiteLine Care", location: "Road 11, Banani, Dhaka", price: "৳120" },
+  ];
 
   // inside Home()
   const [query, setQuery] = useState("");
@@ -27,8 +34,8 @@ export default function Home() {
   return (
     <div className="bg-[#232323]">
 
-  <div className="relative h-screen w-full overflow-x-clip">
-    <div className="absolute inset-0 bg-[url('/background.png')] h-200 bg-cover bg-center" />
+  <div className="relative h-screen w-full overflow-hidden">
+    <div className="absolute inset-0 bg-[url('/background.png')] bg-cover bg-center" />
         <div className="absolute inset-0 bg-black/40 " />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
 
@@ -160,8 +167,90 @@ export default function Home() {
        <p className="text-white font-sans font-medium text-[15px] md:text-2xl my-0 md:my-[-20]">
       Find laundries nearby, compare services, and <br/>get your clothes cleaned without the hassle.
     </p>
-        </div>
+       </div>
       </div>
+
+      {/* laundry services*/}
+      <div className="bg-white w-full py-20 pl-6 md:pl-12">
+        <h2 
+          className="text-4xl md:text-5xl font-extrabold text-black mb-10 tracking-tight"
+          style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}
+        >
+          Laundry services
+        </h2>
+        
+       {/* Scrolling */}
+        <div className="flex overflow-hidden gap-6 pb-10 w-full relative group">
+          
+          {/* animation*/}
+          <style>{`
+            @keyframes marquee {
+              0% { transform: translateX(0%); }
+              100% { transform: translateX(calc(-100% - 1.5rem)); }
+            }
+            .animate-marquee {
+              animation: marquee 20s linear infinite;
+              display: flex;
+              flex-shrink: 0;
+              gap: 1.5rem;
+            }
+            /* Pause the animation when the user hovers over the card area */
+            .group:hover .animate-marquee {
+              animation-play-state: paused;
+            }
+          `}</style>
+          
+          {/* Cards-1*/}
+          <div className="animate-marquee">
+            {LAUNDRIES.map((laundry, index) => (
+              <div 
+                key={index} 
+                className="flex-none w-[300px] md:w-[400px] h-[500px] bg-[#111111] rounded-xl flex flex-col p-6 text-white justify-end shadow-lg"
+              >
+                <div className="mt-auto">
+                  <h3 className="text-2xl font-bold mb-1 tracking-tight">{laundry.name}</h3>
+                  <p className="text-xs text-gray-400 mb-6">{laundry.location}</p>
+                  <div className="h-[1px] w-full bg-white/10 mb-4"></div>
+                  <div className="flex justify-between items-center">
+                    <p className="font-bold text-xl">
+                      {laundry.price}<span className="text-xs font-normal text-gray-400">/hr</span>
+                    </p>
+                    <button className="bg-[#fbff12] hover:bg-[#e5e90a] text-black font-bold text-sm px-6 py-2 rounded-md transition-colors active:scale-95">
+                      Check
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Cards-2 */}
+          <div className="animate-marquee" aria-hidden="true">
+            {LAUNDRIES.map((laundry, index) => (
+              <div 
+                key={`dup-${index}`} 
+                className="flex-none w-[300px] md:w-[400px] h-[500px] bg-[#111111] rounded-xl flex flex-col p-6 text-white justify-end shadow-lg"
+              >
+                <div className="mt-auto">
+                  <h3 className="text-2xl font-bold mb-1 tracking-tight">{laundry.name}</h3>
+                  <p className="text-xs text-gray-400 mb-6">{laundry.location}</p>
+                  <div className="h-[1px] w-full bg-white/10 mb-4"></div>
+                  <div className="flex justify-between items-center">
+                    <p className="font-bold text-xl">
+                      {laundry.price}<span className="text-xs font-normal text-gray-400">/hr</span>
+                    </p>
+                    <button className="bg-[#fbff12] hover:bg-[#e5e90a] text-black font-bold text-sm px-6 py-2 rounded-md transition-colors active:scale-95">
+                      Check
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+        </div>
     </div>
   );
 }
+        
