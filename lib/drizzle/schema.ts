@@ -18,9 +18,9 @@ export const laundries = pgTable.withRLS("laundries", {
     .notNull(),
 });
 
-export const turfImagesTable = pgTable.withRLS("laundry_images", {
+export const laundryImages = pgTable.withRLS("laundry_images", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  turfId: integer()
+  laundryId: integer()
     .notNull()
     .references(() => laundries.id, { onDelete: "cascade" }),
   storagePath: text().notNull(),

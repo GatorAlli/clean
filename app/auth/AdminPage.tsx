@@ -30,12 +30,7 @@ export function AdminPage() {
       images.map((file) => file?.name),
     );
 
-    submitData({
-      storeName: laundryName,
-      location,
-      about,
-      prices: pricing,
-    });
+    const imagePaths: string[] = [];
 
     for (const file of images) {
       if (!file) {
@@ -56,7 +51,16 @@ export function AdminPage() {
       }
 
       console.log("Uploaded to:", data.path);
+      imagePaths.push(data.path);
     }
+
+    await submitData({
+      storeName: laundryName,
+      location,
+      about,
+      prices: pricing,
+      images: imagePaths,
+    });
   }
 
   return (
@@ -156,7 +160,7 @@ export function AdminPage() {
                   );
                 }}
                 type="file"
-                accept="./"
+                accept="image/*"
                 className={inputStyling}
               />
               <Button

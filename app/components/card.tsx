@@ -2,10 +2,11 @@
 
 import { Label } from "@/components/ui/label";
 import { Pricing } from "@/app/auth/AdminPage";
+import { supabase } from "@/lib/supabase/browser";
+import placeholderImage from "./images/background.png";
 
 import Link from "next/link";
 import Image from "next/image";
-import placeholderImage from "./images/background.png";
 
 export default function Card({
   name,
@@ -13,13 +14,19 @@ export default function Card({
   about,
   pricing,
   url,
+  storagePath,
 }: {
   name: string;
   location: string;
   about: string;
   pricing: Pricing[];
   url: string;
+  storagePath?: string;
 }) {
+  const imageUrl = storagePath
+    ? supabase.storage.from("laundry-images").getPublicUrl(storagePath).data
+        .publicUrl
+    : null;
   return (
     <Link href={url} className="flex gap-5 border justify-between">
       <div>
@@ -35,7 +42,12 @@ export default function Card({
 
       <Label className="">{about}</Label>
 
-      <Image src={placeholderImage} width={250} height={250} alt="Image" />
+      <Image
+        src={imageUrl ?? placeholderImage}
+        width={250}
+        height={250}
+        alt="Image"
+      />
     </Link>
   );
 }
