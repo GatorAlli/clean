@@ -10,6 +10,7 @@ import {
 
 export const laundries = pgTable.withRLS("laundries", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  ownerEmail: varchar({ length: 255 }).notNull(),
   name: varchar({ length: 255 }).notNull(),
   location: text().notNull(),
   about: text(),

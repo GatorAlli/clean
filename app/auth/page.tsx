@@ -1,7 +1,12 @@
 import { generateServerClient } from "@/lib/supabase/server";
 import { AuthPageBody, ProfilePageBody } from "./PageBody";
 import { AdminPage } from "./AdminPage";
+import { drizzle } from "drizzle-orm/postgres-js";
+import { laundries } from "@/lib/drizzle/schema";
 import { createClient } from "@supabase/supabase-js";
+import postgres from "postgres";
+import { eq } from "drizzle-orm";
+import { redirect } from "next/navigation";
 
 export default async function Page() {
   // Supabase
@@ -10,7 +15,7 @@ export default async function Page() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // This selects the admin screen; protect admin data/actions with server-side authorization too.
+  // Site Admin Email Address
   const isAdmin = user?.email === "www.joybangl@gmail.com";
 
   async function saveAuthPhone(phone: string) {
@@ -57,6 +62,21 @@ export default async function Page() {
     );
 
     return { error: error?.message ?? null };
+  }
+
+  // Drizzle
+  const client = postgres(process.env.DATABASE_URL!);
+  const db = drizzle({ client });
+
+  if (user?.email) {
+    // Store Fetching
+    const [ownedStore] = await db
+      .select()
+      .from(laundries)
+      .where(eq(laundries.ownerEmail, user.email.toLowerCase()));
+    if (ownedStore) {
+      redirect(`/auth/${ownedStore.id}`);
+    }
   }
 
   return (

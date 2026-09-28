@@ -8,12 +8,14 @@ import postgres from "postgres";
 
 export async function submitData({
   storeName,
+  ownerEmail,
   location,
   about,
   prices,
   images,
 }: {
   storeName: string;
+  ownerEmail: string;
   location: string;
   about: string;
   prices: Pricing[];
@@ -25,7 +27,7 @@ export async function submitData({
 
   const [data] = await db
     .insert(laundries)
-    .values({ name: storeName, location, about, pricing: prices })
+    .values({ name: storeName, ownerEmail, location, about, pricing: prices })
     .returning({ id: laundries.id });
 
   for (const [position, storagePath] of images.entries()) {

@@ -16,6 +16,7 @@ export function AdminPage() {
   const router = useRouter();
   const inputStyling = "border-0 bg-slate-700 focus-visible:ring-0";
   const [laundryName, setLaundryName] = useState("");
+  const [ownerEmail, setOwnerEmail] = useState("");
   const [location, setLocation] = useState("");
   const [about, setAbout] = useState("");
   const [images, setImages] = useState<(File | null)[]>([null]);
@@ -56,6 +57,7 @@ export function AdminPage() {
 
     await submitData({
       storeName: laundryName,
+      ownerEmail,
       location,
       about,
       prices: pricing,
@@ -77,6 +79,14 @@ export function AdminPage() {
             className={inputStyling}
             value={laundryName}
             onChange={(event) => setLaundryName(event.target.value)}
+          />
+        </div>
+        <div>
+          <Label>Owner&apos;s Email</Label>
+          <Input
+            className={inputStyling}
+            value={ownerEmail}
+            onChange={(event) => setOwnerEmail(event.target.value)}
           />
         </div>
         <div>
