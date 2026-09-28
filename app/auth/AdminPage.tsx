@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 export type Pricing = { apparelType: string; unitPrice: number };
+type PricingDraft = { apparelType: string; unitPrice: string };
 
 export function AdminPage() {
   const router = useRouter();
@@ -20,8 +21,8 @@ export function AdminPage() {
   const [location, setLocation] = useState("");
   const [about, setAbout] = useState("");
   const [images, setImages] = useState<(File | null)[]>([null]);
-  const [pricing, setPricing] = useState<Pricing[]>([
-    { apparelType: "", unitPrice: 0 },
+  const [pricing, setPricing] = useState<PricingDraft[]>([
+    { apparelType: "", unitPrice: "" },
   ]);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -60,7 +61,10 @@ export function AdminPage() {
       ownerEmail,
       location,
       about,
-      prices: pricing,
+      prices: pricing.map(({ apparelType, unitPrice }) => ({
+        apparelType,
+        unitPrice: Number(unitPrice),
+      })),
       images: imagePaths,
     });
   }
@@ -127,10 +131,25 @@ export function AdminPage() {
                     className={inputStyling}
                   />
                   <Input
+                    type="number"
+                    min="0"
+                    step="0.01"
                     placeholder="BDT"
+                    value={e.unitPrice}
+                    onChange={(event) => {
+                      setPricing((rows) =>
+                        rows.map((row, i) =>
+                          i === index
+                            ? { ...row, unitPrice: event.target.value }
+                            : row,
+                        ),
+                      );
+                    }}
                     className="border-slate-600 focus-visible:ring-0 w-1xl"
+                    required
                   />
                   <Button
+                    type="button"
                     onClick={() => {
                       setPricing(
                         pricing.filter((e, ind) => {
@@ -148,7 +167,7 @@ export function AdminPage() {
             <Button
               type="button"
               onClick={() => {
-                setPricing(pricing.concat({ apparelType: "", unitPrice: 0 }));
+                setPricing(pricing.concat({ apparelType: "", unitPrice: "" }));
               }}
               className="text-2xl"
             >
