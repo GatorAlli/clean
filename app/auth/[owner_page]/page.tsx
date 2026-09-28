@@ -2,7 +2,7 @@ import { laundries } from "@/lib/drizzle/schema";
 import { generateServerClient } from "@/lib/supabase/server";
 import { and, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import postgres from "postgres";
 
 import PageBody from "./PageBody";
@@ -12,8 +12,12 @@ export default async function Page({
 }: {
   params: Promise<{ owner_page: string }>;
 }) {
-  const { ownerPage } = await params;
+  const { owner_page: ownerPage } = await params;
   const storeId = Number(ownerPage);
+
+  if (!Number.isSafeInteger(storeId) || storeId <= 0) {
+    notFound();
+  }
 
   const supabase = await generateServerClient();
   const {
@@ -26,18 +30,27 @@ export default async function Page({
 
   //Drizzle
   const client = postgres(process.env.DATABASE_URL!);
-  const db = drizzle({ client });
+  let store: typeof laundries.$inferSelect | undefined;
 
-  const [store] = await db
-    .select()
-    .from(laundries)
-    .where(
-      and(
-        eq(laundries.id, storeId),
-        eq(laundries.ownerEmail, user.email.toLowerCase()),
-      ),
-    )
-    .limit(1);
+  try {
+    const db = drizzle({ client });
+    [store] = await db
+      .select()
+      .from(laundries)
+      .where(
+        and(
+          eq(laundries.id, storeId),
+          eq(laundries.ownerEmail, user.email.toLowerCase()),
+        ),
+      )
+      .limit(1);
+  } finally {
+    await client.end();
+  }
 
-  return <PageBody />;
+  if (!store) {
+    notFound();
+  }
+
+  return <PageBody store={store} />;
 }
