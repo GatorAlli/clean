@@ -1,10 +1,11 @@
-import { Label } from "@/components/ui/label";
 import { laundries } from "@/lib/drizzle/schema";
 import { generateServerClient } from "@/lib/supabase/server";
 import { and, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { redirect } from "next/navigation";
 import postgres from "postgres";
+
+import PageBody from "./PageBody";
 
 export default async function Page({
   params,
@@ -38,23 +39,5 @@ export default async function Page({
     )
     .limit(1);
 
-  return (
-    <div>
-      <Label>{store.name}</Label>
-      <Label>{store.location}</Label>
-      <Label>{store.about}</Label>
-
-      <Label>Prices</Label>
-
-      <ul>
-        {store.pricing.map((item) => (
-          <li key={item.apparelType}>
-            <Label>
-              {item.apparelType}: {item.unitPrice}
-            </Label>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+  return <PageBody />;
 }
