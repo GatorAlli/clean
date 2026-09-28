@@ -80,12 +80,12 @@ export function AuthPageBody({
     <div className="min-h-screen bg-white text-black flex flex-col font-sans">
       {/* Top Navbar */}
       <header className="sticky top-0 z-50 w-full px-6 md:px-12 py-5 flex items-center justify-between bg-white/70 backdrop-blur-lg border-b border-gray-200">
-        <Link
-          href="/"
-          className="text-2xl text-black font-bold hover:text-[#ff206e] transition-all duration-500 font-bricolage"
-        >
-          CLEAN
-        </Link>
+       <Link
+        href="/"
+        className="text-2xl text-black font-bold hover:text-[#ff206e] transition-all duration-500 font-bricolage"
+      >
+        clean
+      </Link>
 
         <div className="flex items-center gap-4">
           <button
