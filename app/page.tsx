@@ -165,7 +165,7 @@ export default function Home() {
         </div>
 
         <div className="relative z-10 mx-5 md:mx-20 my-[-20] md:my-[-150]">
-          <span className="inline-block mx-[-5] md:mx-[-20] w-3.5 h-3 md:w-13 md:h-11 rounded-full bg-pink-500 align-baseline" />
+          <span className="inline-block w-full h-0.5  rounded-full bg-pink-500 align-baseline " />
           <p className="text-white font-sans font-medium text-[15px] md:text-2xl my-0 md:my-[-20]">
             Find laundries nearby, compare services, and <br />
             get your clothes cleaned without the hassle.
