@@ -1,0 +1,1 @@
+ALTER TABLE "laundry_images" RENAME COLUMN "turfId" TO "laundryId";

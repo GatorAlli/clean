@@ -10,6 +10,7 @@ import {
 
 export const laundries = pgTable.withRLS("laundries", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  ownerEmail: varchar({ length: 255 }).notNull(),
   name: varchar({ length: 255 }).notNull(),
   location: text().notNull(),
   about: text(),
@@ -18,9 +19,9 @@ export const laundries = pgTable.withRLS("laundries", {
     .notNull(),
 });
 
-export const turfImagesTable = pgTable.withRLS("laundry_images", {
+export const laundryImages = pgTable.withRLS("laundry_images", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  turfId: integer()
+  laundryId: integer()
     .notNull()
     .references(() => laundries.id, { onDelete: "cascade" }),
   storagePath: text().notNull(),

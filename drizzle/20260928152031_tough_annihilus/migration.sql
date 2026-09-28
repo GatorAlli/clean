@@ -1,0 +1,1 @@
+ALTER TABLE "laundries" ADD COLUMN "ownerEmail" varchar(255) NOT NULL;

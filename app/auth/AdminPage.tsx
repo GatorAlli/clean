@@ -16,6 +16,7 @@ export function AdminPage() {
   const router = useRouter();
   const inputStyling = "border-0 bg-slate-700 focus-visible:ring-0";
   const [laundryName, setLaundryName] = useState("");
+  const [ownerEmail, setOwnerEmail] = useState("");
   const [location, setLocation] = useState("");
   const [about, setAbout] = useState("");
   const [images, setImages] = useState<(File | null)[]>([null]);
@@ -30,12 +31,7 @@ export function AdminPage() {
       images.map((file) => file?.name),
     );
 
-    submitData({
-      storeName: laundryName,
-      location,
-      about,
-      prices: pricing,
-    });
+    const imagePaths: string[] = [];
 
     for (const file of images) {
       if (!file) {
@@ -56,7 +52,17 @@ export function AdminPage() {
       }
 
       console.log("Uploaded to:", data.path);
+      imagePaths.push(data.path);
     }
+
+    await submitData({
+      storeName: laundryName,
+      ownerEmail,
+      location,
+      about,
+      prices: pricing,
+      images: imagePaths,
+    });
   }
 
   return (
@@ -73,6 +79,14 @@ export function AdminPage() {
             className={inputStyling}
             value={laundryName}
             onChange={(event) => setLaundryName(event.target.value)}
+          />
+        </div>
+        <div>
+          <Label>Owner&apos;s Email</Label>
+          <Input
+            className={inputStyling}
+            value={ownerEmail}
+            onChange={(event) => setOwnerEmail(event.target.value)}
           />
         </div>
         <div>
@@ -156,7 +170,7 @@ export function AdminPage() {
                   );
                 }}
                 type="file"
-                accept="./"
+                accept="image/*"
                 className={inputStyling}
               />
               <Button
