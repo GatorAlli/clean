@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { updateStore } from "./actions";
 import Link from "next/link";
+import CleanNavbar from "@/app/components/CleanNavbar";
 
 type storeData = {
   id: number;
@@ -44,54 +45,36 @@ export default function PageBody({ store }: { store: storeData }) {
 
   return (
     <div className="min-h-screen bg-white text-black pb-24">
-      
       {/* Light Glassy Navbar */}
-      <header className="sticky top-0 z-50 w-full px-6 md:px-12 py-5 flex items-center justify-between bg-white/80 backdrop-blur-lg border-b border-gray-100 shadow-sm">
-        <Link
-          href="/"
-          className="text-2xl text-black font-bold hover:text-[#ff206e] transition-all duration-500 font-bricolage tracking-tight"
-        >
-          clean
-        </Link>
-        
-        <div className="flex items-center gap-4 md:gap-6">
-          <button 
-            type="button"
-            onClick={() => router.back()}
-            className="border border-gray-200 text-black px-4 py-2 rounded-md text-sm font-bold hover:bg-gray-50 transition hidden sm:block"
-            style={{ fontFamily: "'Source Sans 3', sans-serif" }}
-          >
-            ← Back
-          </button>
-          <div className="hidden md:block relative cursor-default pb-1">
-            <span className="text-black font-bold text-sm" style={{ fontFamily: "'Source Sans 3', sans-serif" }}>Store Profile</span>
-            <span className="absolute left-0 bottom-0 w-full h-[3px] bg-[#ff206e] rounded-full"></span>
-          </div>
-        </div>
-      </header>
+      <CleanNavbar />
 
       {/* Main Content Area */}
       <main className="w-full max-w-7xl mx-auto px-6 md:px-12 pt-12">
-        
         {/* Page Header */}
         <div className="mb-10">
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-black mb-2 font-bricolage">
             Store Management<span className="text-[#ff206e]"></span>
           </h1>
-          <p className="text-gray-500 text-lg font-medium" style={{ fontFamily: "'Source Sans 3', sans-serif" }}>
+          <p
+            className="text-gray-500 text-lg font-medium"
+            style={{ fontFamily: "'Source Sans 3', sans-serif" }}
+          >
             Update your laundry details and service pricing.
           </p>
         </div>
 
         {/* 2-Column Layout */}
         <div className="flex flex-col lg:flex-row gap-8 items-start">
-          
           {/* LEFT COLUMN: General Information */}
           <div className="flex-1 w-full bg-white border border-gray-200 rounded-2xl p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] space-y-8">
-            <h2 className="text-2xl font-bold text-black font-bricolage border-b border-gray-100 pb-3">General Info</h2>
-            
+            <h2 className="text-2xl font-bold text-black font-bricolage border-b border-gray-100 pb-3">
+              General Info
+            </h2>
+
             <div className="space-y-2">
-              <Label className="text-base font-bold font-bricolage">Store Name</Label>
+              <Label className="text-base font-bold font-bricolage">
+                Store Name
+              </Label>
               <Input
                 value={name}
                 onChange={(event) => setName(event.target.value)}
@@ -101,7 +84,9 @@ export default function PageBody({ store }: { store: storeData }) {
             </div>
 
             <div className="space-y-2">
-              <Label className="text-base font-bold font-bricolage">Store Location</Label>
+              <Label className="text-base font-bold font-bricolage">
+                Store Location
+              </Label>
               <Input
                 value={location}
                 onChange={(event) => setLocation(event.target.value)}
@@ -111,7 +96,9 @@ export default function PageBody({ store }: { store: storeData }) {
             </div>
 
             <div className="space-y-2">
-              <Label className="text-base font-bold font-bricolage">About (Description)</Label>
+              <Label className="text-base font-bold font-bricolage">
+                About (Description)
+              </Label>
               <textarea
                 value={about}
                 onChange={(event) => setAbout(event.target.value)}
@@ -124,17 +111,28 @@ export default function PageBody({ store }: { store: storeData }) {
 
           {/* RIGHT COLUMN: Pricing & Actions */}
           <div className="w-full lg:w-[450px] shrink-0 flex flex-col gap-8">
-            
             {/* Pricing Section */}
             <div className="bg-white border border-gray-200 rounded-2xl p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] space-y-6">
-              <h2 className="text-2xl font-bold text-black font-bricolage border-b border-gray-100 pb-3">Service Pricing</h2>
-              
+              <h2 className="text-2xl font-bold text-black font-bricolage border-b border-gray-100 pb-3">
+                Service Pricing
+              </h2>
+
               <div className="flex flex-col gap-4">
                 {pricing.map((item, id) => (
-                  <div key={id} className="bg-gray-50 border border-gray-200 p-4 rounded-xl flex items-center justify-between transition-colors hover:border-gray-300">
-                    <Label className="font-bricolage text-lg font-bold">{item.apparelType}</Label>
+                  <div
+                    key={id}
+                    className="bg-gray-50 border border-gray-200 p-4 rounded-xl flex items-center justify-between transition-colors hover:border-gray-300"
+                  >
+                    <Label className="font-bricolage text-lg font-bold">
+                      {item.apparelType}
+                    </Label>
                     <div className="flex items-center gap-2">
-                      <span className="text-gray-500 font-medium" style={{ fontFamily: "'Source Sans 3', sans-serif" }}>৳</span>
+                      <span
+                        className="text-gray-500 font-medium"
+                        style={{ fontFamily: "'Source Sans 3', sans-serif" }}
+                      >
+                        ৳
+                      </span>
                       <Input
                         type="number"
                         min="0"
@@ -144,7 +142,10 @@ export default function PageBody({ store }: { store: storeData }) {
                           setPricing((rows) =>
                             rows.map((row, index) =>
                               index === id
-                                ? { ...row, unitPrice: Number(event.target.value) }
+                                ? {
+                                    ...row,
+                                    unitPrice: Number(event.target.value),
+                                  }
                                 : row,
                             ),
                           )
@@ -189,15 +190,15 @@ export default function PageBody({ store }: { store: storeData }) {
                   }
                 }}
                 className={`w-full h-14 rounded-xl font-bold text-lg transition-all ${
-                  isUnchanged 
-                    ? "bg-gray-200 text-gray-400 cursor-not-allowed" 
+                  isUnchanged
+                    ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                     : "bg-[#ff206e] hover:bg-[#d41b5b] text-white shadow-md"
                 }`}
                 style={{ fontFamily: "'Source Sans 3', sans-serif" }}
               >
                 {saving ? "Saving..." : "Save Changes"}
               </Button>
-              
+
               <Button
                 onClick={() => {
                   router.refresh();
@@ -213,8 +214,8 @@ export default function PageBody({ store }: { store: storeData }) {
 
               {/* Status Message */}
               {message && (
-                <p 
-                  role="status" 
+                <p
+                  role="status"
                   className={`text-center text-sm font-medium mt-2 ${message.includes("Could not") ? "text-red-500" : "text-green-600"}`}
                   style={{ fontFamily: "'Source Sans 3', sans-serif" }}
                 >
@@ -222,7 +223,6 @@ export default function PageBody({ store }: { store: storeData }) {
                 </p>
               )}
             </div>
-
           </div>
         </div>
       </main>
