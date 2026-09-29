@@ -4,8 +4,15 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import { asc, inArray } from "drizzle-orm";
 import { laundries, laundryImages } from "@/lib/drizzle/schema";
 import CleanNavbar from "../components/CleanNavbar";
+import { store } from "next/dist/build/output/store";
 
-export default async function PageBody() {
+type PageProps = {
+  searchParams: Promise<{ q?: string }>;
+};
+
+export default async function PageBody({ searchParams }: PageProps) {
+  const { q = "" } = await searchParams;
+
   const client = postgres(process.env.DATABASE_URL!);
   const db = drizzle({ client });
   const stores = await db.select().from(laundries);
@@ -29,23 +36,28 @@ export default async function PageBody() {
       firstImageByLaundry.set(image.laundryId, image.storagePath);
     }
   }
-  // ------------------------------------
 
-  const displayStores = [...stores];
+  const normalisedQuery = q.trim().toLowerCase();
+
+  const displayStores = stores.filter((e) => {
+    const nameMatches = e.name.toLowerCase().includes(normalisedQuery);
+    const locationMatches = e.location.toLowerCase().includes(normalisedQuery);
+    return !normalisedQuery || nameMatches || locationMatches;
+  });
 
   return (
     <div className="min-h-screen bg-white text-black font-sans pb-24">
       <CleanNavbar />
 
       <div className="w-full max-w-7xl mx-auto px-6 md:px-12 pt-10">
-        {/* Page Title with exact logo font weight */}
+        {/* Page Title */}
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-10 text-black font-bricolage">
           Laundry services
         </h1>
 
         {/* CSS GRID */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {displayStores.map((e: any, index: number) => {
+          {displayStores.map((e, index: number) => {
             const storagePath = firstImageByLaundry.get(e.id) ?? "";
 
             return (
@@ -54,7 +66,7 @@ export default async function PageBody() {
                 name={e.name}
                 location={e.location}
                 about={e.about ?? ""}
-                pricing={e.pricing as any}
+                pricing={e.pricing}
                 url={`/explore/${e.id}`}
                 storagePath={storagePath}
               />

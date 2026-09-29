@@ -49,7 +49,10 @@ export default function CleanNavbar() {
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search"
             />
-            <Button className="bg-[#fbff12] rounded-2xl border border-gray-200 shadow-md">
+            <Button
+              type="submit"
+              className="bg-[#fbff12] rounded-2xl border border-gray-200 shadow-md"
+            >
               <Image
                 className="hover:cursor-pointer "
                 alt="Search Icon"
