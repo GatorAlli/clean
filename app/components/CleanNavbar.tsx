@@ -3,20 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
-
-const CITIES = [
-  "All Bangladesh",
-  "Dhaka",
-  "Chattogram",
-  "Sylhet",
-  "Rajshahi",
-  "Khulna",
-  "Barishal",
-  "Rangpur",
-  "Mymensingh",
-  "Cumilla",
-  "Cox's Bazar",
-];
+import Image from "next/image";
+import searchIcon from "@/app/components/images/searchIcon.png";
 
 export default function CleanNavbar() {
   const router = useRouter();
@@ -45,21 +33,31 @@ export default function CleanNavbar() {
           clean
         </button>
 
-        <div className="flex rounded-md border border-white/10 bg-[#ffffff] focus-within:ring-1 focus-within:ring-white/20 w-40 sm:w-60 md:w-90 relative">
+        <div>
           <form
+            className="flex rounded-2xl border border-white/10 bg-[#ffffff] focus-within:ring-1 focus-within:ring-white/20 w-40 sm:w-60 md:w-90 relative"
             onSubmit={(event) => {
               event.preventDefault();
               search();
             }}
           >
             <input
-              className="flex-1 min-w-0 bg-transparent px-3 py-2 text-sm text-black placeholder:text-black/60 outline-none rounded-l-md"
+              className="flex-1 min-w-0 bg-transparent px-3 py-2 text-sm text-black placeholder:text-black/60 outline-none"
               style={{ fontFamily: "'Source Sans 3', sans-serif" }}
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search"
             />
+            <Button className="bg-[#fbff12] rounded-2xl border border-gray-200 shadow-md">
+              <Image
+                className="hover:cursor-pointer "
+                alt="Search Icon"
+                width={20}
+                height={20}
+                src={searchIcon}
+              />
+            </Button>
           </form>
         </div>
 
