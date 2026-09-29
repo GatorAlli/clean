@@ -19,7 +19,7 @@ export default function PageBody({
   about: string;
   images: string[];
 }) {
-  const router = useRouter();
+  const router = useRouter(); // This enables the working Back button
 
   // State to hold the quantities of each apparel type
   const [quantities, setQuantities] = useState<Record<string, number>>({});
@@ -48,16 +48,15 @@ export default function PageBody({
   
   const totalPrice = prices ? prices.reduce((acc, item) => {
     const qty = quantities[item.apparelType] || 0;
-    // Remove any commas from the price string before converting to number (e.g., "2,000" -> 2000)
     const numericPrice = parseFloat(item.unitPrice.toString().replace(/,/g, "")) || 0;
     return acc + (qty * numericPrice);
   }, 0) : 0;
 
   return (
-    <div className="min-h-screen bg-white text-black font-sans pb-24">
+    <div className="min-h-screen bg-white text-black pb-24">
       
-      {/* Light Glassy Navbar */}
-      <header className="sticky top-0 z-50 w-full px-6 md:px-12 py-5 flex items-center justify-between bg-white/70 backdrop-blur-lg border-b border-gray-200">
+      {/* 1. TOP NAVBAR (Glassy, with Links and Back Button) */}
+      <header className="sticky top-0 z-50 w-full px-6 md:px-12 py-5 flex items-center justify-between bg-white/80 backdrop-blur-lg border-b border-gray-100">
         <Link
           href="/"
           className="text-2xl text-black font-bold hover:text-[#ff206e] transition-all duration-500 font-bricolage tracking-tight"
@@ -69,46 +68,55 @@ export default function PageBody({
           <button 
             type="button"
             onClick={() => router.back()}
-            className="border border-gray-300 text-black px-4 py-2 rounded-md text-sm font-bold hover:bg-gray-100 transition hidden sm:block"
+            className="border border-gray-200 text-black px-4 py-2 rounded-md text-sm font-bold hover:bg-gray-50 transition hidden sm:block font-sans"
           >
             ← Back
           </button>
           <Link 
             href="/orders"
-            className="text-black font-bold text-sm hover:text-[#ff206e] transition-colors"
+            className="text-black font-bold text-sm hover:text-[#ff206e] transition-colors font-sans"
           >
             Current Orders
           </Link>
         </div>
       </header>
 
-      {/* Main Layout: Left Content & Right Sticky Sidebar */}
-      <main className="w-full max-w-7xl mx-auto px-6 md:px-12 pt-12 flex flex-col lg:flex-row gap-12 items-start">
+      {/* 2. MAIN LAYOUT: Left Content & Right Sticky Sidebar */}
+      <main className="w-full max-w-7xl mx-auto px-6 md:px-12 pt-10 flex flex-col lg:flex-row gap-10 items-start">
         
         {/* LEFT COLUMN: Info, Services, Gallery */}
         <div className="flex-1 w-full">
           
-          {/* Header Section (Cleaned up, no dots/emojis) */}
-          <div className="mb-12">
-            <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-black mb-4 font-bricolage">
+          {/* Header Section (No dots or emojis) */}
+          <div className="mb-10">
+            <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-black font-bricolage">
               {name}
             </h1>
-            <p className="text-gray-500 text-base font-medium">
-              {location}
-            </p>
           </div>
 
-          {/* About Section (No outer box) */}
+          {/* Location Section */}
+          {location && (
+            <div className="mb-10">
+              <h2 className="text-2xl font-bold text-black mb-3 font-bricolage">Location</h2>
+              <p className="text-gray-600 leading-relaxed text-base" style={{ fontFamily: "'Source Sans 3', sans-serif" }}>
+                {location}
+              </p>
+            </div>
+          )}
+
+          {/* About Section (Outer box removed) */}
           {about && (
-            <div className="mb-12">
+            <div className="mb-10">
               <h2 className="text-2xl font-bold text-black mb-3 font-bricolage">About</h2>
-              <p className="text-gray-600 leading-relaxed text-base">{about}</p>
+              <p className="text-gray-600 leading-relaxed text-base" style={{ fontFamily: "'Source Sans 3', sans-serif" }}>
+                {about}
+              </p>
             </div>
           )}
 
           {/* Services & Pricing with Counters */}
-          <div className="mb-12">
-            <div className="mb-6">
+          <div className="mb-10">
+            <div className="mb-5">
               <h2 className="text-2xl font-bold text-black font-bricolage">Services & Pricing</h2>
             </div>
             
@@ -127,7 +135,9 @@ export default function PageBody({
                     >
                       <div>
                         <h3 className="text-black font-bold text-lg font-bricolage">{e.apparelType}</h3>
-                        <p className="text-gray-500 text-sm">৳{e.unitPrice} per piece</p>
+                        <p className="text-gray-500 text-sm mt-1" style={{ fontFamily: "'Source Sans 3', sans-serif" }}>
+                          <span className="font-semibold text-black" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>৳{e.unitPrice}</span> per piece
+                        </p>
                       </div>
                       
                       {/* Counter Control */}
@@ -144,7 +154,7 @@ export default function PageBody({
                           -
                         </button>
                         
-                        <span className="font-bold text-black w-5 text-center">
+                        <span className="font-bold text-black w-5 text-center text-lg" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                           {qty}
                         </span>
                         
@@ -160,13 +170,13 @@ export default function PageBody({
                 })}
               </div>
             ) : (
-              <p className="text-gray-500 italic">No pricing information available.</p>
+              <p className="text-gray-500 italic" style={{ fontFamily: "'Source Sans 3', sans-serif" }}>No pricing information available.</p>
             )}
           </div>
 
           {/* Gallery */}
-          <div className="mb-12">
-            <h2 className="text-2xl font-bold text-black mb-6 font-bricolage">Gallery</h2>
+          <div className="mb-10">
+            <h2 className="text-2xl font-bold text-black mb-5 font-bricolage">Gallery</h2>
             {images.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {images.map((imageUrl, index) => (
@@ -181,19 +191,19 @@ export default function PageBody({
                 ))}
               </div>
             ) : (
-              <p className="text-gray-500 italic">No photos have been added for this store yet.</p>
+              <p className="text-gray-500 italic" style={{ fontFamily: "'Source Sans 3', sans-serif" }}>No photos have been added for this store yet.</p>
             )}
           </div>
 
         </div>
 
-        {/* RIGHT COLUMN: Sticky "Your selection" Box */}
+        {/* 3. RIGHT COLUMN: Sticky "Your selection" Box */}
         <div className="w-full lg:w-[380px] lg:sticky lg:top-28 shrink-0 mb-12">
           <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
             <h2 className="text-2xl font-bold text-black font-bricolage mb-6">Your selection</h2>
 
             {/* Store Info */}
-            <div className="space-y-4 border-b border-gray-100 pb-5 mb-5">
+            <div className="space-y-4 border-b border-gray-100 pb-5 mb-5" style={{ fontFamily: "'Source Sans 3', sans-serif" }}>
               <div className="flex justify-between items-start gap-4">
                 <span className="text-gray-500 text-sm">Laundry</span>
                 <span className="text-black font-medium text-sm text-right">{name}</span>
@@ -206,14 +216,14 @@ export default function PageBody({
 
             {/* Dynamic Itemized List */}
             {totalPieces > 0 && prices && (
-              <div className="space-y-3 border-b border-gray-100 pb-5 mb-5">
+              <div className="space-y-3 border-b border-gray-100 pb-5 mb-5" style={{ fontFamily: "'Source Sans 3', sans-serif" }}>
                 {prices.map((item) => {
                   const qty = quantities[item.apparelType] || 0;
                   if (qty === 0) return null;
                   return (
                     <div key={item.apparelType} className="flex justify-between items-center text-sm">
                       <span className="text-gray-500">{item.apparelType}</span>
-                      <span className="text-black font-medium">
+                      <span className="text-black font-semibold" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                         {qty} × ৳{item.unitPrice}
                       </span>
                     </div>
@@ -224,20 +234,24 @@ export default function PageBody({
 
             {/* Total Section */}
             <div className="flex justify-between items-end mb-6">
-              <span className="text-gray-500 text-sm">{totalPieces} pieces</span>
-              <span className="text-4xl font-extrabold tracking-tight text-black font-bricolage">
-                ৳{totalPrice.toLocaleString()}
+              <span className="text-gray-500 text-sm" style={{ fontFamily: "'Source Sans 3', sans-serif" }}>
+                <span className="font-semibold text-black text-base" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>{totalPieces}</span> pieces
+              </span>
+              <span className="text-4xl font-extrabold tracking-tight text-black font-bricolage flex items-center gap-1">
+                <span className="text-2xl text-black">৳</span>
+                <span style={{ fontFamily: "'IBM Plex Mono', monospace" }}>{totalPrice.toLocaleString()}</span>
               </span>
             </div>
 
             {/* Continue Button */}
             <button 
               disabled={totalPieces === 0}
-              className={`w-full py-4 rounded-xl font-bold text-center transition-colors ${
+              className={`w-full py-4 rounded-xl font-bold text-center transition-colors text-lg ${
                 totalPieces > 0 
-                  ? 'bg-[#ff206e] text-white hover:bg-[#d41b5b]' 
+                  ? 'bg-[#ff206e] text-white hover:bg-[#d41b5b] shadow-md' 
                   : 'bg-gray-100 text-gray-400 cursor-not-allowed'
               }`}
+              style={{ fontFamily: "'Source Sans 3', sans-serif" }}
             >
               Continue
             </button>

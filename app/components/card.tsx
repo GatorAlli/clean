@@ -46,21 +46,41 @@ export default function Card({
 
       {/* Card Details (Bottom Aligned) */}
       <div className="relative z-20 mt-auto p-5 flex flex-col">
-        {/* Exact logo font classes applied here */}
+        
+        {/* Name with Bricolage */}
         <h3 className="text-3xl font-bold tracking-tight text-white mb-1 font-bricolage">
           {name}
         </h3>
-        <p className="text-xs text-gray-400 mb-5">{location}</p>
+        
+        {/* Location with Source Sans 3 */}
+        <p 
+          className="text-sm font-medium text-gray-400 mb-5" 
+          style={{ fontFamily: "'Source Sans 3', sans-serif" }}
+        >
+          {location}
+        </p>
 
         {/* Horizontal Divider Line */}
         <div className="h-[1px] w-full bg-white/10 mb-4"></div>
 
-        {/* Pricing */}
+        {/* Pricing with IBM Plex Mono for numbers and Source Sans 3 for text */}
         <div className="flex justify-between items-center">
-          <p className="font-bold text-xl text-white">
-            {displayPrice} <span className="text-[10px] font-normal text-gray-400">/item</span>
+          <p className="flex items-baseline gap-1">
+            <span 
+              className="font-semibold text-xl text-white" 
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              {displayPrice}
+            </span>
+            <span 
+              className="text-xs text-gray-400" 
+              style={{ fontFamily: "'Source Sans 3', sans-serif" }}
+            >
+              /item
+            </span>
           </p>
         </div>
+        
       </div>
     </Link>
   );
