@@ -22,8 +22,8 @@ export default function CleanNavbar({ isLoggedIn }: { isLoggedIn: boolean }) {
   }
 
   return (
-    <>
-      <header className=" fixed  z-50 w-full px-6 md:px-12 py-5 flex items-center justify-between bg-[#000000]/50 backdrop-blur-[5px] border border-[#4242423f]">
+    <div className="h-20 shrink-0">
+      <header className="fixed inset-x-0 top-0 z-50 h-20 w-full px-6 md:px-12 py-5 flex items-center justify-between bg-[#000000]/50 backdrop-blur-[5px] border border-[#4242423f]">
         <button
           onClick={() => {
             redirect("/");
@@ -116,7 +116,7 @@ export default function CleanNavbar({ isLoggedIn }: { isLoggedIn: boolean }) {
       </header>
 
       {menuOpen && (
-        <div className="fixed top-[72px] left-0 right-0 z-40 md:hidden flex flex-col items-center gap-4 bg-black/95 backdrop-blur-md py-6">
+        <div className="fixed top-20 left-0 right-0 z-40 md:hidden flex flex-col items-center gap-4 bg-black/95 backdrop-blur-md py-6">
           <button
             className="text-white w-full font-bold text-center py-2 hover:text-[#ff206e]"
             onClick={() => router.push("/explore")}
@@ -145,6 +145,6 @@ export default function CleanNavbar({ isLoggedIn }: { isLoggedIn: boolean }) {
           )}
         </div>
       )}
-    </>
+    </div>
   );
 }
