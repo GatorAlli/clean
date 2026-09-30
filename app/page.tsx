@@ -54,7 +54,7 @@ export default function Home() {
             CLEAN CLOTHES <br />
             START HERE<span className="text-[#ff206e]">.</span>
           </h1>
-          <div className="h-[2px] w-full max-w-md bg-[#ff206e] mb-8"></div>
+          <div className="h-[2px] w-full max-w-md bg-[#white] mb-8"></div>
           <p
             className="text-gray-300 font-medium text-lg md:text-2xl max-w-2xl leading-snug"
             style={{ fontFamily: "'Source Sans 3', sans-serif" }}

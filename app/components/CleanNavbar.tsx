@@ -23,12 +23,12 @@ export default function CleanNavbar({ isLoggedIn }: { isLoggedIn: boolean }) {
 
   return (
     <>
-      <header className="relative z-50 w-full px-6 md:px-12 py-5 flex items-center justify-between bg-[#000000]/50 backdrop-blur-[5px] border border-[#4242423f]">
+      <header className=" fixed  z-50 w-full px-6 md:px-12 py-5 flex items-center justify-between bg-[#000000]/50 backdrop-blur-[5px] border border-[#4242423f]">
         <button
           onClick={() => {
             redirect("/");
           }}
-          className="text-2xl text-[#ff206e] font-bold transition-all duration-500 font-bricolage tracking-tight"
+          className="text-2xl text-[#ffffff] hover:text-[#ff206e] font-bold transition-all duration-500 font-bricolage tracking-tight"
         >
           clean
         </button>
@@ -65,7 +65,7 @@ export default function CleanNavbar({ isLoggedIn }: { isLoggedIn: boolean }) {
         </div>
         <nav className="hidden md:flex items-center gap-5">
           <Button
-            className="text-[#ff206e] text-md font-bold relative group bg-transparent hover:bg-transparent"
+            className="text-[#ffffff] text-md font-bold relative group bg-transparent hover:bg-transparent"
             onClick={() => router.push("/explore")}
             style={{ fontFamily: "'Source Sans 3', sans-serif" }}
           >
@@ -76,18 +76,26 @@ export default function CleanNavbar({ isLoggedIn }: { isLoggedIn: boolean }) {
           {isLoggedIn ? (
             <div>
               <Button
-                className="text-[#ff206e] text-md font-bold relative group bg-transparent hover:bg-transparent"
+                className="text-[#ffffff] text-md font-bold relative group bg-transparent hover:bg-transparent"
                 onClick={() => router.push("/auth")}
                 style={{ fontFamily: "'Source Sans 3', sans-serif" }}
               >
                 Profile
                 <span className="absolute left-0 bottom-0 w-0 h-[3px] bg-[#ff206e] transition-all duration-500 group-hover:w-full rounded-full"></span>
               </Button>
+              <Button
+                className="text-[#ffffff] text-md font-bold relative group bg-transparent hover:bg-transparent"
+                onClick={() => router.push("/auth")}
+                style={{ fontFamily: "'Source Sans 3', sans-serif" }}
+              >
+                Booking
+                <span className="absolute left-0 bottom-0 w-0 h-[3px] bg-[#ff206e] transition-all duration-500 group-hover:w-full rounded-full"></span>
+              </Button>
             </div>
           ) : (
             <div>
               <Button
-                className="text-[#ff206e] text-md font-bold relative group bg-transparent hover:bg-transparent"
+                className="text-[#ffffff] text-md font-bold relative group bg-transparent hover:bg-transparent"
                 onClick={() => router.push("/auth")}
                 style={{ fontFamily: "'Source Sans 3', sans-serif" }}
               >
@@ -99,7 +107,7 @@ export default function CleanNavbar({ isLoggedIn }: { isLoggedIn: boolean }) {
         </nav>
 
         <button
-          className="md:hidden text-white text-2xl px-2"
+          className="relative md:hidden text-white text-2xl px-2"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
@@ -108,7 +116,7 @@ export default function CleanNavbar({ isLoggedIn }: { isLoggedIn: boolean }) {
       </header>
 
       {menuOpen && (
-        <div className="md:hidden flex flex-col items-center gap-6 bg-[#111111]/90 backdrop-blur-md border-b border-white/10 py-6 absolute top-[76px] left-0 w-full z-40">
+        <div className="fixed top-[72px] left-0 right-0 z-40 md:hidden flex flex-col items-center gap-4 bg-black/95 backdrop-blur-md py-6">
           <button
             className="text-white w-full font-bold text-center py-2 hover:text-[#ff206e]"
             onClick={() => router.push("/explore")}
