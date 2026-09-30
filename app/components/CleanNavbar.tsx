@@ -107,7 +107,7 @@ export default function CleanNavbar({ isLoggedIn }: { isLoggedIn: boolean }) {
         </nav>
 
         <button
-          className="md:hidden text-white text-2xl px-2"
+          className="relative md:hidden text-white text-2xl px-2"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
@@ -116,7 +116,7 @@ export default function CleanNavbar({ isLoggedIn }: { isLoggedIn: boolean }) {
       </header>
 
       {menuOpen && (
-        <div className="md:hidden flex flex-col items-center gap-6 bg-[#111111]/90 backdrop-blur-md border-b border-white/10 py-6 absolute top-[76px] left-0 w-full z-40">
+        <div className="fixed top-[72px] left-0 right-0 z-40 md:hidden flex flex-col items-center gap-4 bg-black/95 backdrop-blur-md py-6">
           <button
             className="text-white w-full font-bold text-center py-2 hover:text-[#ff206e]"
             onClick={() => router.push("/explore")}
