@@ -52,5 +52,5 @@ export default async function Page({
     notFound();
   }
 
-  return <PageBody store={store} />;
+  return <PageBody store={store} isLoggedIn={Boolean(user)} />;
 }

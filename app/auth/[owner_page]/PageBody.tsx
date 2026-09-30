@@ -22,7 +22,7 @@ type storeData = {
   }[];
 };
 
-export default function PageBody({ store }: { store: storeData }) {
+export default function PageBody({ store, isLoggedIn }: { store: storeData; isLoggedIn: boolean }) {
   const router = useRouter();
 
   const [name, setName] = useState(store.name);
@@ -46,7 +46,7 @@ export default function PageBody({ store }: { store: storeData }) {
   return (
     <div className="min-h-screen bg-white text-black pb-24">
       {/* Light Glassy Navbar */}
-      <CleanNavbar />
+      <CleanNavbar isLoggedIn={isLoggedIn} />
 
       {/* Main Content Area */}
       <main className="w-full max-w-7xl mx-auto px-6 md:px-12 pt-12">

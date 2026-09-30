@@ -1,33 +1,39 @@
 import Card from "../components/card";
-import postgres from "postgres";
-import { drizzle } from "drizzle-orm/postgres-js";
+import { db } from "@/lib/drizzle/db";
 import { asc, inArray } from "drizzle-orm";
 import { laundries, laundryImages } from "@/lib/drizzle/schema";
 import CleanNavbar from "../components/CleanNavbar";
-import { store } from "next/dist/build/output/store";
+import { generateServerClient } from "@/lib/supabase/server";
 
 type PageProps = {
   searchParams: Promise<{ q?: string }>;
 };
-
 export default async function PageBody({ searchParams }: PageProps) {
   const { q = "" } = await searchParams;
+  const userRequest = generateServerClient().then((supabase) =>
+    supabase.auth.getUser(),
+  );
+  const storesRequest = (async () => {
+    const stores = await db.select().from(laundries);
+    const images = stores.length
+      ? await db
+          .select()
+          .from(laundryImages)
+          .where(
+            inArray(
+              laundryImages.laundryId,
+              stores.map((e) => e.id),
+            ),
+          )
+          .orderBy(asc(laundryImages.position))
+      : [];
+    return { stores, images };
+  })();
 
-  const client = postgres(process.env.DATABASE_URL!);
-  const db = drizzle({ client });
-  const stores = await db.select().from(laundries);
-  const images = stores.length
-    ? await db
-        .select()
-        .from(laundryImages)
-        .where(
-          inArray(
-            laundryImages.laundryId,
-            stores.map((e) => e.id),
-          ),
-        )
-        .orderBy(asc(laundryImages.position))
-    : [];
+  const [
+    { data: { user } },
+    { stores, images },
+  ] = await Promise.all([userRequest, storesRequest]);
 
   const firstImageByLaundry = new Map<number, string>();
 
@@ -47,7 +53,7 @@ export default async function PageBody({ searchParams }: PageProps) {
 
   return (
     <div className="min-h-screen bg-white text-black font-sans pb-24">
-      <CleanNavbar />
+      <CleanNavbar isLoggedIn={Boolean(user)} />
 
       <div className="w-full max-w-7xl mx-auto px-6 md:px-12 pt-10">
         {/* Page Title */}

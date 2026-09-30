@@ -1,10 +1,23 @@
 "use client";
 
+import { supabase } from "@/lib/supabase/browser";
 import CleanNavbar from "@/app/components/CleanNavbar";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { User } from "@supabase/supabase-js";
 
 export default function Home() {
-  const router = useRouter(); // Fixed: Use router for client-side navigation instead of redirect()
+  const router = useRouter();
+
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    async function getUser() {
+      const { data, error } = await supabase.auth.getUser();
+      setUser(data.user);
+    }
+    getUser();
+  }, []);
 
   const LAUNDRIES = [
     {
@@ -29,7 +42,11 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/40 z-0" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-[#0D0D0D]/60 to-transparent z-0" />
 
-        <CleanNavbar />
+        {user ? (
+          <CleanNavbar isLoggedIn={true} />
+        ) : (
+          <CleanNavbar isLoggedIn={false} />
+        )}
 
         {/* Hero Content (Flexbox prevents overlap/floating issues) */}
         <div className="relative z-10 flex-1 flex flex-col justify-center px-6 md:px-12 py-20">
