@@ -1,7 +1,6 @@
 import PageBody from "./PageBody";
 
-import postgres from "postgres";
-import { drizzle } from "drizzle-orm/postgres-js";
+import { db } from "@/lib/drizzle/db";
 import { laundries, laundryImages } from "@/lib/drizzle/schema";
 import { asc, eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
@@ -12,9 +11,6 @@ export default async function Page({
 }: {
   params: Promise<{ store_id: string }>;
 }) {
-  const client = postgres(process.env.DATABASE_URL!);
-  const db = drizzle({ client });
-
   const { store_id } = await params;
   const laundryId = Number(store_id);
 
@@ -50,6 +46,7 @@ export default async function Page({
   return (
     <div>
       <PageBody
+        laundryId={store.id}
         name={store.name}
         location={store.location}
         about={store.about ?? ""}

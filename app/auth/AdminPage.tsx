@@ -133,7 +133,7 @@ export function AdminPage() {
                   <Input
                     type="number"
                     min="0"
-                    step="0.01"
+                    step="1"
                     placeholder="BDT"
                     value={e.unitPrice}
                     onChange={(event) => {

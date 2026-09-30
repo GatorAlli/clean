@@ -4,17 +4,21 @@ import { supabase } from "@/lib/supabase/browser";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
-import Image from "next/image";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import CleanNavbar from "../components/CleanNavbar";
+import BookingList from "../components/BookingList";
+import type { Booking } from "@/lib/drizzle/schema";
 
 const styles = {
   tabs: "flex gap-8 border-b border-gray-200 mb-8",
   activeTab:
     "text-lg font-bold text-black border-b-2 border-[#ff206e] pb-3 -mb-[1px]",
   inactiveTab:
-    "text-lg font-bold text-gray-500 pb-3 hover:text-[#ff206e] transition",
+    " text-lg font-bold text-gray-500 pb-3 hover:text-[#ff206e] transition",
   fieldLabel: "block text-xs font-bold text-gray-700 mb-2",
   requiredMark: "text-[#ff206e]",
   fieldInput:
@@ -27,11 +31,12 @@ const styles = {
 
 export function AuthPageBody({
   onSaveAuthPhone,
+  isLoggedIn,
 }: {
   onSaveAuthPhone: (phone: string) => Promise<{ error: string | null }>;
+  isLoggedIn: boolean;
 }) {
   const [isLogin, changeIsLogin] = useState(false);
-  const [isPlayerSelected, setIsPlayerSelected] = useState(false);
   const [email, changeEmail] = useState("");
   const [phone, changePhone] = useState("");
   const [password, changePassword] = useState("");
@@ -78,14 +83,16 @@ export function AuthPageBody({
 
   return (
     <div className="min-h-screen bg-white text-black flex flex-col font-sans">
-      {/* Navbar */}
+      {/* Top Navbar */}
+      <CleanNavbar isLoggedIn={isLoggedIn} />
       <header className="sticky top-0 z-50 w-full px-6 md:px-12 py-5 flex items-center justify-between bg-white/70 backdrop-blur-lg border-b border-gray-200">
-       <Link
-        href="/"
-        className="text-2xl text-black font-bold hover:text-[#ff206e] transition-all duration-500 font-bricolage"
-      >
-        clean
-      </Link>
+        <Link
+          href="/"
+          className="text-2xl text-black font-bold hover:text-[#ff206e] transition-all duration-500 font-bricolage"
+        >
+          clean
+        </Link>
+        <div className="flex items-center gap-4">
 
         <div className="flex items-center gap-4">
           <button
@@ -262,14 +269,23 @@ export function AuthPageBody({
 }
 
 export function ProfilePageBody({
+  bookings,
   displayName,
+  isLoggedIn,
 }: {
+  bookings: Booking[];
   displayName: string | undefined;
+  isLoggedIn: boolean;
 }) {
   const router = useRouter();
   return (
-    <div className="bg-white text-black font-sans p-4">
-      <Label className="text-4xl font-extrabold tracking-tight text-black font-bricolage">Profile</Label>
+  return (
+    <div className="bg-white text-black font-sans">
+      <CleanNavbar isLoggedIn={isLoggedIn} />
+      <main className="mx-auto max-w-7xl space-y-6 px-6 py-10">
+        <Label className="text-4xl font-extrabold tracking-tight text-black font-bricolage">
+          Profile
+        </Label>
       <Label className="text-gray-500 text-sm font-medium">
         Welcome<b className="text-[#ff206e]">{displayName}</b>
       </Label>
@@ -283,6 +299,11 @@ export function ProfilePageBody({
       >
         Sign Out
       </Button>
+      <section className="space-y-4" id="bookings">
+        <h2 className="text-2xl font-bold">My bookings</h2>
+        <BookingList bookings={bookings} />
+      </section>
+      </main>
     </div>
   );
 }

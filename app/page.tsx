@@ -1,25 +1,34 @@
-"use client";
-
 import CleanNavbar from "@/app/components/CleanNavbar";
-import { useRouter } from "next/navigation";
+import Card from "@/app/components/card";
+import { db } from "@/lib/drizzle/db";
+import { laundries, laundryImages } from "@/lib/drizzle/schema";
+import { generateServerClient } from "@/lib/supabase/server";
+import { asc, inArray } from "drizzle-orm";
 
-export default function Home() {
-  const router = useRouter(); // Fixed: Use router for client-side navigation instead of redirect()
-
-  const LAUNDRIES = [
-    {
-      name: "bhaimafkorben",
-      location: "Road 41, Gulshan 2, Dhaka",
-      price: "৳70",
-    },
-    {
-      name: "tazwarvalorant",
-      location: "Sector 67, Uttara, Dhaka",
-      price: "৳90",
-    },
-    { name: "bilai", location: "Road 67, Banani, Dhaka", price: "৳120" },
-    { name: "tungtung", location: "Road 67, Reels, Insta", price: "৳6767" },
-  ];
+export default async function Home() {
+  const userRequest = generateServerClient().then(client => client.auth.getUser());
+  const storesRequest = (async () => {
+    const stores = await db.select({
+      id: laundries.id,
+      name: laundries.name,
+      location: laundries.location,
+      about: laundries.about,
+      pricing: laundries.pricing,
+    }).from(laundries).orderBy(asc(laundries.id));
+    const images = stores.length ? await db.select({
+      laundryId: laundryImages.laundryId,
+      storagePath: laundryImages.storagePath,
+    }).from(laundryImages).where(inArray(laundryImages.laundryId, stores.map(store => store.id)))
+      .orderBy(asc(laundryImages.position), asc(laundryImages.id)) : [];
+    return { stores, images };
+  })();
+  const [{ data: { user } }, { stores, images }] = await Promise.all([userRequest, storesRequest]);
+  const firstImageByLaundry = new Map<number, string>();
+  for (const image of images) {
+    if (!firstImageByLaundry.has(image.laundryId)) {
+      firstImageByLaundry.set(image.laundryId, image.storagePath);
+    }
+  }
 
   return (
     <div className="bg-[#0D0D0D]">
@@ -29,7 +38,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/40 z-0" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-[#0D0D0D]/60 to-transparent z-0" />
 
-        <CleanNavbar />
+        <CleanNavbar isLoggedIn={Boolean(user)} />
 
         {/*  Content  */}
         <div className="relative z-10 flex-1 flex flex-col justify-center px-6 md:px-12 py-20">
@@ -37,7 +46,7 @@ export default function Home() {
             CLEAN CLOTHES <br />
             START HERE<span className="text-[#ff206e]">.</span>
           </h1>
-          <div className="h-[2px] w-full max-w-md bg-[#ff206e] mb-8"></div>
+          <div className="h-[2px] w-full max-w-md bg-[#white] mb-8"></div>
           <p
             className="text-gray-300 font-medium text-lg md:text-2xl max-w-2xl leading-snug"
             style={{ fontFamily: "'Source Sans 3', sans-serif" }}
@@ -54,107 +63,24 @@ export default function Home() {
         <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-10 tracking-tight font-bricolage">
           Laundry services
         </h2>
-        {/* Scrolling Container */}
-        <div className="flex overflow-hidden gap-6 pb-10 w-full relative group">
-          <style>{`
-            @keyframes marquee {
-              0% { transform: translateX(0%); }
-              100% { transform: translateX(calc(-100% - 1.5rem)); }
-            }
-            .animate-marquee {
-              animation: marquee 25s linear infinite;
-              display: flex;
-              flex-shrink: 0;
-              gap: 1.5rem;
-            }
-            .group:hover .animate-marquee {
-              animation-play-state: paused;
-            }
-          `}</style>
-          {/* Cards Set 1 */}
-          <div className="animate-marquee">
-            {LAUNDRIES.map((laundry, index) => (
-              <div
-                key={index}
-                className="flex-none w-[300px] md:w-[400px] h-[450px] bg-[#111111] rounded-xl flex flex-col p-6 text-white justify-end shadow-lg border border-white/5 hover:border-white/20 transition-all duration-300 cursor-pointer"
-                onClick={() => router.push("/explore")}
-              >
-                <div className="mt-auto">
-                  <h3 className="text-3xl font-bold mb-1 tracking-tight font-bricolage">
-                    {laundry.name}
-                  </h3>
-                  <p
-                    className="text-sm text-gray-400 mb-5"
-                    style={{ fontFamily: "'Source Sans 3', sans-serif" }}
-                  >
-                    {laundry.location}
-                  </p>
-
-                  <div className="h-[1px] w-full bg-white/10 mb-4"></div>
-
-                  <div className="flex justify-between items-center">
-                    <p className="flex items-baseline gap-1">
-                      <span
-                        className="font-semibold text-xl text-white"
-                        style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-                      >
-                        {laundry.price}
-                      </span>
-                      <span
-                        className="text-xs text-gray-400"
-                        style={{ fontFamily: "'Source Sans 3', sans-serif" }}
-                      >
-                        /item
-                      </span>
-                    </p>
-                  </div>
-                </div>
+        {stores.length === 0 ? (
+          <p className="text-gray-400">No laundry services are available yet.</p>
+        ) : (
+          <div className="flex gap-6 overflow-x-auto pb-10 pr-6 md:pr-12">
+            {stores.map(store => (
+              <div key={store.id} className="flex-none w-[300px] md:w-[400px]">
+                <Card
+                  name={store.name}
+                  location={store.location}
+                  about={store.about ?? ""}
+                  pricing={store.pricing}
+                  url={`/explore/${store.id}`}
+                  storagePath={firstImageByLaundry.get(store.id)}
+                />
               </div>
             ))}
           </div>
-
-          {/* Cards2 */}
-          <div className="animate-marquee" aria-hidden="true">
-            {LAUNDRIES.map((laundry, index) => (
-              <div
-                key={`dup-${index}`}
-                className="flex-none w-[300px] md:w-[400px] h-[450px] bg-[#111111] rounded-xl flex flex-col p-6 text-white justify-end shadow-lg border border-white/5 hover:border-white/20 transition-all duration-300 cursor-pointer"
-                onClick={() => router.push("/explore")}
-              >
-                <div className="mt-auto">
-                  <h3 className="text-3xl font-bold mb-1 tracking-tight font-bricolage">
-                    {laundry.name}
-                  </h3>
-                  <p
-                    className="text-sm text-gray-400 mb-5"
-                    style={{ fontFamily: "'Source Sans 3', sans-serif" }}
-                  >
-                    {laundry.location}
-                  </p>
-
-                  <div className="h-[1px] w-full bg-white/10 mb-4"></div>
-
-                  <div className="flex justify-between items-center">
-                    <p className="flex items-baseline gap-1">
-                      <span
-                        className="font-semibold text-xl text-white"
-                        style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-                      >
-                        {laundry.price}
-                      </span>
-                      <span
-                        className="text-xs text-gray-400"
-                        style={{ fontFamily: "'Source Sans 3', sans-serif" }}
-                      >
-                        /item
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );
