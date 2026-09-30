@@ -39,7 +39,7 @@ export const users = pgTable("users", {
 export type BookingItem = {
   apparelType: string;
   quantity: number;
-  unitPricePoisha: number;
+  unitPrice: number; // Whole Taka
 };
 
 export const bookings = pgTable.withRLS("bookings", {
@@ -56,7 +56,7 @@ export const bookings = pgTable.withRLS("bookings", {
   laundryName: text().notNull(),
   items: jsonb().$type<BookingItem[]>().notNull(),
 
-  totalPoisha: integer().notNull(),
+  totalAmount: integer().notNull(),
   status: text().notNull().default("pending"),
 
   requestId: uuid().notNull().unique(),

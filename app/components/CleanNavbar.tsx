@@ -133,13 +133,6 @@ export default function CleanNavbar({ isLoggedIn }: { isLoggedIn: boolean }) {
               >
                 Profile
               </button>
-              <button
-                className="text-white w-full font-bold text-center py-2 hover:text-[#ff206e]"
-                onClick={() => router.push("/auth")}
-                style={{ fontFamily: "'Source Sans 3', sans-serif" }}
-              >
-                Booking
-              </button>
             </>
           ) : (
             <button

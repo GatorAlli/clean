@@ -1,11 +1,12 @@
-import { laundries } from "@/lib/drizzle/schema";
+import { laundries, bookings } from "@/lib/drizzle/schema";
 import { generateServerClient } from "@/lib/supabase/server";
-import { and, eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { notFound, redirect } from "next/navigation";
 import postgres from "postgres";
 
 import PageBody from "./PageBody";
+import { db as sharedDb } from "@/lib/drizzle/db";
 
 export default async function Page({
   params,
@@ -52,5 +53,10 @@ export default async function Page({
     notFound();
   }
 
-  return <PageBody store={store} isLoggedIn={Boolean(user)} />;
+  const storeBookings = await sharedDb.select().from(bookings)
+    .where(eq(bookings.laundryId, store.id)).orderBy(desc(bookings.createdAt));
+  const customerBookings = await sharedDb.select().from(bookings)
+    .where(eq(bookings.customerId, user.id)).orderBy(desc(bookings.createdAt));
+
+  return <PageBody store={store} bookings={storeBookings} customerBookings={customerBookings} isLoggedIn={Boolean(user)} />;
 }
