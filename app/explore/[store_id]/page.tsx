@@ -1,3 +1,4 @@
+import { getContactDetails } from "@/lib/contact-details";
 import PageBody from "./PageBody";
 
 import { db } from "@/lib/drizzle/db";
@@ -36,6 +37,7 @@ export default async function Page({
     .orderBy(asc(laundryImages.position));
 
   const supabase = await generateServerClient();
+  const { data: { user } } = await supabase.auth.getUser();
   const imageUrls = imageRows.map(
     ({ storagePath }) =>
       supabase.storage
@@ -52,6 +54,10 @@ export default async function Page({
         about={store.about ?? ""}
         prices={store.pricing}
         images={imageUrls}
+        initialName={String(user?.user_metadata.full_name ?? "")}
+        initialPhone={user ? getContactDetails(user).phone : ""}
+        paymentNumber={"+8801732290601"}
+        paymentMethod={process.env.PAYMENT_BKASH_METHOD ?? "Make Payment"}
       />
     </div>
   );

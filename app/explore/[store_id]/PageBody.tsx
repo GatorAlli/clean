@@ -4,9 +4,13 @@ import { Pricing } from "@/app/auth/AdminPage";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { startTransition, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { createBooking } from "./actions";
 import { ITEM_SERVICES, itemServicesLabel, toggleItemService, type ItemService } from "@/lib/booking-services";
+import { DELIVERY_CHARGE } from "@/lib/order-pricing";
+import BookingPaymentForm from "@/app/components/BookingPaymentForm";
+import type { BookingPayment } from "@/lib/booking-payment";
+import OrderCostBreakdown from "@/app/components/OrderCostBreakdown";
 
 export default function PageBody({
   laundryId,
@@ -15,6 +19,10 @@ export default function PageBody({
   prices,
   about,
   images,
+  initialName,
+  initialPhone,
+  paymentNumber,
+  paymentMethod,
 }: {
   laundryId: number;
   name: string;
@@ -22,6 +30,7 @@ export default function PageBody({
   prices: Pricing[];
   about: string;
   images: string[];
+  initialName: string; initialPhone: string; paymentNumber: string; paymentMethod: string;
 }) {
   const router = useRouter(); // This enables the working Back button
 
@@ -31,13 +40,14 @@ export default function PageBody({
     Object.fromEntries(prices.map(item => [item.apparelType, ["washing"]])),
   );
 
+  const [paymentOpen, setPaymentOpen] = useState(false);
   const [bookingPending, setBookingPending] = useState(false);
   const [bookingMessage, setBookingMessage] = useState("");
   const [signInRequired, setSignInRequired] = useState(false);
   const submission = useRef<{ selection: string; requestId: string } | null>(null);
   const submitting = useRef(false);
 
-  async function handleContinue() {
+  async function handleSubmitPayment(payment: BookingPayment) {
     if (submitting.current || totalPieces === 0) return;
     submitting.current = true;
     setBookingPending(true);
@@ -45,13 +55,13 @@ export default function PageBody({
     setSignInRequired(false);
     const selectedServices = Object.fromEntries(Object.entries(quantities)
       .filter(([, qty]) => qty > 0).map(([apparelType]) => [apparelType, services[apparelType]]));
-    const selection = JSON.stringify(Object.entries(quantities).filter(([, qty]) => qty > 0)
-      .sort().map(([apparelType, qty]) => [apparelType, qty, selectedServices[apparelType]]));
+    const selection = JSON.stringify([payment, Object.entries(quantities).filter(([, qty]) => qty > 0)
+      .sort().map(([apparelType, qty]) => [apparelType, qty, selectedServices[apparelType]])]);
     if (submission.current?.selection !== selection) {
       submission.current = { selection, requestId: crypto.randomUUID() };
     }
     try {
-      const result = await createBooking({ laundryId, quantities, services: selectedServices, requestId: submission.current.requestId });
+      const result = await createBooking({ laundryId, quantities, services: selectedServices, payment, requestId: submission.current.requestId });
       if (!result.ok) {
         setBookingMessage(result.message);
         setSignInRequired("signInRequired" in result && result.signInRequired === true);
@@ -125,6 +135,11 @@ export default function PageBody({
         </div>
       </header>
 
+      {paymentOpen ? <main className="px-6 py-10">
+        <BookingPaymentForm laundryName={name} subtotal={totalPrice} initialName={initialName} initialPhone={initialPhone}
+          paymentNumber={paymentNumber} paymentMethod={paymentMethod} onSubmit={handleSubmitPayment}
+          onCancel={() => { setPaymentOpen(false); setBookingMessage(""); }} message={bookingMessage} signInRequired={signInRequired} />
+      </main> : <>
       {/* 2. MAIN LAYOUT: Left Content & Right Sticky Sidebar */}
       <main className="w-full max-w-7xl mx-auto px-6 md:px-12 pt-10 flex flex-col lg:flex-row gap-10 items-start">
         
@@ -301,21 +316,17 @@ export default function PageBody({
               </div>
             )}
 
-            {/* Total Section */}
-            <div className="flex justify-between items-end mb-6">
-              <span className="text-gray-500 text-sm" style={{ fontFamily: "'Source Sans 3', sans-serif" }}>
-                <span className="font-semibold text-black text-base" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>{totalPieces}</span> pieces
-              </span>
-              <span className="text-4xl font-extrabold tracking-tight text-black font-bricolage flex items-center gap-1">
-                <span className="text-2xl text-black">৳</span>
-                <span style={{ fontFamily: "'IBM Plex Mono', monospace" }}>{totalPrice.toLocaleString()}</span>
-              </span>
+            <div className="mb-6 space-y-3">
+              <p className="text-sm text-gray-500">{totalPieces} pieces</p>
+              <OrderCostBreakdown laundrySubtotal={totalPrice} deliveryCharge={DELIVERY_CHARGE}
+                totalAmount={totalPrice + DELIVERY_CHARGE} />
+              <p className="text-xs text-gray-500">A fixed ৳100 delivery charge applies to each order.</p>
             </div>
 
             {/* Continue Button */}
             <button 
               type="button"
-              onClick={() => startTransition(handleContinue)}
+              onClick={() => { setBookingMessage(""); setPaymentOpen(true); }}
               disabled={totalPieces === 0 || bookingPending}
               className={`w-full py-4 rounded-xl font-bold text-center transition-colors text-lg ${
                 totalPieces > 0 
@@ -332,6 +343,7 @@ export default function PageBody({
         </div>
 
       </main>
+      </>}
     </div>
   );
 }

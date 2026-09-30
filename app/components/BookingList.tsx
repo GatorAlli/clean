@@ -4,6 +4,7 @@ import BookingRefresh from "./BookingRefresh";
 import { itemServicesLabel } from "@/lib/booking-services";
 import { isTerminalStatus, statusLabel } from "@/lib/order-lifecycle";
 import BookingTimeline from "./BookingTimeline";
+import OrderCostBreakdown from "./OrderCostBreakdown";
 
 export default function BookingList({
   bookings,
@@ -42,6 +43,8 @@ export default function BookingList({
               </p>
               <p><span className="font-medium">Address:</span> {booking.customerLocation || "Not provided"}</p>
               <p><span className="font-medium">Phone:</span> {booking.customerPhone || "Not provided"}</p>
+              {booking.bookingPhone && booking.bookingPhone !== booking.customerPhone && <p><span className="font-medium">Booking phone:</span> {booking.bookingPhone}</p>}
+              <p><span className="font-medium">Transaction ID:</span> <span className="font-mono">{booking.transactionId || "Not recorded"}</span></p>
             </div>
           )}
           <ul className="my-4 space-y-1 text-sm text-gray-600">
@@ -59,9 +62,8 @@ export default function BookingList({
               </li>
             ))}
           </ul>
-          <p className="font-bold">
-            Total: ৳{booking.totalAmount.toLocaleString("en-BD")}
-          </p>
+          <OrderCostBreakdown laundrySubtotal={booking.totalAmount - booking.deliveryCharge}
+            deliveryCharge={booking.deliveryCharge} totalAmount={booking.totalAmount} />
           <time
             className="mt-2 block text-xs text-gray-500"
             dateTime={new Date(booking.createdAt).toISOString()}

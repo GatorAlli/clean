@@ -10,7 +10,8 @@ test("owner booking list shows saved services for each clothing item", () => {
     id: 1, laundryId: 1, customerId: "00000000-0000-0000-0000-000000000001",
     customerName: "Test Customer", customerEmail: "test@example.com", laundryName: "Test Laundry",
     requestId: "00000000-0000-4000-8000-000000000001", status: "delivered", statusHistory: [],
-    createdAt: new Date("2026-10-01T00:00:00Z"), totalAmount: 140,
+    createdAt: new Date("2026-10-01T00:00:00Z"), totalAmount: 240, deliveryCharge: 100,
+    bookingPhone: "+8801712345678", transactionId: "TXN1234567",
     customerLocation: "Office reception, Motijheel", customerPhone: "+8801712345678",
     items: [
       { apparelType: "Shirt", quantity: 1, unitPrice: 40, services: ["washing"] },
@@ -19,6 +20,7 @@ test("owner booking list shows saved services for each clothing item", () => {
   };
   const html = renderToStaticMarkup(createElement(BookingList, { bookings: [booking], showCustomer: true, canManage: true }));
   assert.match(html, /Test Customer/);
+  assert.match(html, /TXN1234567/);
   assert.match(html, /Shirt × 1/);
   assert.match(html, /Pants × 2/);
   assert.match(html, />Washing</);
@@ -28,4 +30,9 @@ test("owner booking list shows saved services for each clothing item", () => {
   const customerHtml = renderToStaticMarkup(createElement(BookingList, { bookings: [booking] }));
   assert.doesNotMatch(customerHtml, /Office reception, Motijheel/);
   assert.doesNotMatch(customerHtml, /\+8801712345678/);
+  for (const markup of [html, customerHtml]) {
+    assert.match(markup, /Laundry subtotal<\/dt><dd>৳140/);
+    assert.match(markup, /Delivery charge<\/dt><dd>৳100/);
+    assert.match(markup, /Total<\/dt><dd>৳240/);
+  }
 });
