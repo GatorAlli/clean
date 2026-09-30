@@ -34,18 +34,15 @@ export default function Home() {
 
   return (
     <div className="bg-[#0D0D0D]">
-      {/* 
-        HERO SECTION 
-        Fix: Used min-h-screen and flexbox instead of fixed heights and negative margins
-      */}
+      {/* Background */}
       <div className="relative min-h-screen w-full flex flex-col overflow-x-clip">
         
-        {/* Background Layers */}
+        {/* Background behind */}
         <div className="absolute inset-0 bg-[url('/background.png')] bg-cover bg-center z-0" />
         <div className="absolute inset-0 bg-black/40 z-0" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-[#0D0D0D]/60 to-transparent z-0" />
 
-        {/* Top Navbar */}
+        {/* Navbar */}
         <header className="relative z-50 w-full px-6 md:px-12 py-5 flex items-center justify-between bg-[#000000]/10 backdrop-blur-[5px] border border-[#4242423f]">
           <button className="text-2xl text-white font-bold hover:text-[#ff206e] transition-all duration-500 font-bricolage tracking-tight">
             clean
@@ -61,7 +58,7 @@ export default function Home() {
               placeholder="Search services or city"
             />
 
-            {/* Dropdown Button */}
+            {/* Dropdown button */}
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className="bg-[#fbff12] hover:bg-[#e5e90a] transition-colors text-black text-xs px-3 border-l w-10 md:w-auto border-gray-300 outline-none cursor-pointer font-bold flex items-center gap-2 rounded-r-md"
@@ -135,7 +132,7 @@ export default function Home() {
           </button>
         </header>
 
-        {/* Mobile dropdown menu */}
+        {/*  dropdown menu-2*/}
         {menuOpen && (
           <div className="md:hidden flex flex-col items-center gap-6 bg-[#111111]/90 backdrop-blur-md border-b border-white/10 py-6 absolute top-[76px] left-0 w-full z-40">
             <button className="text-white w-full font-bold text-center py-2 hover:text-[#ff206e]" onClick={() => router.push("/explore")} style={{ fontFamily: "'Source Sans 3', sans-serif" }}>
@@ -150,7 +147,7 @@ export default function Home() {
           </div>
         )}
 
-        {/* Hero Content (Flexbox prevents overlap/floating issues) */}
+        {/*  Content  */}
         <div className="relative z-10 flex-1 flex flex-col justify-center px-6 md:px-12 py-20">
           <h1 className="text-white font-bricolage font-extrabold text-[50px] md:text-[100px] lg:text-[140px] leading-[0.9] tracking-tight mb-8">
             CLEAN CLOTHES <br />
@@ -167,7 +164,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Laundry Services Marquee */}
+      {/* Laundry services */}
       <div className="bg-[#0D0D0D] w-full pb-20 pl-6 md:pl-12">
         <h2 
           className="text-4xl md:text-5xl font-extrabold text-white mb-10 tracking-tight font-bricolage"
@@ -175,7 +172,7 @@ export default function Home() {
           Laundry services
         </h2>
         
-        {/* Scrolling Container */}
+        {/* Scrolling part */}
         <div className="flex overflow-hidden gap-6 pb-10 w-full relative group">
           
           <style>{`
@@ -194,7 +191,7 @@ export default function Home() {
             }
           `}</style>
           
-          {/* Cards Set 1 */}
+          {/* Cards-1 */}
           <div className="animate-marquee">
             {LAUNDRIES.map((laundry, index) => (
               <div 
@@ -219,7 +216,7 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Cards Set 2 (Duplicate for seamless scrolling) */}
+          {/* Cards2 */}
           <div className="animate-marquee" aria-hidden="true">
             {LAUNDRIES.map((laundry, index) => (
               <div 

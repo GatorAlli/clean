@@ -78,7 +78,7 @@ export function AuthPageBody({
 
   return (
     <div className="min-h-screen bg-white text-black flex flex-col font-sans">
-      {/* Top Navbar */}
+      {/* Navbar */}
       <header className="sticky top-0 z-50 w-full px-6 md:px-12 py-5 flex items-center justify-between bg-white/70 backdrop-blur-lg border-b border-gray-200">
        <Link
         href="/"
@@ -98,9 +98,9 @@ export function AuthPageBody({
         </div>
       </header>
 
-      {/* Page Content Wrapper */}
+      {/* Page Content */}
       <main className="w-full max-w-4xl mx-auto px-6 py-10 grow ">
-        {/* Title Section */}
+        {/* Title */}
 
         {isLogin ? (
           <div>
@@ -260,7 +260,6 @@ export function AuthPageBody({
     </div>
   );
 }
-
 export function ProfilePageBody({
   displayName,
 }: {
@@ -279,8 +278,7 @@ export function ProfilePageBody({
           supabase.auth.signOut();
           router.refresh();
         }}
-        className="bg-[#ff206e] hover:bg-[#d41b5b] text-white font-bold rounded-xl transition shadow-md active:scale-95"
-      >
+        className="bg-[#ff206e] hover:bg-[#d41b5b] text-white font-bold rounded-xl transition shadow-md active:scale-95">
         Sign Out
       </Button>
     </div>

@@ -9,7 +9,7 @@ const bricolage = Bricolage_Grotesque({
 
 export const metadata: Metadata = {
   title: "Create Next App",
-  // ...rest of your metadata
+  // rest of the metadata
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

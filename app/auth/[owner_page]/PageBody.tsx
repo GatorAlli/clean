@@ -45,7 +45,7 @@ export default function PageBody({ store }: { store: storeData }) {
   return (
     <div className="min-h-screen bg-white text-black pb-24">
       
-      {/* Light Glassy Navbar */}
+      {/* Navbar */}
       <header className="sticky top-0 z-50 w-full px-6 md:px-12 py-5 flex items-center justify-between bg-white/80 backdrop-blur-lg border-b border-gray-100 shadow-sm">
         <Link
           href="/"
@@ -70,10 +70,10 @@ export default function PageBody({ store }: { store: storeData }) {
         </div>
       </header>
 
-      {/* Main Content Area */}
+      {/* Box-1 */}
       <main className="w-full max-w-7xl mx-auto px-6 md:px-12 pt-12">
         
-        {/* Page Header */}
+        {/* Header */}
         <div className="mb-10">
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-black mb-2 font-bricolage">
             Store Management<span className="text-[#ff206e]"></span>
@@ -83,10 +83,10 @@ export default function PageBody({ store }: { store: storeData }) {
           </p>
         </div>
 
-        {/* 2-Column Layout */}
+        {/* Layout */}
         <div className="flex flex-col lg:flex-row gap-8 items-start">
           
-          {/* LEFT COLUMN: General Information */}
+          {/* Info n stuff */}
           <div className="flex-1 w-full bg-white border border-gray-200 rounded-2xl p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] space-y-8">
             <h2 className="text-2xl font-bold text-black font-bricolage border-b border-gray-100 pb-3">General Info</h2>
             
@@ -122,10 +122,10 @@ export default function PageBody({ store }: { store: storeData }) {
             </div>
           </div>
 
-          {/* RIGHT COLUMN: Pricing & Actions */}
+          {/* Pricing n stuff */}
           <div className="w-full lg:w-[450px] shrink-0 flex flex-col gap-8">
             
-            {/* Pricing Section */}
+            {/* Pricing adjust */}
             <div className="bg-white border border-gray-200 rounded-2xl p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] space-y-6">
               <h2 className="text-2xl font-bold text-black font-bricolage border-b border-gray-100 pb-3">Service Pricing</h2>
               
@@ -158,7 +158,7 @@ export default function PageBody({ store }: { store: storeData }) {
               </div>
             </div>
 
-            {/* Actions Section */}
+            {/* Actions */}
             <div className="bg-white border border-gray-200 rounded-2xl p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col gap-4">
               <Button
                 type="button"
@@ -211,7 +211,7 @@ export default function PageBody({ store }: { store: storeData }) {
                 Sign Out
               </Button>
 
-              {/* Status Message */}
+              {/* Save changes or no */}
               {message && (
                 <p 
                   role="status" 
