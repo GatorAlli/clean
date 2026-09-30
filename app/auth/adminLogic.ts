@@ -2,9 +2,8 @@
 
 import { Pricing } from "./AdminPage";
 
-import { drizzle } from "drizzle-orm/postgres-js";
+import { db } from "@/lib/drizzle/db";
 import { laundries, laundryImages } from "@/lib/drizzle/schema";
-import postgres from "postgres";
 
 export async function submitData({
   storeName,
@@ -21,10 +20,6 @@ export async function submitData({
   prices: Pricing[];
   images: string[];
 }) {
-  //Drizzle
-  const client = postgres(process.env.DATABASE_URL!);
-  const db = drizzle({ client });
-
   const [data] = await db
     .insert(laundries)
     .values({ name: storeName, ownerEmail, location, about, pricing: prices })

@@ -4,8 +4,6 @@ import { supabase } from "@/lib/supabase/browser";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
-import Image from "next/image";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import CleanNavbar from "../components/CleanNavbar";
@@ -28,11 +26,12 @@ const styles = {
 
 export function AuthPageBody({
   onSaveAuthPhone,
+  isLoggedIn,
 }: {
   onSaveAuthPhone: (phone: string) => Promise<{ error: string | null }>;
+  isLoggedIn: boolean;
 }) {
   const [isLogin, changeIsLogin] = useState(false);
-  const [isPlayerSelected, setIsPlayerSelected] = useState(false);
   const [email, changeEmail] = useState("");
   const [phone, changePhone] = useState("");
   const [password, changePassword] = useState("");
@@ -80,7 +79,7 @@ export function AuthPageBody({
   return (
     <div className="min-h-screen bg-white text-black flex flex-col font-sans">
       {/* Top Navbar */}
-      <CleanNavbar />
+      <CleanNavbar isLoggedIn={isLoggedIn} />
 
       {/* Page Content Wrapper */}
       <main className="w-full max-w-4xl mx-auto px-6 py-10 grow ">
@@ -242,12 +241,15 @@ export function AuthPageBody({
 
 export function ProfilePageBody({
   displayName,
+  isLoggedIn,
 }: {
   displayName: string | undefined;
+  isLoggedIn: boolean;
 }) {
   const router = useRouter();
   return (
-    <div className="bg-white text-black font-sans p-4">
+    <div className="bg-white text-black font-sans">
+      <CleanNavbar isLoggedIn={isLoggedIn} />
       <Label className="text-4xl font-extrabold tracking-tight text-black font-bricolage">
         Profile
       </Label>

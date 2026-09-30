@@ -1,10 +1,9 @@
 import { generateServerClient } from "@/lib/supabase/server";
 import { AuthPageBody, ProfilePageBody } from "./PageBody";
 import { AdminPage } from "./AdminPage";
-import { drizzle } from "drizzle-orm/postgres-js";
+import { db } from "@/lib/drizzle/db";
 import { laundries } from "@/lib/drizzle/schema";
 import { createClient } from "@supabase/supabase-js";
-import postgres from "postgres";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 
@@ -64,10 +63,6 @@ export default async function Page() {
     return { error: error?.message ?? null };
   }
 
-  // Drizzle
-  const client = postgres(process.env.DATABASE_URL!);
-  const db = drizzle({ client });
-
   if (user?.email) {
     // Store Fetching
     const [ownedStore] = await db
@@ -84,9 +79,9 @@ export default async function Page() {
       {isAdmin ? (
         <AdminPage />
       ) : user ? (
-        <ProfilePageBody displayName={user.user_metadata.full_name} />
+        <ProfilePageBody displayName={user.user_metadata.full_name} isLoggedIn={Boolean(user)} />
       ) : (
-        <AuthPageBody onSaveAuthPhone={saveAuthPhone} />
+        <AuthPageBody onSaveAuthPhone={saveAuthPhone} isLoggedIn={Boolean(user)} />
       )}
     </div>
   );

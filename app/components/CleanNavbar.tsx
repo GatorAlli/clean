@@ -6,7 +6,7 @@ import { useState } from "react";
 import Image from "next/image";
 import searchIcon from "@/app/components/images/searchIcon.png";
 
-export default function CleanNavbar() {
+export default function CleanNavbar({ isLoggedIn }: { isLoggedIn: boolean }) {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -63,7 +63,6 @@ export default function CleanNavbar() {
             </Button>
           </form>
         </div>
-
         <nav className="hidden md:flex items-center gap-5">
           <Button
             className="text-[#fbff12] text-md font-bold relative group bg-transparent hover:bg-transparent"
@@ -74,23 +73,37 @@ export default function CleanNavbar() {
             <span className="absolute left-0 bottom-0 w-0 h-[3px] bg-[#ff206e] transition-all duration-500 group-hover:w-full rounded-full"></span>
           </Button>
 
-          <Button
-            className="text-[#fbff12] text-md font-bold relative group bg-transparent hover:bg-transparent"
-            onClick={() => router.push("/auth")}
-            style={{ fontFamily: "'Source Sans 3', sans-serif" }}
-          >
-            Profile
-            <span className="absolute left-0 bottom-0 w-0 h-[3px] bg-[#ff206e] transition-all duration-500 group-hover:w-full rounded-full"></span>
-          </Button>
-
-          <Button
-            className="text-[#fbff12] text-md font-bold relative group bg-transparent hover:bg-transparent"
-            onClick={() => router.push("/auth")}
-            style={{ fontFamily: "'Source Sans 3', sans-serif" }}
-          >
-            Booking
-            <span className="absolute left-0 bottom-0 w-0 h-[3px] bg-[#ff206e] transition-all duration-500 group-hover:w-full rounded-full"></span>
-          </Button>
+          {isLoggedIn ? (
+            <div>
+              <Button
+                className="text-[#fbff12] text-md font-bold relative group bg-transparent hover:bg-transparent"
+                onClick={() => router.push("/auth")}
+                style={{ fontFamily: "'Source Sans 3', sans-serif" }}
+              >
+                Profile
+                <span className="absolute left-0 bottom-0 w-0 h-[3px] bg-[#ff206e] transition-all duration-500 group-hover:w-full rounded-full"></span>
+              </Button>
+              <Button
+                className="text-[#fbff12] text-md font-bold relative group bg-transparent hover:bg-transparent"
+                onClick={() => router.push("/auth")}
+                style={{ fontFamily: "'Source Sans 3', sans-serif" }}
+              >
+                Booking
+                <span className="absolute left-0 bottom-0 w-0 h-[3px] bg-[#ff206e] transition-all duration-500 group-hover:w-full rounded-full"></span>
+              </Button>
+            </div>
+          ) : (
+            <div>
+              <Button
+                className="text-[#fbff12] text-md font-bold relative group bg-transparent hover:bg-transparent"
+                onClick={() => router.push("/auth")}
+                style={{ fontFamily: "'Source Sans 3', sans-serif" }}
+              >
+                Login/Sign Up
+                <span className="absolute left-0 bottom-0 w-0 h-[3px] bg-[#ff206e] transition-all duration-500 group-hover:w-full rounded-full"></span>
+              </Button>
+            </div>
+          )}
         </nav>
 
         <button
@@ -111,20 +124,32 @@ export default function CleanNavbar() {
           >
             Services
           </button>
-          <button
-            className="text-white w-full font-bold text-center py-2 hover:text-[#ff206e]"
-            onClick={() => router.push("/auth")}
-            style={{ fontFamily: "'Source Sans 3', sans-serif" }}
-          >
-            Profile
-          </button>
-          <button
-            className="text-white w-full font-bold text-center py-2 hover:text-[#ff206e]"
-            onClick={() => router.push("/auth")}
-            style={{ fontFamily: "'Source Sans 3', sans-serif" }}
-          >
-            Booking
-          </button>
+          {isLoggedIn ? (
+            <>
+              <button
+                className="text-white w-full font-bold text-center py-2 hover:text-[#ff206e]"
+                onClick={() => router.push("/auth")}
+                style={{ fontFamily: "'Source Sans 3', sans-serif" }}
+              >
+                Profile
+              </button>
+              <button
+                className="text-white w-full font-bold text-center py-2 hover:text-[#ff206e]"
+                onClick={() => router.push("/auth")}
+                style={{ fontFamily: "'Source Sans 3', sans-serif" }}
+              >
+                Booking
+              </button>
+            </>
+          ) : (
+            <button
+              className="text-white w-full font-bold text-center py-2 hover:text-[#ff206e]"
+              onClick={() => router.push("/auth")}
+              style={{ fontFamily: "'Source Sans 3', sans-serif" }}
+            >
+              Login/Sign Up
+            </button>
+          )}
         </div>
       )}
     </>
