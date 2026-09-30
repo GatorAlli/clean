@@ -13,7 +13,7 @@ const styles = {
   activeTab:
     "text-lg font-bold text-black border-b-2 border-[#ff206e] pb-3 -mb-[1px]",
   inactiveTab:
-    "text-lg font-bold text-gray-500 pb-3 hover:text-[#ff206e] transition",
+    " text-lg font-bold text-gray-500 pb-3 hover:text-[#ff206e] transition",
   fieldLabel: "block text-xs font-bold text-gray-700 mb-2",
   requiredMark: "text-[#ff206e]",
   fieldInput:
