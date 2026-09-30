@@ -3,9 +3,18 @@ import postgres from "postgres";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { asc, inArray } from "drizzle-orm";
 import { laundries, laundryImages } from "@/lib/drizzle/schema";
-import Link from "next/link";
+import CleanNavbar from "../components/CleanNavbar";
+import { store } from "next/dist/build/output/store";
 
-export default async function PageBody() {
+type PageProps = {
+  searchParams: Promise<{ q?: string }>;
+};
+
+export default async function PageBody({ searchParams }: PageProps) {
+  const { q = "" } = await searchParams;
+
+export default async function PageBody({ searchParams }: PageProps) {
+  const { q = "" } = await searchParams;
   const client = postgres(process.env.DATABASE_URL!);
   const db = drizzle({ client });
   const stores = await db.select().from(laundries);
@@ -29,52 +38,28 @@ export default async function PageBody() {
       firstImageByLaundry.set(image.laundryId, image.storagePath);
     }
   }
-  const displayStores = [...stores];
+  const normalisedQuery = q.trim().toLowerCase();
+
+  const displayStores = [...stores].filter((e) => {
+    const nameMatches = e.name.toLowerCase().includes(normalisedQuery);
+    const locationMatches = e.location.toLowerCase().includes(normalisedQuery);
+    return !normalisedQuery || nameMatches || locationMatches;
+  });
 
 
   return (
     <div className="min-h-screen bg-white text-black font-sans pb-24">
-      {/* Navbar */}
-      <header className="sticky top-0 z-50 w-full px-6 md:px-12 py-5 flex items-center justify-between bg-white/70 backdrop-blur-lg border-b border-gray-200">
-        {/* Logo */}
-        <Link
-          href="/"
-          className="text-2xl text-black font-bold hover:text-[#ff206e] transition-all duration-500 font-bricolage"
-        >
-          clean
-        </Link>
-
-        <div className="flex items-center gap-4 md:gap-6">
-          <Link
-            href="/"
-            className="border border-gray-300 text-black px-4 py-2 rounded-md text-sm font-bold hover:bg-gray-100 transition hidden sm:block"
-          >
-            ← Back
-          </Link>
-          <Link
-            href="/orders"
-            className="text-black font-bold text-sm hover:text-[#ff206e] transition-colors"
-          >
-            Current Orders
-          </Link>
-
-          {/* Services */}
-          <div className="hidden md:block relative cursor-default pb-1">
-            <span className="text-black font-bold text-sm">Services</span>
-            <span className="absolute left-0 bottom-0 w-full h-[3px] bg-[#ff206e] rounded-full"></span>
-          </div>
-        </div>
-      </header>
+      <CleanNavbar />
 
       <div className="w-full max-w-7xl mx-auto px-6 md:px-12 pt-10">
-        {/* Page title */}
+        {/* Page Title */}
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-10 text-black font-bricolage">
           Laundry services
         </h1>
 
         {/* style */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {displayStores.map((e: any, index: number) => {
+          {displayStores.map((e, index: number) => {
             const storagePath = firstImageByLaundry.get(e.id) ?? "";
 
             return (
@@ -83,7 +68,7 @@ export default async function PageBody() {
                 name={e.name}
                 location={e.location}
                 about={e.about ?? ""}
-                pricing={e.pricing as any}
+                pricing={e.pricing}
                 url={`/explore/${e.id}`}
                 storagePath={storagePath}
               />

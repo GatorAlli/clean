@@ -260,6 +260,7 @@ export function AuthPageBody({
     </div>
   );
 }
+
 export function ProfilePageBody({
   displayName,
 }: {
@@ -278,7 +279,8 @@ export function ProfilePageBody({
           supabase.auth.signOut();
           router.refresh();
         }}
-        className="bg-[#ff206e] hover:bg-[#d41b5b] text-white font-bold rounded-xl transition shadow-md active:scale-95">
+        className="bg-[#ff206e] hover:bg-[#d41b5b] text-white font-bold rounded-xl transition shadow-md active:scale-95"
+      >
         Sign Out
       </Button>
     </div>
