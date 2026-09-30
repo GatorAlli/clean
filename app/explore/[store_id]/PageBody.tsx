@@ -4,15 +4,18 @@ import { Pricing } from "@/app/auth/AdminPage";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { createBooking } from "./actions";
 
 export default function PageBody({
+  laundryId,
   name,
   location,
   prices,
   about,
   images,
 }: {
+  laundryId: number;
   name: string;
   location: string;
   prices: Pricing[];
@@ -23,6 +26,40 @@ export default function PageBody({
 
   // State to hold the quantities of each apparel type
   const [quantities, setQuantities] = useState<Record<string, number>>({});
+
+  const [bookingPending, setBookingPending] = useState(false);
+  const [bookingMessage, setBookingMessage] = useState("");
+  const [signInRequired, setSignInRequired] = useState(false);
+  const submission = useRef<{ selection: string; requestId: string } | null>(null);
+  const submitting = useRef(false);
+
+  async function handleContinue() {
+    if (submitting.current || totalPieces === 0) return;
+    submitting.current = true;
+    setBookingPending(true);
+    setBookingMessage("");
+    setSignInRequired(false);
+    const selection = JSON.stringify(Object.entries(quantities).filter(([, qty]) => qty > 0).sort());
+    if (submission.current?.selection !== selection) {
+      submission.current = { selection, requestId: crypto.randomUUID() };
+    }
+    try {
+      const result = await createBooking({ laundryId, quantities, requestId: submission.current.requestId });
+      if (!result.ok) {
+        setBookingMessage(result.message);
+        setSignInRequired("signInRequired" in result && result.signInRequired === true);
+        return;
+      }
+      setBookingMessage(`Booking #${result.bookingId} created.`);
+      router.push(`/auth?booking=${result.bookingId}`);
+      router.refresh();
+    } catch {
+      setBookingMessage("Could not complete the booking. Please retry.");
+    } finally {
+      submitting.current = false;
+      setBookingPending(false);
+    }
+  }
 
   // Counter logic
   const increment = (apparel: string) => {
@@ -144,7 +181,7 @@ export default function PageBody({
                       <div className="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-full p-1">
                         <button
                           onClick={() => decrement(e.apparelType)}
-                          disabled={!isSelected}
+                          disabled={!isSelected || bookingPending}
                           className={`w-8 h-8 rounded-full flex items-center justify-center text-white transition-all duration-200 ${
                             isSelected 
                               ? 'bg-[#111111] hover:bg-black ring-2 ring-[#ff206e]' 
@@ -159,6 +196,7 @@ export default function PageBody({
                         </span>
                         
                         <button
+                          disabled={bookingPending}
                           onClick={() => increment(e.apparelType)}
                           className="w-8 h-8 rounded-full bg-[#111111] hover:bg-black text-white flex items-center justify-center transition-all duration-200"
                         >
@@ -245,7 +283,9 @@ export default function PageBody({
 
             {/* Continue Button */}
             <button 
-              disabled={totalPieces === 0}
+              type="button"
+              onClick={handleContinue}
+              disabled={totalPieces === 0 || bookingPending}
               className={`w-full py-4 rounded-xl font-bold text-center transition-colors text-lg ${
                 totalPieces > 0 
                   ? 'bg-[#ff206e] text-white hover:bg-[#d41b5b] shadow-md' 
@@ -253,8 +293,10 @@ export default function PageBody({
               }`}
               style={{ fontFamily: "'Source Sans 3', sans-serif" }}
             >
-              Continue
+              {bookingPending ? "Booking…" : "Continue"}
             </button>
+            <p role="status" className="mt-3 text-sm">{bookingMessage}</p>
+            {signInRequired && <Link href="/auth" className="text-sm font-semibold text-[#ff206e] underline">Sign in to book</Link>}
           </div>
         </div>
 

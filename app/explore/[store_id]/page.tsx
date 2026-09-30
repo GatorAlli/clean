@@ -46,6 +46,7 @@ export default async function Page({
   return (
     <div>
       <PageBody
+        laundryId={store.id}
         name={store.name}
         location={store.location}
         about={store.about ?? ""}

@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import CleanNavbar from "../components/CleanNavbar";
+import BookingList from "../components/BookingList";
+import type { Booking } from "@/lib/drizzle/schema";
 
 const styles = {
   tabs: "flex gap-8 border-b border-gray-200 mb-8",
@@ -240,9 +242,11 @@ export function AuthPageBody({
 }
 
 export function ProfilePageBody({
+  bookings,
   displayName,
   isLoggedIn,
 }: {
+  bookings: Booking[];
   displayName: string | undefined;
   isLoggedIn: boolean;
 }) {
@@ -250,6 +254,7 @@ export function ProfilePageBody({
   return (
     <div className="bg-white text-black font-sans">
       <CleanNavbar isLoggedIn={isLoggedIn} />
+      <main className="mx-auto max-w-7xl space-y-6 px-6 py-10">
       <Label className="text-4xl font-extrabold tracking-tight text-black font-bricolage">
         Profile
       </Label>
@@ -266,6 +271,11 @@ export function ProfilePageBody({
       >
         Sign Out
       </Button>
+      <section className="space-y-4" id="bookings">
+        <h2 className="text-2xl font-bold">My bookings</h2>
+        <BookingList bookings={bookings} />
+      </section>
+      </main>
     </div>
   );
 }

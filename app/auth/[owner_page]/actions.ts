@@ -1,11 +1,12 @@
 "use server";
 
-import { laundries } from "@/lib/drizzle/schema";
+import { bookings, laundries } from "@/lib/drizzle/schema";
 import { generateServerClient } from "@/lib/supabase/server";
-import { and, eq } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { revalidatePath } from "next/cache";
 import postgres from "postgres";
+import { db as sharedDb } from "@/lib/drizzle/db";
 
 type StoreChanges = {
   id: number;
@@ -51,9 +52,10 @@ export async function updateStore(changes: StoreChanges) {
         typeof item.apparelType !== "string" ||
         !item.apparelType.trim() ||
         typeof item.unitPrice !== "number" ||
-        !Number.isFinite(item.unitPrice) ||
+        !Number.isSafeInteger(item.unitPrice) ||
         item.unitPrice < 0,
-    )
+    ) ||
+    new Set(changes.pricing.map(item => item.apparelType.trim())).size !== changes.pricing.length
   ) {
     return { ok: false, message: "Check the store details and prices." };
   }
@@ -87,5 +89,44 @@ export async function updateStore(changes: StoreChanges) {
     return { ok: true, message: "Changes saved.", store: updated };
   } finally {
     await client.end();
+  }
+}
+
+
+export async function updateBookingStatus(
+  bookingId: number,
+  status: "completed" | "cancelled",
+) {
+  if (!Number.isSafeInteger(bookingId) || bookingId <= 0 ||
+    (status !== "completed" && status !== "cancelled")) {
+    return { ok: false as const, message: "Invalid order update." };
+  }
+
+  try {
+    const supabase = await generateServerClient();
+    const { data: { user }, error } = await supabase.auth.getUser();
+    if (error || !user?.email) {
+      return { ok: false as const, message: "Please sign in again." };
+    }
+
+    // Check ownership and pending status in the same update to prevent races.
+    const [updated] = await sharedDb.update(bookings).set({ status }).where(and(
+      eq(bookings.id, bookingId),
+      eq(bookings.status, "pending"),
+      inArray(bookings.laundryId, sharedDb.select({ id: laundries.id }).from(laundries)
+        .where(eq(laundries.ownerEmail, user.email.toLowerCase()))),
+    )).returning({ laundryId: bookings.laundryId });
+
+    if (!updated) {
+      return { ok: false as const, message: "Order already processed or access denied." };
+    }
+
+    revalidatePath(`/auth/${updated.laundryId}`);
+    revalidatePath("/auth");
+    revalidatePath("/orders");
+    return { ok: true as const, message: status === "completed" ? "Order completed." : "Order cancelled." };
+  } catch (error) {
+    console.error("Order status update failed:", error);
+    return { ok: false as const, message: "Could not update the order. Please retry." };
   }
 }

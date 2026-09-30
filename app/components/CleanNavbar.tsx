@@ -83,14 +83,6 @@ export default function CleanNavbar({ isLoggedIn }: { isLoggedIn: boolean }) {
                 Profile
                 <span className="absolute left-0 bottom-0 w-0 h-[3px] bg-[#ff206e] transition-all duration-500 group-hover:w-full rounded-full"></span>
               </Button>
-              <Button
-                className="text-[#ff206e] text-md font-bold relative group bg-transparent hover:bg-transparent"
-                onClick={() => router.push("/auth")}
-                style={{ fontFamily: "'Source Sans 3', sans-serif" }}
-              >
-                Booking
-                <span className="absolute left-0 bottom-0 w-0 h-[3px] bg-[#ff206e] transition-all duration-500 group-hover:w-full rounded-full"></span>
-              </Button>
             </div>
           ) : (
             <div>
@@ -132,13 +124,6 @@ export default function CleanNavbar({ isLoggedIn }: { isLoggedIn: boolean }) {
                 style={{ fontFamily: "'Source Sans 3', sans-serif" }}
               >
                 Profile
-              </button>
-              <button
-                className="text-white w-full font-bold text-center py-2 hover:text-[#ff206e]"
-                onClick={() => router.push("/auth")}
-                style={{ fontFamily: "'Source Sans 3', sans-serif" }}
-              >
-                Booking
               </button>
             </>
           ) : (

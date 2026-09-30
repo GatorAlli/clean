@@ -9,6 +9,8 @@ import { useState } from "react";
 import { updateStore } from "./actions";
 import Link from "next/link";
 import CleanNavbar from "@/app/components/CleanNavbar";
+import BookingList from "@/app/components/BookingList";
+import type { Booking } from "@/lib/drizzle/schema";
 
 type storeData = {
   id: number;
@@ -22,7 +24,7 @@ type storeData = {
   }[];
 };
 
-export default function PageBody({ store, isLoggedIn }: { store: storeData; isLoggedIn: boolean }) {
+export default function PageBody({ store, isLoggedIn, bookings, customerBookings }: { store: storeData; isLoggedIn: boolean; bookings: Booking[]; customerBookings: Booking[] }) {
   const router = useRouter();
 
   const [name, setName] = useState(store.name);
@@ -136,7 +138,7 @@ export default function PageBody({ store, isLoggedIn }: { store: storeData; isLo
                       <Input
                         type="number"
                         min="0"
-                        step="any"
+                        step="1"
                         value={item.unitPrice}
                         onChange={(event) =>
                           setPricing((rows) =>
@@ -225,6 +227,14 @@ export default function PageBody({ store, isLoggedIn }: { store: storeData; isLo
             </div>
           </div>
         </div>
+        <section className="mt-10 space-y-4" id="bookings">
+          <h2 className="text-2xl font-bold">Customer bookings</h2>
+          <BookingList bookings={bookings} showCustomer canManage />
+        </section>
+        {customerBookings.length > 0 && <section className="mt-10 space-y-4">
+          <h2 className="text-2xl font-bold">My bookings</h2>
+          <BookingList bookings={customerBookings} />
+        </section>}
       </main>
     </div>
   );
