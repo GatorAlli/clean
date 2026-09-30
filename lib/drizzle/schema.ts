@@ -1,7 +1,10 @@
+import type { ItemService } from "@/lib/booking-services";
+import type { BookingStatus, StatusEvent } from "@/lib/order-lifecycle";
+import { sql } from "drizzle-orm";
 import {
+  check,
   integer,
   pgTable,
-  primaryKey,
   jsonb,
   uuid,
   timestamp,
@@ -40,6 +43,7 @@ export type BookingItem = {
   apparelType: string;
   quantity: number;
   unitPrice: number; // Whole Taka
+  services?: ItemService[]; // Optional for bookings made before service selection.
 };
 
 export const bookings = pgTable.withRLS("bookings", {
@@ -57,10 +61,12 @@ export const bookings = pgTable.withRLS("bookings", {
   items: jsonb().$type<BookingItem[]>().notNull(),
 
   totalAmount: integer().notNull(),
-  status: text().notNull().default("pending"),
+  status: text().$type<BookingStatus>().notNull().default("pending"),
+  statusHistory: jsonb().$type<StatusEvent[]>().notNull().default([]),
 
   requestId: uuid().notNull().unique(),
   createdAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
-});
+}, (table) => [check("bookings_status_check", sql`${table.status} in ('pending', 'accepted', 'collected', 'processing', 'ready', 'out_for_delivery', 'delivered', 'cancelled')`)]);
 
 export type Booking = typeof bookings.$inferSelect;
+export type OwnerBooking = Booking & { customerLocation?: string | null; customerPhone?: string | null };

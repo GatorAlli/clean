@@ -5,11 +5,13 @@ import { bookings, laundries, type BookingItem } from "@/lib/drizzle/schema";
 import { generateServerClient } from "@/lib/supabase/server";
 import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { buildBookingItems, type ItemService } from "@/lib/booking-services";
 
 type BookingInput = {
   laundryId: number;
   quantities: Record<string, number>;
   requestId: string;
+  services: Record<string, ItemService[]>;
 };
 
 export async function createBooking(input: BookingInput) {
@@ -36,7 +38,10 @@ export async function createBooking(input: BookingInput) {
       ) ||
       !input.quantities ||
       typeof input.quantities !== "object" ||
-      Array.isArray(input.quantities)
+      Array.isArray(input.quantities) ||
+      !input.services ||
+      typeof input.services !== "object" ||
+      Array.isArray(input.services)
     ) {
       return { ok: false as const, message: "Invalid booking details." };
     }
@@ -79,14 +84,12 @@ export async function createBooking(input: BookingInput) {
           message: "Check your selected items and quantities.",
         };
       }
-      const items: BookingItem[] = entries
-        .filter(([, quantity]) => quantity > 0)
-        .map(([apparelType, quantity]) => ({
-          apparelType,
-          quantity,
-          unitPrice: store.pricing.find((p) => p.apparelType === apparelType)!
-            .unitPrice,
-        }));
+      let items: BookingItem[];
+      try {
+        items = buildBookingItems(store.pricing, input.quantities, input.services);
+      } catch {
+        return { ok: false as const, message: "Choose washing, ironing or both for every selected item." };
+      }
       const totalAmount = items.reduce(
         (sum, item) => sum + item.quantity * item.unitPrice,
         0,
@@ -115,6 +118,7 @@ export async function createBooking(input: BookingInput) {
           items,
           totalAmount,
           requestId: input.requestId,
+          statusHistory: [{ status: "pending", at: new Date().toISOString(), actorId: user.id }],
         })
         .onConflictDoNothing({ target: bookings.requestId })
         .returning({ id: bookings.id });

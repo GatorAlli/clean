@@ -4,8 +4,9 @@ import { Pricing } from "@/app/auth/AdminPage";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { startTransition, useRef, useState } from "react";
 import { createBooking } from "./actions";
+import { ITEM_SERVICES, itemServicesLabel, toggleItemService, type ItemService } from "@/lib/booking-services";
 
 export default function PageBody({
   laundryId,
@@ -26,6 +27,9 @@ export default function PageBody({
 
   // State to hold the quantities of each apparel type
   const [quantities, setQuantities] = useState<Record<string, number>>({});
+  const [services, setServices] = useState<Record<string, ItemService[]>>(() =>
+    Object.fromEntries(prices.map(item => [item.apparelType, ["washing"]])),
+  );
 
   const [bookingPending, setBookingPending] = useState(false);
   const [bookingMessage, setBookingMessage] = useState("");
@@ -39,12 +43,15 @@ export default function PageBody({
     setBookingPending(true);
     setBookingMessage("");
     setSignInRequired(false);
-    const selection = JSON.stringify(Object.entries(quantities).filter(([, qty]) => qty > 0).sort());
+    const selectedServices = Object.fromEntries(Object.entries(quantities)
+      .filter(([, qty]) => qty > 0).map(([apparelType]) => [apparelType, services[apparelType]]));
+    const selection = JSON.stringify(Object.entries(quantities).filter(([, qty]) => qty > 0)
+      .sort().map(([apparelType, qty]) => [apparelType, qty, selectedServices[apparelType]]));
     if (submission.current?.selection !== selection) {
       submission.current = { selection, requestId: crypto.randomUUID() };
     }
     try {
-      const result = await createBooking({ laundryId, quantities, requestId: submission.current.requestId });
+      const result = await createBooking({ laundryId, quantities, services: selectedServices, requestId: submission.current.requestId });
       if (!result.ok) {
         setBookingMessage(result.message);
         setSignInRequired("signInRequired" in result && result.signInRequired === true);
@@ -155,6 +162,7 @@ export default function PageBody({
           <div className="mb-10">
             <div className="mb-5">
               <h2 className="text-2xl font-bold text-black font-bricolage">Services & Pricing</h2>
+              <p className="mt-2 text-sm text-gray-500">Choose washing, ironing, or both for each clothing item. Keep at least one service selected.</p>
             </div>
             
             {prices && prices.length > 0 ? (
@@ -162,47 +170,68 @@ export default function PageBody({
                 {prices.map((e, id) => {
                   const qty = quantities[e.apparelType] || 0;
                   const isSelected = qty > 0;
+                  const itemServices = services[e.apparelType] ?? ["washing"];
 
                   return (
                     <div 
                       key={id} 
-                      className={`bg-white border p-5 rounded-xl transition-colors flex justify-between items-center ${
+                      className={`bg-white border p-5 rounded-xl transition-colors ${
                         isSelected ? 'border-[#ff206e] shadow-sm' : 'border-gray-200 hover:border-gray-300'
                       }`}
                     >
-                      <div>
-                        <h3 className="text-black font-bold text-lg font-bricolage">{e.apparelType}</h3>
-                        <p className="text-gray-500 text-sm mt-1" style={{ fontFamily: "'Source Sans 3', sans-serif" }}>
-                          <span className="font-semibold text-black" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>৳{e.unitPrice}</span> per piece
-                        </p>
-                      </div>
+                      <div className="flex justify-between items-center gap-3">
+                        <div>
+                          <h3 className="text-black font-bold text-lg font-bricolage">{e.apparelType}</h3>
+                          <p className="text-gray-500 text-sm mt-1" style={{ fontFamily: "'Source Sans 3', sans-serif" }}>
+                            <span className="font-semibold text-black" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>৳{e.unitPrice}</span> per piece
+                          </p>
+                        </div>
                       
-                      {/* Counter Control */}
-                      <div className="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-full p-1">
-                        <button
-                          onClick={() => decrement(e.apparelType)}
-                          disabled={!isSelected || bookingPending}
-                          className={`w-8 h-8 rounded-full flex items-center justify-center text-white transition-all duration-200 ${
-                            isSelected 
-                              ? 'bg-[#111111] hover:bg-black ring-2 ring-[#ff206e]' 
-                              : 'bg-gray-300 cursor-not-allowed'
-                          }`}
-                        >
-                          -
-                        </button>
+                        {/* Counter Control */}
+                        <div className="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-full p-1">
+                          <button
+                            aria-label={`Remove one ${e.apparelType}`}
+                            onClick={() => decrement(e.apparelType)}
+                            disabled={!isSelected || bookingPending}
+                            className={`w-8 h-8 rounded-full flex items-center justify-center text-white transition-all duration-200 ${
+                              isSelected
+                                ? 'bg-[#111111] hover:bg-black ring-2 ring-[#ff206e]'
+                                : 'bg-gray-300 cursor-not-allowed'
+                            }`}
+                          >
+                            -
+                          </button>
                         
-                        <span className="font-bold text-black w-5 text-center text-lg" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-                          {qty}
-                        </span>
+                          <span className="font-bold text-black w-5 text-center text-lg" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                            {qty}
+                          </span>
                         
-                        <button
-                          disabled={bookingPending}
-                          onClick={() => increment(e.apparelType)}
-                          className="w-8 h-8 rounded-full bg-[#111111] hover:bg-black text-white flex items-center justify-center transition-all duration-200"
-                        >
-                          +
-                        </button>
+                          <button
+                            disabled={bookingPending || qty >= 1000}
+                            aria-label={`Add one ${e.apparelType}`}
+                            onClick={() => increment(e.apparelType)}
+                            className="w-8 h-8 rounded-full bg-[#111111] hover:bg-black text-white flex items-center justify-center transition-all duration-200"
+                          >
+                            +
+                          </button>
+                        </div>
                       </div>
+                      <fieldset disabled={bookingPending} className="mt-4 border-t border-gray-100 pt-3">
+                        <legend className="sr-only">Services for {e.apparelType}</legend>
+                        <div className="flex flex-wrap gap-4">
+                          {ITEM_SERVICES.map(option => <label key={option} className="flex cursor-pointer items-center gap-2 text-sm font-medium">
+                            <input type="checkbox" name={`services-${id}`} value={option}
+                              aria-label={`${option === "washing" ? "Washing" : "Ironing"} for ${e.apparelType}`}
+                              checked={itemServices.includes(option)}
+                              onChange={() => {
+                                setServices(current => ({ ...current, [e.apparelType]: toggleItemService(current[e.apparelType] ?? ["washing"], option) }));
+                                setBookingMessage("");
+                              }}
+                              className="h-5 w-5 appearance-none rounded-full border-2 border-gray-300 checked:border-[#ff206e] checked:bg-[#ff206e] checked:shadow-[inset_0_0_0_3px_white] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff206e]" />
+                            {option === "washing" ? "Washing" : "Ironing"}
+                          </label>)}
+                        </div>
+                      </fieldset>
                     </div>
                   );
                 })}
@@ -260,7 +289,9 @@ export default function PageBody({
                   if (qty === 0) return null;
                   return (
                     <div key={item.apparelType} className="flex justify-between items-center text-sm">
-                      <span className="text-gray-500">{item.apparelType}</span>
+                      <span className="text-gray-500">{item.apparelType}
+                        <span className="block text-xs text-[#ff206e]">{itemServicesLabel(services[item.apparelType])}</span>
+                      </span>
                       <span className="text-black font-semibold" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                         {qty} × ৳{item.unitPrice}
                       </span>
@@ -284,7 +315,7 @@ export default function PageBody({
             {/* Continue Button */}
             <button 
               type="button"
-              onClick={handleContinue}
+              onClick={() => startTransition(handleContinue)}
               disabled={totalPieces === 0 || bookingPending}
               className={`w-full py-4 rounded-xl font-bold text-center transition-colors text-lg ${
                 totalPieces > 0 

@@ -1,3 +1,5 @@
+import { getContactDetails } from "@/lib/contact-details";
+import { getOwnerBookings } from "@/lib/drizzle/customer-bookings";
 import { laundries, bookings } from "@/lib/drizzle/schema";
 import { generateServerClient } from "@/lib/supabase/server";
 import { and, desc, eq } from "drizzle-orm";
@@ -53,10 +55,9 @@ export default async function Page({
     notFound();
   }
 
-  const storeBookings = await sharedDb.select().from(bookings)
-    .where(eq(bookings.laundryId, store.id)).orderBy(desc(bookings.createdAt));
+  const storeBookings = await getOwnerBookings(user.email, store.id);
   const customerBookings = await sharedDb.select().from(bookings)
     .where(eq(bookings.customerId, user.id)).orderBy(desc(bookings.createdAt));
 
-  return <PageBody store={store} bookings={storeBookings} customerBookings={customerBookings} isLoggedIn={Boolean(user)} />;
+  return <PageBody contact={getContactDetails(user)} store={store} bookings={storeBookings} customerBookings={customerBookings} isLoggedIn={Boolean(user)} />;
 }

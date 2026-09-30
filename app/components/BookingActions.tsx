@@ -1,27 +1,27 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { startTransition, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { updateBookingStatus } from "@/app/auth/[owner_page]/actions";
+import { isTerminalStatus, nextOrderStage, transitionLabel, type BookingStatus } from "@/lib/order-lifecycle";
 
-export default function BookingActions({ bookingId }: { bookingId: number }) {
+export default function BookingActions({ bookingId, status }: { bookingId: number; status: BookingStatus }) {
   const router = useRouter();
   const submitting = useRef(false);
-  const [pending, setPending] = useState<"completed" | "cancelled" | null>(
-    null,
-  );
+  const [pending, setPending] = useState<BookingStatus | null>(null);
   const [message, setMessage] = useState("");
-  const [processed, setProcessed] = useState(false);
+  const [processedStatus, setProcessedStatus] = useState<BookingStatus | null>(null);
+  const next = nextOrderStage(status);
 
-  async function update(status: "completed" | "cancelled") {
+  async function update(target: BookingStatus) {
     if (submitting.current) return;
     submitting.current = true;
-    setPending(status);
+    setPending(target);
     setMessage("");
     try {
-      const result = await updateBookingStatus(bookingId, status);
+      const result = await updateBookingStatus(bookingId, target, status);
       setMessage(result.message);
-      if (result.ok) setProcessed(true);
+      if (result.ok) setProcessedStatus(status);
       router.refresh();
     } catch {
       setMessage("Could not update the order. Please retry.");
@@ -33,20 +33,20 @@ export default function BookingActions({ bookingId }: { bookingId: number }) {
 
   return (
     <div className="mt-4 border-t border-gray-100 pt-4">
-      {!processed && (
+      {!isTerminalStatus(status) && processedStatus !== status && (
         <div className="flex gap-3">
-          <button
+          {next && <button
             type="button"
             disabled={pending !== null}
-            onClick={() => update("completed")}
+            onClick={() => startTransition(() => update(next))}
             className="rounded-lg bg-[#ff206e] px-4 py-2 text-sm font-bold text-white hover:bg-[#d41b5b] disabled:opacity-50"
           >
-            {pending === "completed" ? "Processing..." : "Complete"}
-          </button>
+            {pending === next ? "Updating…" : transitionLabel(next)}
+          </button>}
           <button
             type="button"
             disabled={pending !== null}
-            onClick={() => update("cancelled")}
+            onClick={() => startTransition(() => update("cancelled"))}
             className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-bold hover:bg-gray-50 disabled:opacity-50"
           >
             {pending === "cancelled" ? "Cancelling…" : "Cancel"}

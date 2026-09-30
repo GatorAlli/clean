@@ -1,13 +1,16 @@
-import type { Booking } from "@/lib/drizzle/schema";
+import type { OwnerBooking } from "@/lib/drizzle/schema";
 import BookingActions from "./BookingActions";
 import BookingRefresh from "./BookingRefresh";
+import { itemServicesLabel } from "@/lib/booking-services";
+import { isTerminalStatus, statusLabel } from "@/lib/order-lifecycle";
+import BookingTimeline from "./BookingTimeline";
 
 export default function BookingList({
   bookings,
   showCustomer = false,
   canManage = false,
 }: {
-  bookings: Booking[];
+  bookings: OwnerBooking[];
   showCustomer?: boolean;
   canManage?: boolean;
 }) {
@@ -15,7 +18,7 @@ export default function BookingList({
     return <p className="text-gray-500">No bookings yet.</p>;
   return (
     <div className="grid gap-4 sm:grid-cols-2">
-      {bookings.some((booking) => booking.status === "pending") && (
+      {bookings.some((booking) => !isTerminalStatus(booking.status)) && (
         <BookingRefresh />
       )}
       {bookings.map((booking) => (
@@ -26,22 +29,29 @@ export default function BookingList({
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h3 className="font-bold">Booking #{booking.id}</h3>
             <span
-              className={`rounded-full px-3 py-1 text-sm font-medium capitalize ${booking.status === "completed" ? "bg-green-50 text-green-700" : booking.status === "cancelled" ? "bg-red-50 text-red-700" : "bg-pink-50 text-[#ff206e]"}`}
+              className={`rounded-full px-3 py-1 text-sm font-medium ${booking.status === "delivered" ? "bg-green-50 text-green-700" : booking.status === "cancelled" ? "bg-red-50 text-red-700" : "bg-pink-50 text-[#ff206e]"}`}
             >
-              {booking.status}
+              {statusLabel(booking.status)}
             </span>
           </div>
           <p className="mt-2 font-semibold">{booking.laundryName}</p>
           {showCustomer && (
-            <p className="mt-1 break-words text-sm text-gray-600">
-              {booking.customerName || "Customer"} · {booking.customerEmail}
-            </p>
+            <div className="mt-1 space-y-1 break-words text-sm text-gray-600">
+              <p>
+                {booking.customerName || "Customer"} · {booking.customerEmail}
+              </p>
+              <p><span className="font-medium">Address:</span> {booking.customerLocation || "Not provided"}</p>
+              <p><span className="font-medium">Phone:</span> {booking.customerPhone || "Not provided"}</p>
+            </div>
           )}
           <ul className="my-4 space-y-1 text-sm text-gray-600">
             {booking.items.map((item) => (
               <li key={item.apparelType} className="flex justify-between gap-3">
                 <span>
                   {item.apparelType} × {item.quantity}
+                  <span className="mt-1 block text-xs font-medium text-[#ff206e]">
+                    {itemServicesLabel(item.services)}
+                  </span>
                 </span>
                 <span>
                   ৳{(item.quantity * item.unitPrice).toLocaleString("en-BD")}
@@ -60,8 +70,9 @@ export default function BookingList({
               timeZone: "Asia/Dhaka",
             })}
           </time>
-          {canManage && booking.status === "pending" && (
-            <BookingActions bookingId={booking.id} />
+          <BookingTimeline status={booking.status} history={booking.statusHistory} />
+          {canManage && !isTerminalStatus(booking.status) && (
+            <BookingActions key={booking.status} bookingId={booking.id} status={booking.status} />
           )}
         </article>
       ))}
