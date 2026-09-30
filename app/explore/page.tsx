@@ -57,7 +57,7 @@ export default async function PageBody({ searchParams }: PageProps) {
 
       <div className="w-full max-w-7xl mx-auto px-6 md:px-12 pt-10">
         {/* Page Title */}
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-10 text-black font-bricolage">
+        <h1 className="my-15 text-4xl md:text-5xl font-bold tracking-tight mb-10 text-black font-bricolage">
           Laundry services
         </h1>
 
