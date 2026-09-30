@@ -8,7 +8,7 @@ const bricolage = Bricolage_Grotesque({
 });
 
 export const metadata: Metadata = {
-  title: "Create Next App",
+  title: "Clean - Find laundries nearby",
   // ...rest of your metadata
 };
 
