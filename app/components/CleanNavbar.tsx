@@ -83,14 +83,6 @@ export default function CleanNavbar({ isLoggedIn }: { isLoggedIn: boolean }) {
                 Profile
                 <span className="absolute left-0 bottom-0 w-0 h-[3px] bg-[#ff206e] transition-all duration-500 group-hover:w-full rounded-full"></span>
               </Button>
-              <Button
-                className="text-[#ffffff] text-md font-bold relative group bg-transparent hover:bg-transparent"
-                onClick={() => router.push("/auth")}
-                style={{ fontFamily: "'Source Sans 3', sans-serif" }}
-              >
-                Booking
-                <span className="absolute left-0 bottom-0 w-0 h-[3px] bg-[#ff206e] transition-all duration-500 group-hover:w-full rounded-full"></span>
-              </Button>
             </div>
           ) : (
             <div>
