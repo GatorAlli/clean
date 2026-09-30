@@ -22,9 +22,9 @@ export default function PageBody({
   about: string;
   images: string[];
 }) {
-  const router = useRouter(); // Back button
+  const router = useRouter(); // This enables the working Back button
 
-  // apparel type
+  // State to hold the quantities of each apparel type
   const [quantities, setQuantities] = useState<Record<string, number>>({});
 
   const [bookingPending, setBookingPending] = useState(false);
@@ -80,7 +80,7 @@ export default function PageBody({
     });
   };
 
-  // selection box
+  // Dynamic calculations for the "Your selection" box
   const totalPieces = Object.values(quantities).reduce((acc, curr) => acc + curr, 0);
   
   const totalPrice = prices ? prices.reduce((acc, item) => {
@@ -92,7 +92,7 @@ export default function PageBody({
   return (
     <div className="min-h-screen bg-white text-black pb-24">
       
-      {/* Navbar */}
+      {/* 1. TOP NAVBAR (Glassy, with Links and Back Button) */}
       <header className="sticky top-0 z-50 w-full px-6 md:px-12 py-5 flex items-center justify-between bg-white/80 backdrop-blur-lg border-b border-gray-100">
         <Link
           href="/"
@@ -118,20 +118,20 @@ export default function PageBody({
         </div>
       </header>
 
-      {/* Sidebar and main content */}
+      {/* 2. MAIN LAYOUT: Left Content & Right Sticky Sidebar */}
       <main className="w-full max-w-7xl mx-auto px-6 md:px-12 pt-10 flex flex-col lg:flex-row gap-10 items-start">
         
-        {/* Info services n gallery */}
+        {/* LEFT COLUMN: Info, Services, Gallery */}
         <div className="flex-1 w-full">
           
-          {/* Header */}
+          {/* Header Section (No dots or emojis) */}
           <div className="mb-10">
             <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-black font-bricolage">
               {name}
             </h1>
           </div>
 
-          {/* Location */}
+          {/* Location Section */}
           {location && (
             <div className="mb-10">
               <h2 className="text-2xl font-bold text-black mb-3 font-bricolage">Location</h2>
@@ -141,7 +141,7 @@ export default function PageBody({
             </div>
           )}
 
-          {/* About Section */}
+          {/* About Section (Outer box removed) */}
           {about && (
             <div className="mb-10">
               <h2 className="text-2xl font-bold text-black mb-3 font-bricolage">About</h2>
@@ -151,7 +151,7 @@ export default function PageBody({
             </div>
           )}
 
-          {/* Services n pricing */}
+          {/* Services & Pricing with Counters */}
           <div className="mb-10">
             <div className="mb-5">
               <h2 className="text-2xl font-bold text-black font-bricolage">Services & Pricing</h2>
@@ -235,12 +235,12 @@ export default function PageBody({
 
         </div>
 
-        {/* Selection */}
+        {/* 3. RIGHT COLUMN: Sticky "Your selection" Box */}
         <div className="w-full lg:w-[380px] lg:sticky lg:top-28 shrink-0 mb-12">
           <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
             <h2 className="text-2xl font-bold text-black font-bricolage mb-6">Your selection</h2>
 
-            {/* Store info */}
+            {/* Store Info */}
             <div className="space-y-4 border-b border-gray-100 pb-5 mb-5" style={{ fontFamily: "'Source Sans 3', sans-serif" }}>
               <div className="flex justify-between items-start gap-4">
                 <span className="text-gray-500 text-sm">Laundry</span>
@@ -252,7 +252,7 @@ export default function PageBody({
               </div>
             </div>
 
-            {/* Item list */}
+            {/* Dynamic Itemized List */}
             {totalPieces > 0 && prices && (
               <div className="space-y-3 border-b border-gray-100 pb-5 mb-5" style={{ fontFamily: "'Source Sans 3', sans-serif" }}>
                 {prices.map((item) => {
@@ -270,7 +270,7 @@ export default function PageBody({
               </div>
             )}
 
-            {/* Section */}
+            {/* Total Section */}
             <div className="flex justify-between items-end mb-6">
               <span className="text-gray-500 text-sm" style={{ fontFamily: "'Source Sans 3', sans-serif" }}>
                 <span className="font-semibold text-black text-base" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>{totalPieces}</span> pieces
@@ -281,7 +281,7 @@ export default function PageBody({
               </span>
             </div>
 
-            {/* Continue button*/}
+            {/* Continue Button */}
             <button 
               type="button"
               onClick={handleContinue}

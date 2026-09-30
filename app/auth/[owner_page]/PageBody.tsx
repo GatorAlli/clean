@@ -9,6 +9,8 @@ import { useState } from "react";
 import { updateStore } from "./actions";
 import Link from "next/link";
 import CleanNavbar from "@/app/components/CleanNavbar";
+import BookingList from "@/app/components/BookingList";
+import type { Booking } from "@/lib/drizzle/schema";
 
 type storeData = {
   id: number;
@@ -22,7 +24,7 @@ type storeData = {
   }[];
 };
 
-export default function PageBody({ store }: { store: storeData }) {
+export default function PageBody({ store, isLoggedIn, bookings, customerBookings }: { store: storeData; isLoggedIn: boolean; bookings: Booking[]; customerBookings: Booking[] }) {
   const router = useRouter();
 
   const [name, setName] = useState(store.name);
@@ -45,36 +47,12 @@ export default function PageBody({ store }: { store: storeData }) {
 
   return (
     <div className="min-h-screen bg-white text-black pb-24">
-      
-      {/* Navbar */}
-      <header className="sticky top-0 z-50 w-full px-6 md:px-12 py-5 flex items-center justify-between bg-white/80 backdrop-blur-lg border-b border-gray-100 shadow-sm">
-        <Link
-          href="/"
-          className="text-2xl text-black font-bold hover:text-[#ff206e] transition-all duration-500 font-bricolage tracking-tight"
-        >
-          clean
-        </Link>
-        
-        <div className="flex items-center gap-4 md:gap-6">
-          <button 
-            type="button"
-            onClick={() => router.back()}
-            className="border border-gray-200 text-black px-4 py-2 rounded-md text-sm font-bold hover:bg-gray-50 transition hidden sm:block"
-            style={{ fontFamily: "'Source Sans 3', sans-serif" }}
-          >
-            ← Back
-          </button>
-          <div className="hidden md:block relative cursor-default pb-1">
-            <span className="text-black font-bold text-sm" style={{ fontFamily: "'Source Sans 3', sans-serif" }}>Store Profile</span>
-            <span className="absolute left-0 bottom-0 w-full h-[3px] bg-[#ff206e] rounded-full"></span>
-          </div>
-        </div>
-      </header>
+      {/* Light Glassy Navbar */}
+      <CleanNavbar isLoggedIn={isLoggedIn} />
 
-      {/* Box-1 */}
+      {/* Main Content Area */}
       <main className="w-full max-w-7xl mx-auto px-6 md:px-12 pt-12">
-        
-        {/* Header */}
+        {/* Page Header */}
         <div className="mb-10">
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-black mb-2 font-bricolage">
             Store Management<span className="text-[#ff206e]"></span>
@@ -87,10 +65,9 @@ export default function PageBody({ store }: { store: storeData }) {
           </p>
         </div>
 
-        {/* Layout */}
+        {/* 2-Column Layout */}
         <div className="flex flex-col lg:flex-row gap-8 items-start">
-          
-          {/* Info n stuff */}
+          {/* LEFT COLUMN: General Information */}
           <div className="flex-1 w-full bg-white border border-gray-200 rounded-2xl p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] space-y-8">
             <h2 className="text-2xl font-bold text-black font-bricolage border-b border-gray-100 pb-3">
               General Info
@@ -134,10 +111,9 @@ export default function PageBody({ store }: { store: storeData }) {
             </div>
           </div>
 
-          {/* Pricing n stuff */}
+          {/* RIGHT COLUMN: Pricing & Actions */}
           <div className="w-full lg:w-[450px] shrink-0 flex flex-col gap-8">
-            
-            {/* Pricing adjust */}
+            {/* Pricing Section */}
             <div className="bg-white border border-gray-200 rounded-2xl p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] space-y-6">
               <h2 className="text-2xl font-bold text-black font-bricolage border-b border-gray-100 pb-3">
                 Service Pricing
@@ -162,7 +138,7 @@ export default function PageBody({ store }: { store: storeData }) {
                       <Input
                         type="number"
                         min="0"
-                        step="any"
+                        step="1"
                         value={item.unitPrice}
                         onChange={(event) =>
                           setPricing((rows) =>
@@ -185,7 +161,7 @@ export default function PageBody({ store }: { store: storeData }) {
               </div>
             </div>
 
-            {/* Actions */}
+            {/* Actions Section */}
             <div className="bg-white border border-gray-200 rounded-2xl p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col gap-4">
               <Button
                 type="button"
@@ -238,7 +214,7 @@ export default function PageBody({ store }: { store: storeData }) {
                 Sign Out
               </Button>
 
-              {/* Save changes or no */}
+              {/* Status Message */}
               {message && (
                 <p
                   role="status"
@@ -251,6 +227,14 @@ export default function PageBody({ store }: { store: storeData }) {
             </div>
           </div>
         </div>
+        <section className="mt-10 space-y-4" id="bookings">
+          <h2 className="text-2xl font-bold">Customer bookings</h2>
+          <BookingList bookings={bookings} showCustomer canManage />
+        </section>
+        {customerBookings.length > 0 && <section className="mt-10 space-y-4">
+          <h2 className="text-2xl font-bold">My bookings</h2>
+          <BookingList bookings={customerBookings} />
+        </section>}
       </main>
     </div>
   );

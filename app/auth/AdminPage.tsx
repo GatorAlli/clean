@@ -74,7 +74,7 @@ export function AdminPage() {
       <Label className="text-3xl"> Site Admin Page </Label>
 
       <form onSubmit={handleSubmit} className="bg-slate-950 p-2 rounded-2xl">
-        {/* Add a laundry form */}
+        {/* Add a Turf Form */}
         <Label className="text-2xl">Add a Laundry</Label>
 
         <div>

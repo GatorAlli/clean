@@ -33,7 +33,7 @@ export default function Card({
       href={url} 
       className="group relative flex flex-col w-full h-[450px] lg:h-[480px] bg-[#111111] rounded-xl overflow-hidden shadow-lg border border-white/5 hover:border-white/20 transition-all duration-300"
     >
-      {/* Bg image */}
+      {/* Background Image */}
       <Image
         src={imageUrl ?? placeholderImage}
         alt={name}
@@ -41,18 +41,18 @@ export default function Card({
         className="object-cover absolute inset-0 z-0 grayscale group-hover:grayscale-0 transition-all duration-500"
       />
       
-      {/* Overlay */}
+      {/* Dark Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent z-10"></div>
 
-      {/* Card Details */}
+      {/* Card Details (Bottom Aligned) */}
       <div className="relative z-20 mt-auto p-5 flex flex-col">
         
-        {/* Name */}
+        {/* Name with Bricolage */}
         <h3 className="text-3xl font-bold tracking-tight text-white mb-1 font-bricolage">
           {name}
         </h3>
         
-        {/* Location */}
+        {/* Location with Source Sans 3 */}
         <p 
           className="text-sm font-medium text-gray-400 mb-5" 
           style={{ fontFamily: "'Source Sans 3', sans-serif" }}
@@ -60,9 +60,10 @@ export default function Card({
           {location}
         </p>
 
+        {/* Horizontal Divider Line */}
         <div className="h-[1px] w-full bg-white/10 mb-4"></div>
 
-        {/* Pricing */}
+        {/* Pricing with IBM Plex Mono for numbers and Source Sans 3 for text */}
         <div className="flex justify-between items-center">
           <p className="flex items-baseline gap-1">
             <span 

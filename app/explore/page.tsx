@@ -42,14 +42,14 @@ export default async function PageBody({ searchParams }: PageProps) {
       firstImageByLaundry.set(image.laundryId, image.storagePath);
     }
   }
+
   const normalisedQuery = q.trim().toLowerCase();
 
-  const displayStores = [...stores].filter((e) => {
+  const displayStores = stores.filter((e) => {
     const nameMatches = e.name.toLowerCase().includes(normalisedQuery);
     const locationMatches = e.location.toLowerCase().includes(normalisedQuery);
     return !normalisedQuery || nameMatches || locationMatches;
   });
-
 
   return (
     <div className="min-h-screen bg-white text-black font-sans pb-24">
@@ -61,7 +61,7 @@ export default async function PageBody({ searchParams }: PageProps) {
           Laundry services
         </h1>
 
-        {/* style */}
+        {/* CSS GRID */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {displayStores.map((e, index: number) => {
             const storagePath = firstImageByLaundry.get(e.id) ?? "";

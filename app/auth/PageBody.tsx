@@ -6,9 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Input } from "@/components/ui/input";
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 import CleanNavbar from "../components/CleanNavbar";
 import BookingList from "../components/BookingList";
 import type { Booking } from "@/lib/drizzle/schema";
@@ -85,29 +82,10 @@ export function AuthPageBody({
     <div className="min-h-screen bg-white text-black flex flex-col font-sans">
       {/* Top Navbar */}
       <CleanNavbar isLoggedIn={isLoggedIn} />
-      <header className="sticky top-0 z-50 w-full px-6 md:px-12 py-5 flex items-center justify-between bg-white/70 backdrop-blur-lg border-b border-gray-200">
-        <Link
-          href="/"
-          className="text-2xl text-black font-bold hover:text-[#ff206e] transition-all duration-500 font-bricolage"
-        >
-          clean
-        </Link>
-        <div className="flex items-center gap-4">
 
-        <div className="flex items-center gap-4">
-          <button
-            type="button"
-            onClick={() => router.back()}
-            className="border border-gray-300 text-black px-4 py-2 rounded-md text-sm font-bold hover:bg-gray-100 transition hidden sm:block"
-          >
-            ← Back
-          </button>
-        </div>
-      </header>
-
-      {/* Page Content */}
+      {/* Page Content Wrapper */}
       <main className="w-full max-w-4xl mx-auto px-6 py-10 grow ">
-        {/* Title */}
+        {/* Title Section */}
 
         {isLogin ? (
           <div>
@@ -120,10 +98,7 @@ export function AuthPageBody({
               >
                 Sign up
               </button>
-              <button
-                type="button"
-                className={styles.activeTab}
-              >
+              <button type="button" className={styles.activeTab}>
                 Sign in
               </button>
             </div>
@@ -177,10 +152,7 @@ export function AuthPageBody({
           <div>
             {/* sign up and in */}
             <div className={styles.tabs}>
-              <button
-                type="button"
-                className={styles.activeTab}
-              >
+              <button type="button" className={styles.activeTab}>
                 Sign up
               </button>
               <button
@@ -224,7 +196,8 @@ export function AuthPageBody({
 
                 <div className="md:col-start-1">
                   <Label className={styles.fieldLabel}>
-                    Contact Number <span className={styles.requiredMark}>*</span>
+                    Contact Number{" "}
+                    <span className={styles.requiredMark}>*</span>
                   </Label>
                   <Input
                     type="tel"
@@ -279,13 +252,12 @@ export function ProfilePageBody({
 }) {
   const router = useRouter();
   return (
-  return (
     <div className="bg-white text-black font-sans">
       <CleanNavbar isLoggedIn={isLoggedIn} />
       <main className="mx-auto max-w-7xl space-y-6 px-6 py-10">
-        <Label className="text-4xl font-extrabold tracking-tight text-black font-bricolage">
-          Profile
-        </Label>
+      <Label className="text-4xl font-extrabold tracking-tight text-black font-bricolage">
+        Profile
+      </Label>
       <Label className="text-gray-500 text-sm font-medium">
         Welcome<b className="text-[#ff206e]">{displayName}</b>
       </Label>
