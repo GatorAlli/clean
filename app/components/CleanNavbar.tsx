@@ -23,12 +23,12 @@ export default function CleanNavbar({ isLoggedIn }: { isLoggedIn: boolean }) {
 
   return (
     <>
-      <header className="relative z-50 w-full px-6 md:px-12 py-5 flex items-center justify-between bg-[#000000]/50 backdrop-blur-[5px] border border-[#4242423f]">
+      <header className=" fixed  z-50 w-full px-6 md:px-12 py-5 flex items-center justify-between bg-[#000000]/50 backdrop-blur-[5px] border border-[#4242423f]">
         <button
           onClick={() => {
             redirect("/");
           }}
-          className="text-2xl text-[#ff206e] font-bold transition-all duration-500 font-bricolage tracking-tight"
+          className="text-2xl text-[#ffffff] hover:text-[#ff206e] font-bold transition-all duration-500 font-bricolage tracking-tight"
         >
           clean
         </button>
@@ -65,7 +65,7 @@ export default function CleanNavbar({ isLoggedIn }: { isLoggedIn: boolean }) {
         </div>
         <nav className="hidden md:flex items-center gap-5">
           <Button
-            className="text-[#ff206e] text-md font-bold relative group bg-transparent hover:bg-transparent"
+            className="text-[#ffffff] text-md font-bold relative group bg-transparent hover:bg-transparent"
             onClick={() => router.push("/explore")}
             style={{ fontFamily: "'Source Sans 3', sans-serif" }}
           >
@@ -76,7 +76,7 @@ export default function CleanNavbar({ isLoggedIn }: { isLoggedIn: boolean }) {
           {isLoggedIn ? (
             <div>
               <Button
-                className="text-[#ff206e] text-md font-bold relative group bg-transparent hover:bg-transparent"
+                className="text-[#ffffff] text-md font-bold relative group bg-transparent hover:bg-transparent"
                 onClick={() => router.push("/auth")}
                 style={{ fontFamily: "'Source Sans 3', sans-serif" }}
               >
@@ -84,7 +84,7 @@ export default function CleanNavbar({ isLoggedIn }: { isLoggedIn: boolean }) {
                 <span className="absolute left-0 bottom-0 w-0 h-[3px] bg-[#ff206e] transition-all duration-500 group-hover:w-full rounded-full"></span>
               </Button>
               <Button
-                className="text-[#ff206e] text-md font-bold relative group bg-transparent hover:bg-transparent"
+                className="text-[#ffffff] text-md font-bold relative group bg-transparent hover:bg-transparent"
                 onClick={() => router.push("/auth")}
                 style={{ fontFamily: "'Source Sans 3', sans-serif" }}
               >
@@ -95,7 +95,7 @@ export default function CleanNavbar({ isLoggedIn }: { isLoggedIn: boolean }) {
           ) : (
             <div>
               <Button
-                className="text-[#ff206e] text-md font-bold relative group bg-transparent hover:bg-transparent"
+                className="text-[#ffffff] text-md font-bold relative group bg-transparent hover:bg-transparent"
                 onClick={() => router.push("/auth")}
                 style={{ fontFamily: "'Source Sans 3', sans-serif" }}
               >
